@@ -15,14 +15,13 @@ const anton = Anton({
 });
 
 const roboto = Roboto({
-  weight: ["400"], // Reduced weights
+  weight: ["400"],
   variable: "--font-roboto",
   subsets: ["latin"],
-  display: "swap",
 });
 
 const plus_jakarta = Plus_Jakarta_Sans({
-  weight: ["500"], // Single weight
+  weight: ["500"],
   variable: "--font-jakarta",
   subsets: ["latin"],
   display: "swap",

@@ -48,7 +48,7 @@ export default function Footer() {
               </li>
               <li>
                 <Link
-                  href="/universities"
+                  href="/university"
                   className="text-gray-300 hover:text-white text-sm"
                 >
                   Universities
@@ -56,7 +56,7 @@ export default function Footer() {
               </li>
               <li>
                 <Link
-                  href="/courses"
+                  href="#"
                   className="text-gray-300 hover:text-white text-sm"
                 >
                   Courses
@@ -86,7 +86,7 @@ export default function Footer() {
             <ul className="space-y-2">
               <li>
                 <Link
-                  href="/courses/technology"
+                  href="#"
                   className="text-gray-300 hover:text-white text-sm"
                 >
                   Technology & Data
@@ -94,7 +94,7 @@ export default function Footer() {
               </li>
               <li>
                 <Link
-                  href="/courses/business"
+                  href="#"
                   className="text-gray-300 hover:text-white text-sm"
                 >
                   Business & Finance
@@ -102,7 +102,7 @@ export default function Footer() {
               </li>
               <li>
                 <Link
-                  href="/courses/design"
+                  href="#"
                   className="text-gray-300 hover:text-white text-sm"
                 >
                   Design & Creativity
@@ -110,7 +110,7 @@ export default function Footer() {
               </li>
               <li>
                 <Link
-                  href="/courses/personal-development"
+                  href="#"
                   className="text-gray-300 hover:text-white text-sm"
                 >
                   Personal Development
@@ -118,7 +118,7 @@ export default function Footer() {
               </li>
               <li>
                 <Link
-                  href="/courses/business-leadership"
+                  href="#"
                   className="text-gray-300 hover:text-white text-sm"
                 >
                   Business & Leadership
@@ -126,7 +126,7 @@ export default function Footer() {
               </li>
               <li>
                 <Link
-                  href="/courses/more"
+                  href="#"
                   className="text-gray-300 hover:text-white text-sm"
                 >
                   And Many More
@@ -140,7 +140,7 @@ export default function Footer() {
             <ul className="space-y-2">
               <li>
                 <Link
-                  href="/terms"
+                  href="#"
                   className="text-gray-300 hover:text-white text-sm"
                 >
                   Terms & Conditions
@@ -156,7 +156,7 @@ export default function Footer() {
               </li>
               <li>
                 <Link
-                  href="/help"
+                  href="#"
                   className="text-gray-300 hover:text-white text-sm"
                 >
                   Help
