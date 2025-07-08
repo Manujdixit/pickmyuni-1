@@ -64,11 +64,9 @@ export async function generateMetadata({
   };
 }
 
-// Server-side data fetching function
 async function getUniversityData(id: number) {
   try {
-    // Use internal API URL for server-side requests if available, otherwise fallback to public URL
-    const baseUrl = process.env.API_URL || process.env.NEXT_PUBLIC_API_URL;
+    const baseUrl = process.env.NEXT_PUBLIC_API_URL;
     const response = await fetch(`${baseUrl}/api/v1/college/${id}`);
 
     if (!response.ok) {
@@ -81,14 +79,7 @@ async function getUniversityData(id: number) {
     const data = await response.json();
     return { college: data.data, error: null };
   } catch (error) {
-    console.error("Error fetching university:", error);
-    return {
-      college: null,
-      error:
-        error instanceof Error
-          ? error.message
-          : "Failed to fetch university data",
-    };
+    return notFound();
   }
 }
 
