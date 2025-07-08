@@ -44,6 +44,11 @@ export const getCollegeById = async (req: Request, res: Response) => {
         city: true,
         state: true,
         country: true,
+        _count: {
+          select: {
+            CollegesCourses: true,
+          },
+        },
       },
     });
 

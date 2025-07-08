@@ -6,6 +6,12 @@ import Footer from "@/components/layout/footer";
 import { Toaster } from "@/components/ui/sonner";
 import { OrganizationSchema } from "@/components/seo";
 import Script from "next/script";
+import { PhoneCall } from "lucide-react";
+import dynamic from "next/dynamic";
+
+const SitePop = dynamic(() =>
+  import("@/components/SitePopup").then((mod) => mod.SitePop)
+);
 
 const anton = Anton({
   weight: "400",
@@ -92,28 +98,17 @@ export default function RootLayout({
       >
         <Navbar />
         <div className="fixed bottom-4 right-4 z-20 flex flex-col items-end gap-2">
-          <div className="bg-white text-xs text-black p-2 rounded-md">
+          {/* <div className="bg-white text-xs text-black p-2 rounded-md">
             Get connected with us
-          </div>
+          </div> */}
           <div className="flex flex-col gap-2">
+            <SitePop />
             <a
               href="tel:+61433502082"
               className="bg-blue-500 p-3 rounded-full hover:bg-blue-600 transition-colors"
               aria-label="call"
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="white"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
-              </svg>
+              <PhoneCall className="text-white" />
             </a>
             <a
               href="https://wa.me/+61433502082"
