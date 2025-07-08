@@ -1,6 +1,14 @@
 import React from "react";
 import { notFound, redirect } from "next/navigation";
 import { Metadata } from "next";
+import { UniversityCard } from "@/components/university";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@radix-ui/react-accordion";
+import { ChevronDown, ChevronUp } from "lucide-react";
 
 const validTabs = [
   "info",
@@ -14,14 +22,71 @@ const validTabs = [
   "faqs",
 ];
 
-// Helper function to map tab names to API endpoints
+// Generate metadata for each tab
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slugAndId: string; tab: string[] }>;
+}): Promise<Metadata> {
+  const { slugAndId, tab } = await params;
+  const currentTab = tab?.[0] || "info";
+  const id = slugAndId.split("-").pop();
+
+  if (!id || isNaN(Number(id))) {
+    return {
+      title: "University Not Found",
+      description: "The requested university could not be found.",
+    };
+  }
+
+  const universityName = slugAndId
+    .split("-")
+    .slice(0, -1)
+    .join(" ")
+    .replace(/-/g, " ")
+    .replace(/\b\w/g, (l) => l.toUpperCase());
+
+  const tabTitles = {
+    info: "Information",
+    courses: "Courses",
+    departments: "Departments",
+    careers: "Careers",
+    ranking: "Rankings",
+    fees: "Fees",
+    scholarships: "Scholarships",
+    placement: "Placements",
+    faqs: "FAQs",
+  };
+
+  const tabTitle =
+    tabTitles[currentTab as keyof typeof tabTitles] || "Information";
+
+  return {
+    title: `${universityName} ${tabTitle} - PickMyUni`,
+    description: `Explore ${tabTitle.toLowerCase()} for ${universityName}. Get detailed information about this Australian university.`,
+    openGraph: {
+      title: `${universityName} ${tabTitle} - PickMyUni`,
+      description: `Explore ${tabTitle.toLowerCase()} for ${universityName}. Get detailed information about this Australian university.`,
+      url: `https://pickmyuni.com/university/${slugAndId}/${currentTab}`,
+      siteName: "PickMyUni",
+      locale: "en_AU",
+      type: "website",
+    },
+    twitter: {
+      card: "summary",
+      title: `${universityName} ${tabTitle} - PickMyUni`,
+      description: `Explore ${tabTitle.toLowerCase()} for ${universityName}. Get detailed information about this Australian university.`,
+    },
+  };
+}
+
 const getEndpointForTab = (tab: string, id: number): string | null => {
   const baseUrl = process.env.API_URL || process.env.NEXT_PUBLIC_API_URL;
 
   const endpointMap: { [key: string]: string | null } = {
     info: `${baseUrl}/api/v1/college/info/${id}`,
     courses: `${baseUrl}/api/v1/college/courses/${id}`,
-    departments: `${baseUrl}/api/v1/college/departments/${id}`,
+    departments: `${baseUrl}/api/v1/college/suggest/${id}`,
     careers: `${baseUrl}/api/v1/college/careers/${id}`,
     ranking: `${baseUrl}/api/v1/college/ranking/${id}`,
     fees: `${baseUrl}/api/v1/college/fees/${id}`,
@@ -33,39 +98,14 @@ const getEndpointForTab = (tab: string, id: number): string | null => {
   return endpointMap[tab] || null;
 };
 
-// Helper function to extract content from API response
 const extractTabContent = (tab: string, data: any): any[] => {
   switch (tab) {
     case "info":
       return data.info_content || [];
     case "courses":
-      // For courses, combine course_content and courses list
-      const content = [];
-      if (data.course_content) {
-        content.push(data.course_content);
-      }
-      if (data.courses && data.courses.length > 0) {
-        content.push({
-          title: "Available Courses",
-          content: `
-            <div class="grid gap-4">
-              ${data.courses
-                .map(
-                  (course: any) => `
-                <div class="border rounded-lg p-4">
-                  <h4 class="font-semibold text-brand-primary">Course ID: ${course.course_id}</h4>
-                  <p class="text-gray-600">College ID: ${course.college_id}</p>
-                </div>
-              `
-                )
-                .join("")}
-            </div>
-          `,
-        });
-      }
-      return content;
+      return data;
     case "departments":
-      return data.department ? [data.department] : [];
+      return data;
     case "careers":
       return data.career ? [data.career] : [];
     case "ranking":
@@ -83,7 +123,6 @@ const extractTabContent = (tab: string, data: any): any[] => {
   }
 };
 
-// Server-side data fetching function for tab content
 async function getTabData(tab: string, id: number) {
   try {
     const endpoint = getEndpointForTab(tab, id);
@@ -133,7 +172,6 @@ async function TabPage({
   const { slugAndId, tab } = await params;
   const currentTab = tab?.[0] || "info";
 
-  // Validate tab
   if (!validTabs.includes(currentTab)) {
     redirect(`/university/${slugAndId}/info`);
   }
@@ -144,21 +182,12 @@ async function TabPage({
     notFound();
   }
 
-  // Fetch tab data server-side
   const { info, error } = await getTabData(currentTab, Number(id));
 
-  // Error state
   if (error) {
-    return (
-      <div className="p-2 sm:p-4 lg:p-6">
-        <div className="text-red-600 p-4 bg-red-50 rounded-lg">
-          Error: {error}
-        </div>
-      </div>
-    );
+    return notFound();
   }
 
-  // Empty state
   if (!info || info.length === 0) {
     return (
       <div className="p-2 sm:p-4 lg:p-6">
@@ -169,82 +198,106 @@ async function TabPage({
     );
   }
 
-  // Render tab content
   return (
-    <div className="p-2 sm:p-4 lg:p-6">
-      <div className="space-y-6">
-        {info.map((item, index) => (
-          <div key={index} className="p-6">
-            {item?.content && (
-              <div
-                className="prose max-w-none text-gray-700 leading-relaxed"
-                dangerouslySetInnerHTML={{ __html: item.content }}
-              />
-            )}
-          </div>
-        ))}
-      </div>
-    </div>
+    <div className="p-2 sm:p-4 lg:p-6">{renderContent(currentTab, info)}</div>
   );
 }
 
-// Generate metadata for each tab
-export async function generateMetadata({
-  params,
-}: {
-  params: Promise<{ slugAndId: string; tab: string[] }>;
-}): Promise<Metadata> {
-  const { slugAndId, tab } = await params;
-  const currentTab = tab?.[0] || "info";
-  const id = slugAndId.split("-").pop();
+const renderContent = (currentTab: string, info: any): any => {
+  switch (currentTab) {
+    case "departments":
+      return info && info.length > 0 ? (
+        <div className="space-y-4">
+          {info.map((university: any, index: number) => (
+            <UniversityCard
+              key={university.id || index}
+              university={university}
+            />
+          ))}
+        </div>
+      ) : (
+        <p>Nothing to show.</p>
+      );
 
-  if (!id || isNaN(Number(id))) {
-    return {
-      title: "University Not Found",
-      description: "The requested university could not be found.",
-    };
+    case "courses":
+      const categories = new Map<string, any>();
+
+      info.forEach((course: any) => {
+        const category = course.level;
+        if (!categories.has(category)) {
+          categories.set(category, []);
+        }
+        categories.get(category).push(course);
+      });
+
+      const categoryList = Array.from(categories.entries());
+
+      return (
+        <div className="space-y-4">
+          <Accordion
+            type="multiple"
+            className="w-full space-y-4"
+            defaultValue={[categoryList[0]?.[0]]}
+          >
+            {categoryList.map(([category, courses]: any, index: number) => (
+              <AccordionItem
+                className="bg-gray-50 p-4 rounded-lg"
+                key={index}
+                value={category}
+              >
+                <AccordionTrigger asChild>
+                  <button className="flex items-center justify-between w-full group">
+                    <span className="text-brand-primary font-medium text-lg">
+                      {category.charAt(0).toUpperCase() + category.slice(1)}{" "}
+                      Courses ({courses.length})
+                    </span>
+                    <span className="ml-2 mr-2 h-4 w-4">
+                      <ChevronDown className="block group-data-[state=open]:hidden transition-transform duration-200" />
+                      <ChevronUp className="hidden group-data-[state=open]:block transition-transform duration-200" />
+                    </span>
+                  </button>
+                </AccordionTrigger>
+                <AccordionContent>
+                  <div className="grid gap-4 mt-4">
+                    {courses.map((course: any, index: number) => (
+                      <CourseCard key={index} course={course} />
+                    ))}
+                  </div>
+                </AccordionContent>
+              </AccordionItem>
+            ))}
+          </Accordion>
+        </div>
+      );
+
+    default:
+      return (
+        <div className="space-y-6">
+          {info.map((item: any, index: number) => (
+            <div key={index} className="p-6">
+              {item?.content && (
+                <div
+                  className="prose max-w-none text-gray-700 leading-relaxed"
+                  dangerouslySetInnerHTML={{ __html: item.content }}
+                />
+              )}
+            </div>
+          ))}
+        </div>
+      );
   }
+};
 
-  // Get university name from slugAndId for better SEO
-  const universityName = slugAndId
-    .split("-")
-    .slice(0, -1)
-    .join(" ")
-    .replace(/-/g, " ")
-    .replace(/\b\w/g, (l) => l.toUpperCase());
-
-  const tabTitles = {
-    info: "Information",
-    courses: "Courses",
-    departments: "Departments",
-    careers: "Careers",
-    ranking: "Rankings",
-    fees: "Fees",
-    scholarships: "Scholarships",
-    placement: "Placements",
-    faqs: "FAQs",
-  };
-
-  const tabTitle =
-    tabTitles[currentTab as keyof typeof tabTitles] || "Information";
-
-  return {
-    title: `${universityName} ${tabTitle} - PickMyUni`,
-    description: `Explore ${tabTitle.toLowerCase()} for ${universityName}. Get detailed information about this Australian university.`,
-    openGraph: {
-      title: `${universityName} ${tabTitle} - PickMyUni`,
-      description: `Explore ${tabTitle.toLowerCase()} for ${universityName}. Get detailed information about this Australian university.`,
-      url: `https://pickmyuni.com/university/${slugAndId}/${currentTab}`,
-      siteName: "PickMyUni",
-      locale: "en_AU",
-      type: "website",
-    },
-    twitter: {
-      card: "summary",
-      title: `${universityName} ${tabTitle} - PickMyUni`,
-      description: `Explore ${tabTitle.toLowerCase()} for ${universityName}. Get detailed information about this Australian university.`,
-    },
-  };
-}
+const CourseCard = ({ course }: any) => {
+  return (
+    <div className="border rounded-lg p-4">
+      <h4 className="font-semibold text-brand-primary">{course.name}</h4>
+      <p className="text-gray-600">Tution Fees: {course.tution_fees}</p>
+      <p className="text-gray-600">Hostel Fees: {course.hostel_fees}</p>
+      <p className="text-gray-600">Other Fees: {course.other_fees}</p>
+      <p className="text-gray-600">Duration: {course.duration_in_months}</p>
+    </div>
+  );
+};
 
 export default TabPage;

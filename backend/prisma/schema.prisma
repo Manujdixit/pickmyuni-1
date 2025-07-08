@@ -86,15 +86,17 @@ model Courses {
 }
 
 model CollegesCourses {
-  id                 Int     @id @default(autoincrement())
+  id                 Int         @id @default(autoincrement())
   name               String
   duration_in_months Int?
   tution_fees        Float?
   hostel_fees        Float?
   one_time_fees      Float?
   other_fees         Json?
-  score              Int     @default(1)
-  is_active          Boolean @default(true)
+  score              Int         @default(1)
+  is_active          Boolean     @default(true)
+  level              CourseLevel
+  content            String?
 
   college_id Int
   course_id  Int
@@ -109,6 +111,15 @@ model CollegesCourses {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+enum CourseLevel {
+  diploma
+  bachelor
+  master
+  doctorate
+  certificate
+  other
 }
 
 model CollegewiseContent {

@@ -20,17 +20,12 @@ function UniversityPage() {
   // Get slug from URL params
   const paramsRoute = useParams();
   const router = useRouter();
-  console.log(paramsRoute);
 
   // Extract slug from either 'slug' or 'slugAndId' parameter
   const rawSlug = paramsRoute?.slug || paramsRoute?.slugAndId || "";
   const slug = Array.isArray(rawSlug) ? rawSlug.join("-") : rawSlug;
-  // Parse filters from slug
-  console.log({ slug });
 
   const initialParams = parseSlugToFilters(slug);
-
-  console.log("Parsed initial params from slug:", initialParams);
 
   // Clean up initialParams to remove empty values
   const cleanInitialParams = Object.fromEntries(

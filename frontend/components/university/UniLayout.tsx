@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { Button } from "../ui/button";
 import { redirect } from "next/navigation";
 import ContactWrapper from "../modal/contact-wrapper";
+import { tagSanatize } from "@/utils/tagsanatize";
 
 interface UniLayoutProps {
   college: any;
@@ -18,7 +19,7 @@ function UniLayout({ college, slugAndId }: UniLayoutProps) {
   const id = parts.pop(); // last part is ID
   const slug = parts.join("-"); // rest is slug
 
-  const correctSlug = college.slug;
+  const correctSlug = tagSanatize(college.slug);
 
   // If the slug is incorrect, redirect to correct URL
   if (slug !== correctSlug) {
@@ -31,8 +32,9 @@ function UniLayout({ college, slugAndId }: UniLayoutProps) {
       <div className="relative h-48 sm:h-56 md:h-64 lg:h-80 xl:h-96">
         <Image
           src={
-            `https://pickmyuni-bucket.s3.ap-southeast-2.amazonaws.com/collegebanner/${college?.bg_url}` ||
-            "/transfer.svg"
+            college?.bg_url
+              ? `https://pickmyuni-bucket.s3.ap-southeast-2.amazonaws.com/collegebg/${college?.bg_url}`
+              : "/transfer.svg"
           }
           alt={college?.college_name || "college campus"}
           fill
@@ -45,8 +47,9 @@ function UniLayout({ college, slugAndId }: UniLayoutProps) {
           <div className="sm:w-24 sm:h-24 md:w-32 md:h-32 rounded-full bg-white overflow-hidden flex items-center justify-center shadow-lg border border-gray-300">
             <Image
               src={
-                `https://pickmyuni-bucket.s3.ap-southeast-2.amazonaws.com/collegelogo/${college?.logo_url}` ||
-                "/benefit7.svg"
+                college?.logo_url
+                  ? `https://pickmyuni-bucket.s3.ap-southeast-2.amazonaws.com/collegelogo/${college?.logo_url}`
+                  : "/benefit3.svg"
               }
               alt="University Logo"
               width={120}

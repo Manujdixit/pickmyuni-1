@@ -8,6 +8,7 @@ import { useUniversities } from "@/hooks/useUniversities";
 import { UniversitiesLoadingSkeleton } from "@/components/skeleton/university-skeleton";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import Link from "next/link";
+import { tagSanatize } from "@/utils/tagsanatize";
 
 export default function UniversitiesSection() {
   const [activeCategory, setActiveCategory] = useState("All");
@@ -133,7 +134,11 @@ export default function UniversitiesSection() {
                         className="object-contain rounded-full"
                       />
                       <div>
-                        <Link href={`/university/${uni.slug}-${uni.id}/info`}>
+                        <Link
+                          href={`/university/${tagSanatize(uni.slug)}-${
+                            uni.id
+                          }/info`}
+                        >
                           <h3 className="font-bold text-brand-primary text-lg leading-tight">
                             {uni.college_name}
                           </h3>

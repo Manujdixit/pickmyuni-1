@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { prisma } from "../../lib/prisma";
+import { tagSanatize } from "../../utils/tagsanatize";
 
 /**
  * @swagger
@@ -41,7 +42,16 @@ export const getTopColleges = async (req: Request, res: Response) => {
     const [colleges, streams] = await Promise.all([
       prisma.colleges.findMany({
         where: whereClause,
-        include: {
+        select: {
+          id: true,
+          logo_url: true,
+          college_name: true,
+          slug: true,
+          avg_fees_in_aud: true,
+          pr_pathway: true,
+          intake_start_date: true,
+          location: true,
+          score: true,
           _count: {
             select: {
               CollegesCourses: true,
@@ -66,6 +76,7 @@ export const getTopColleges = async (req: Request, res: Response) => {
         colleges: colleges.map((college: any) => ({
           ...college,
           count_collegewise_course: college._count.CollegesCourses,
+          slug: tagSanatize(college.slug),
         })),
         streams: [
           { id: 0, name: "All" },
