@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Star, Download } from "lucide-react";
 import Link from "next/link";
+import { tagSanatize } from "@/utils/tagsanatize";
 
 export function UniversityCard({ university }: any) {
   const [showModal, setShowModal] = useState(false);
@@ -55,8 +56,10 @@ export function UniversityCard({ university }: any) {
             <div className="w-16 h-16 sm:w-20 sm:h-20 bg-white rounded-full flex items-center justify-center overflow-hidden">
               <Image
                 src={
-                  "https://pickmyuni-bucket.s3.ap-southeast-2.amazonaws.com/collegelogo/" +
-                    university.logo_url.trim() || "/vercel.svg"
+                  university.logo_url
+                    ? "https://pickmyuni-bucket.s3.ap-southeast-2.amazonaws.com/collegelogo/" +
+                      university.logo_url.trim()
+                    : "/vercel.svg"
                 }
                 alt={university.college_name}
                 width={80}
@@ -74,7 +77,9 @@ export function UniversityCard({ university }: any) {
                   <div>
                     {/* University Name */}
                     <Link
-                      href={`/university/${university.slug}-${university.id}/info`}
+                      href={`/university/${tagSanatize(university.slug)}-${
+                        university.id
+                      }/info`}
                       className="hover:text-blue-600 transition-colors"
                     >
                       <h3 className="text-lg sm:text-xl font-bold text-brand-primary mb-1 line-clamp-2 sm:line-clamp-1">
@@ -146,7 +151,9 @@ export function UniversityCard({ university }: any) {
           </Button>
           <div className="flex flex-row gap-2">
             <Link
-              href={`/university/${university.slug}-${university.id}`}
+              href={`/university/${tagSanatize(university.slug)}-${
+                university.id
+              }/info`}
               className="hover:text-blue-600 transition-colors flex-1"
             >
               <Button size="sm" className="w-full">

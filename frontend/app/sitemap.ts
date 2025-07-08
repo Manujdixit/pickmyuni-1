@@ -1,3 +1,4 @@
+import { tagSanatize } from "@/utils/tagsanatize";
 import { MetadataRoute } from "next";
 
 type ApiResponse = {
@@ -111,7 +112,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.7,
     },
     {
-      url: `${baseUrl}/pr-path`,
+      url: `${baseUrl}/pr-courses-in-australia`,
       lastModified: new Date(),
       changeFrequency: "weekly",
       priority: 0.7,
@@ -141,9 +142,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   let cityRoutes: MetadataRoute.Sitemap = [];
   if (cityData.status === "fulfilled" && cityData.value) {
     cityRoutes = cityData.value.data.map((city) => ({
-      url: `${baseUrl}/city/${city.slug}-${city.id}`,
+      url: `${baseUrl}/city/${tagSanatize(city.slug)}-${city.id}`,
       lastModified: new Date(),
-      changeFrequency: "daily" as const,
+      changeFrequency: "weekly" as const,
       priority: 0.8,
     }));
     console.log(`Generated ${cityRoutes.length} city routes`);
@@ -153,7 +154,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   let articleRoutes: MetadataRoute.Sitemap = [];
   if (articleData.status === "fulfilled" && articleData.value) {
     articleRoutes = articleData.value.data.map((article) => ({
-      url: `${baseUrl}/student-resources/${article.slug}-${article.id}`,
+      url: `${baseUrl}/student-resources/${tagSanatize(article.slug)}-${
+        article.id
+      }`,
       lastModified: new Date(),
       changeFrequency: "daily" as const,
       priority: 0.8,
@@ -178,7 +181,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
     collegeRoutes = collegeData.value.data.flatMap((college) =>
       universityPaths.map((path) => ({
-        url: `${baseUrl}/university/${college.slug}-${college.id}/${path}`,
+        url: `${baseUrl}/university/${tagSanatize(college.slug)}-${
+          college.id
+        }/${path}`,
         lastModified: new Date(),
         changeFrequency: "daily" as const,
         priority: 0.8,
@@ -194,5 +199,5 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     collegeRoutes.length;
   console.log(`Sitemap generated with ${totalRoutes} total routes`);
 
-  return [...staticRoutes, ...cityRoutes, ...articleRoutes, ...collegeRoutes];
+  return [...staticRoutes, ...articleRoutes, ...cityRoutes, ...collegeRoutes];
 }
