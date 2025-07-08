@@ -19,6 +19,7 @@ interface College {
   total_students?: number;
   international_student_rate?: number;
   address?: string;
+  _count?: any;
 }
 
 function QuickFacts({ college }: { college: College }) {
@@ -38,7 +39,7 @@ function QuickFacts({ college }: { college: College }) {
             <div className="min-w-0 flex-1">
               <p className="text-xs sm:text-sm text-gray-600 mb-1">Location:</p>
               <p className="font-semibold text-brand-primary text-sm sm:text-base">
-                {college?.address || "-"}
+                {college?.address || "N/A"}
               </p>
             </div>
           </div>
@@ -49,9 +50,13 @@ function QuickFacts({ college }: { college: College }) {
               <Users className="w-4 h-4 sm:w-5 sm:h-5 text-brand-secondary" />
             </div>
             <div className="min-w-0 flex-1">
-              <p className="text-xs sm:text-sm text-gray-600 mb-1">Students:</p>
+              <p className="text-xs sm:text-sm text-gray-600 mb-1">
+                Total Students:
+              </p>
               <p className="font-semibold text-brand-primary text-sm sm:text-base">
-                {college?.total_students || "-"}
+                {college?.total_students
+                  ? college?.total_students + " +"
+                  : "N/A"}
               </p>
             </div>
           </div>
@@ -63,10 +68,12 @@ function QuickFacts({ college }: { college: College }) {
             </div>
             <div className="min-w-0 flex-1">
               <p className="text-xs sm:text-sm text-gray-600 mb-1">
-                International students rate:
+                International students:
               </p>
               <p className="font-semibold text-brand-primary text-sm sm:text-base">
-                {college?.international_student_rate || "-"}%
+                {college?.international_student_rate
+                  ? college?.international_student_rate + " +"
+                  : "N/A"}
               </p>
             </div>
           </div>
@@ -81,7 +88,9 @@ function QuickFacts({ college }: { college: College }) {
                 Acceptance rate:
               </p>
               <p className="font-semibold text-brand-primary text-sm sm:text-base">
-                {college?.acceptance_rate || "-"}%
+                {college?.acceptance_rate
+                  ? "~ " + college?.acceptance_rate + "%"
+                  : "N/A"}
               </p>
             </div>
           </div>
@@ -96,7 +105,7 @@ function QuickFacts({ college }: { college: College }) {
                 Courses offered:
               </p>
               <p className="font-semibold text-brand-primary text-sm sm:text-base">
-                500+ across 10 faculties
+                {college?._count?.CollegesCourses} across 10 faculties
               </p>
             </div>
           </div>

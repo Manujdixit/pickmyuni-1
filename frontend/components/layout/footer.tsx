@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Facebook, Twitter, Mail } from "lucide-react";
+import { getYear } from "@/utils/getYear";
 
 export default function Footer() {
   return (
@@ -188,8 +189,8 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="border-t border-gray-700 pt-6 text-center text-xs sm:text-sm text-gray-400">
-          <p>PickMyUni 2025 © All Rights Reserved</p>
+        <div className="border-t border-gray-400 pt-6 text-center text-xs sm:text-sm text-gray-400">
+          <p>PickMyUni {getYear} © All Rights Reserved</p>
         </div>
       </div>
     </footer>

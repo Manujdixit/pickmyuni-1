@@ -34,24 +34,44 @@ export const relatedCourses = async (req: Request, res: Response) => {
   }
 
   try {
-    const relatedCourses = await prisma.collegesCourses.findMany({
-      where: {
-        college_id: collegeId,
-      },
-      select: {
-        id: true,
-        name: true,
-        duration_in_months: true,
-        tution_fees: true,
-        hostel_fees: true,
-        other_fees: true,
-        level: true,
-      },
-    });
+    const [relatedCourses, basicCollegeInfo] = await Promise.all([
+      prisma.collegesCourses.findMany({
+        where: {
+          college_id: collegeId,
+        },
+        select: {
+          id: true,
+          name: true,
+          duration_in_months: true,
+          tution_fees: true,
+          hostel_fees: true,
+          other_fees: true,
+          level: true,
+        },
+      }),
+      prisma.colleges.findUnique({
+        where: {
+          id: collegeId,
+        },
+        select: {
+          id: true,
+          college_name: true,
+        },
+      }),
+    ]);
+    if (!basicCollegeInfo) {
+      return res.status(404).json({
+        success: false,
+        message: "College not found",
+      });
+    }
 
     res.status(200).json({
       success: true,
-      data: relatedCourses,
+      data: {
+        college: basicCollegeInfo,
+        relatedCourses,
+      },
     });
   } catch (error) {
     console.error("Error fetching related courses:", error);
