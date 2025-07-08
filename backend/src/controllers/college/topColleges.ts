@@ -41,7 +41,16 @@ export const getTopColleges = async (req: Request, res: Response) => {
     const [colleges, streams] = await Promise.all([
       prisma.colleges.findMany({
         where: whereClause,
-        include: {
+        select: {
+          id: true,
+          logo_url: true,
+          college_name: true,
+          slug: true,
+          avg_fees_in_aud: true,
+          pr_pathway: true,
+          intake_start_date: true,
+          location: true,
+          score: true,
           _count: {
             select: {
               CollegesCourses: true,

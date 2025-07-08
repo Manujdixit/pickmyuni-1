@@ -12,15 +12,19 @@ import { getCollegeCareersInfo } from "../../controllers/college/careers";
 import { getCollegeList } from "../../controllers/college/listColleges";
 import { getCollegeById } from "../../controllers/college/getCollegeById";
 import { getAllColleges } from "../../controllers/college/getAllColleges";
+import { suggestedColleges } from "../../controllers/college/suggestColleges";
+import { relatedCourses } from "../../controllers/college/relatedCourses";
 
 const CollegeRouter = express.Router();
 
 CollegeRouter.get("/", getAllColleges as any);
 CollegeRouter.get("/list", getCollegeList as any);
 CollegeRouter.get("/top", getTopColleges as any);
+CollegeRouter.get("/suggest/:id", suggestedColleges as any);
+CollegeRouter.get("/courses/:id", relatedCourses as any);
 
 CollegeRouter.get("/info/:id", collegeInfo as any);
-CollegeRouter.get("/courses/:id", getCollegeCoursesInfo as any);
+// CollegeRouter.get("/courses/:id", getCollegeCoursesInfo as any);
 CollegeRouter.get("/fees/:id", getCollegeFeesInfo as any);
 CollegeRouter.get("/departments/:id", getCollegeDepartmentsInfo as any);
 CollegeRouter.get("/careers/:id", getCollegeCareersInfo as any);
