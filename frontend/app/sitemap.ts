@@ -170,7 +170,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     const universityPaths = [
       "info",
       "courses",
-      "departments",
+      "campuses",
       "careers",
       "ranking",
       "fees",

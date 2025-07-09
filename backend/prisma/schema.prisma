@@ -16,9 +16,9 @@ datasource db {
 }
 
 model Colleges {
-  id                         Int       @id @default(autoincrement())
+  id                         Int         @id @default(autoincrement())
   college_name               String
-  address                    String    @default("")
+  address                    String      @default("")
   location                   String
   established                Int?
   email                      String?
@@ -27,17 +27,20 @@ model Colleges {
   bg_url                     String?
   media_url                  Json?
   rating                     Float? // Must be between 1 and 10
-  score                      Int       @default(1) // Must be between 1 and 999
+  score                      Int         @default(1) // Must be between 1 and 999
   intake_start_date          DateTime?
   pr_pathway                 Boolean?
-  slug                       String    @unique
+  slug                       String      @unique
   total_students             Int?
   acceptance_rate            Float?
   international_student_rate Float?
   brochure_url               String?
   avg_fees_in_aud            Float?
   search_names               String?
-  is_active                  Boolean   @default(true)
+  is_active                  Boolean     @default(true)
+  level                      String?
+  type                       CollegeType @default(other)
+  intake                     String?
 
   streamId          Int  @default(1)
   cityId            Int  @default(1)
@@ -58,6 +61,12 @@ model Colleges {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+enum CollegeType {
+  government
+  private
+  other
 }
 
 model Courses {

@@ -70,7 +70,7 @@ const getEndpointForTab = (tab: string, id: number): string | null => {
   const endpointMap: { [key: string]: string | null } = {
     info: `${baseUrl}/api/v1/college/info/${id}`,
     courses: `${baseUrl}/api/v1/college/courses/${id}`,
-    departments: `${baseUrl}/api/v1/college/departments/${id}`,
+    campuses: `${baseUrl}/api/v1/college/campuses/${id}`,
     careers: `${baseUrl}/api/v1/college/careers/${id}`,
     ranking: `${baseUrl}/api/v1/college/ranking/${id}`,
     fees: `${baseUrl}/api/v1/college/fees/${id}`,
@@ -114,7 +114,7 @@ const extractTabContent = (tab: string, data: any): any[] => {
         });
       }
       return content;
-    case "departments":
+    case "campuses":
       return data.department ? [data.department] : [];
     case "careers":
       return data.career ? [data.career] : [];

@@ -40,8 +40,8 @@ export default function PrivacyPage() {
               1. Information We Collect
             </h2>
             <p className="text-gray-600 mb-4">
-              When you visit or use KollegeApply.com, we may collect the
-              following types of information:
+              When you visit or use PickMyUni.com, we may collect the following
+              types of information:
             </p>
             <div className="space-y-4 ml-4">
               <div>

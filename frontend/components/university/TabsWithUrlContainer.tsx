@@ -8,7 +8,7 @@ import { useRouter, useParams } from "next/navigation";
 const indexes = [
   "info",
   "courses",
-  "departments",
+  "campuses",
   "careers",
   "ranking",
   "fees",
