@@ -11,11 +11,12 @@ import {
 import { ChevronDown, ChevronUp, GraduationCap } from "lucide-react";
 import { getYear } from "@/utils/getYear";
 import { Button } from "@/components/ui/button";
+import styles from "./page.module.css";
 
 const validTabs = [
   "info",
   "courses",
-  "departments",
+  "campuses",
   "careers",
   "ranking",
   "fees",
@@ -51,7 +52,7 @@ export async function generateMetadata({
   const tabTitles = {
     info: "Information",
     courses: "Courses",
-    departments: "Departments",
+    campuses: "Campuses",
     careers: "Careers",
     ranking: "Rankings",
     fees: "Fees",
@@ -88,7 +89,7 @@ const getEndpointForTab = (tab: string, id: number): string | null => {
   const endpointMap: { [key: string]: string | null } = {
     info: `${baseUrl}/api/v1/college/info/${id}`,
     courses: `${baseUrl}/api/v1/college/courses/${id}`,
-    departments: `${baseUrl}/api/v1/college/suggest/${id}`,
+    campuses: `${baseUrl}/api/v1/college/suggest/${id}`,
     careers: `${baseUrl}/api/v1/college/careers/${id}`,
     ranking: `${baseUrl}/api/v1/college/ranking/${id}`,
     fees: `${baseUrl}/api/v1/college/fees/${id}`,
@@ -106,7 +107,7 @@ const extractTabContent = (tab: string, data: any): any[] => {
       return data.info_content || [];
     case "courses":
       return data;
-    case "departments":
+    case "campuses":
       return data;
     case "careers":
       return data.career ? [data.career] : [];
@@ -207,7 +208,7 @@ async function TabPage({
 
 const renderContent = (currentTab: string, info: any): any => {
   switch (currentTab) {
-    case "departments":
+    case "campuses":
       return info && info.length > 0 ? (
         <div className="space-y-4">
           {info.map((university: any, index: number) => (
@@ -263,7 +264,7 @@ const renderContent = (currentTab: string, info: any): any => {
                   {categoryList.map(
                     ([category, courses]: any, index: number) => (
                       <AccordionItem
-                        className="p-4 rounded-lg border-t-2 first-of-type:border-t-0"
+                        className="p-4 border-t-2 first-of-type:border-t-0"
                         key={index}
                         value={category}
                       >
@@ -351,7 +352,9 @@ const renderContent = (currentTab: string, info: any): any => {
               </div>
             </div>
           ) : (
-            <p>No courses found</p>
+            <p className="text-gray-500 p-4 bg-gray-50">
+              No {currentTab} information found for this university
+            </p>
           )}
         </div>
       );
@@ -360,11 +363,13 @@ const renderContent = (currentTab: string, info: any): any => {
       return (
         <div className="space-y-6">
           {info.map((item: any, index: number) => (
-            <div key={index} className="p-6">
+            <div key={index} className="">
               {item?.content && (
                 <div
-                  className="prose max-w-none text-gray-700 leading-relaxed"
-                  dangerouslySetInnerHTML={{ __html: item.content }}
+                  className={`styledContent ${styles.styledContent} prose prose-lg max-w-none`}
+                  dangerouslySetInnerHTML={{
+                    __html: item.content,
+                  }}
                 />
               )}
             </div>

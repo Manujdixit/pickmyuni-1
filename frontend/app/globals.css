@@ -196,10 +196,6 @@ body {
     @apply py-16 px-4 sm:px-6 lg:px-8;
   }
 
-  .container-custom {
-    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
-  }
-
   .grid-auto-fit {
     @apply grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6;
   }
@@ -281,127 +277,82 @@ body {
 
   /* Table Styles */
   .table-container {
-    @apply w-full overflow-x-auto mb-6 rounded-lg border border-gray-200;
+    @apply w-full overflow-x-auto mb-6 rounded-lg;
     /* Add custom scrollbar styling */
     scrollbar-width: thin;
     scrollbar-color: #2c5680 #f1f1f1;
   }
+}
 
-  .table-container::-webkit-scrollbar {
-    height: 8px;
-  }
+.table-container::-webkit-scrollbar {
+  height: 8px;
+}
 
-  .table-container::-webkit-scrollbar-track {
-    background: #f1f1f1;
-    border-radius: 4px;
-  }
+.table-container::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
 
-  .table-container::-webkit-scrollbar-thumb {
-    background: #2c5680;
-    border-radius: 4px;
-  }
+.table-container::-webkit-scrollbar-thumb {
+  background: #2c5680;
+  border-radius: 4px;
+}
 
-  .table-container::-webkit-scrollbar-thumb:hover {
-    background: #1e3a56;
-  }
+.table-container::-webkit-scrollbar-thumb:hover {
+  background: #1e3a56;
+}
 
-  .primary-table {
-    @apply w-full border-collapse bg-white shadow-sm min-w-[600px];
-  }
+/* Accordion styles - must be at the top level, not inside any block */
+.styledContent .accordion-header {
+  cursor: pointer;
+  display: flex;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  justify-content: space-between;
+  align-items: center;
+  transition: all 0.3s ease;
+  border-bottom: 1px solid #cdced1;
+}
 
-  .primary-table th {
-    @apply bg-[#2C5680] text-white font-semibold text-[14px] px-4 py-3 text-left uppercase tracking-wide whitespace-nowrap;
-  }
+.styledContent .accordion-header h4 {
+  color: #2c5680;
+  font-size: 1.2em;
+  margin: 0;
+}
 
-  .primary-table td {
-    @apply border-b border-gray-200 px-4 py-3 text-[14px] text-[#242628] whitespace-nowrap;
-  }
+.styledContent .accordion-icon {
+  font-size: 1.5em;
+  color: #2c5680;
+  transition: transform 0.3s ease;
+}
 
-  .primary-table tr:hover {
-    @apply bg-[#EAFDF5] transition-colors duration-150;
-  }
+.styledContent .accordion-content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+  background: white;
+}
 
-  .secondary-table {
-    @apply w-full border-collapse bg-white border border-gray-200 min-w-[600px];
-  }
+.styledContent .accordion-content.active {
+  max-height: 200px;
+}
 
-  .secondary-table th {
-    @apply bg-[#FAF4F0] text-[#242628] font-semibold text-[14px] px-4 py-3 text-left border-b border-gray-200 whitespace-nowrap;
-  }
+.styledContent .accordion-content p {
+  padding: 20px;
+  margin: 0;
+  color: #374151;
+}
 
-  .secondary-table td {
-    @apply border-b border-gray-200 px-4 py-3 text-[14px] text-[#242628] whitespace-nowrap;
-  }
+.accordion-toggle {
+  display: none;
+}
 
-  .secondary-table tr:nth-child(even) {
-    @apply bg-gray-50;
-  }
+/* Transition icon and content */
+.accordion-toggle:checked + .accordion-header .accordion-icon {
+  transform: rotate(45deg); /* transforms + into x */
+}
 
-  .secondary-table tr:hover {
-    @apply bg-[#EAFDF5] transition-colors duration-150;
-  }
-
-  /* Responsive table adjustments */
-  @media (max-width: 768px) {
-    .primary-table,
-    .secondary-table {
-      min-width: 500px;
-      font-size: 12px;
-    }
-
-    .primary-table th,
-    .primary-table td,
-    .secondary-table th,
-    .secondary-table td {
-      padding: 8px 6px;
-    }
-  }
-
-  /* Text Formatting */
-  .item-bold {
-    @apply font-semibold text-[#242628];
-  }
-
-  .item-highlight {
-    @apply text-[#FF882E] px-2 py-1 rounded font-medium;
-  }
-
-  /* FAQ Components */
-  .faq-item {
-    @apply border border-gray-200 rounded-lg mb-4 overflow-hidden bg-white shadow-sm hover:shadow-md transition-shadow duration-200;
-  }
-
-  .faq-ques {
-    @apply font-semibold text-[18px] text-[#242628] p-4 cursor-pointer flex justify-between items-center bg-[#FAF4F0] hover:bg-[#EAFDF5] transition-colors duration-200;
-  }
-
-  .faq-ques::after {
-    content: "+";
-    @apply text-[#2C5680] font-bold text-[20px] ml-4 transition-transform duration-200;
-  }
-
-  .faq-ques.active::after {
-    content: "−";
-    @apply transform rotate-0;
-  }
-
-  .faq-ans {
-    @apply text-[16px] leading-relaxed text-[#242628] p-4 pt-0 border-t border-gray-100;
-  }
-
-  .faq-ans p {
-    @apply mb-3 last:mb-0;
-  }
-
-  .faq-ans ul {
-    @apply list-disc list-inside space-y-1 mb-3 ml-4;
-  }
-
-  .faq-ans ol {
-    @apply list-decimal list-inside space-y-1 mb-3 ml-4;
-  }
-
-  .faq-ans li {
-    @apply text-[15px] leading-relaxed;
-  }
+.accordion-toggle:checked + .accordion-header + .accordion-content {
+  max-height: 200px;
+  transition: max-height 0.3s ease;
 }
