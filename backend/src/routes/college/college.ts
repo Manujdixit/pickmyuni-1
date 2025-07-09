@@ -26,7 +26,7 @@ CollegeRouter.get("/courses/:id", relatedCourses as any);
 CollegeRouter.get("/info/:id", collegeInfo as any);
 // CollegeRouter.get("/courses/:id", getCollegeCoursesInfo as any);
 CollegeRouter.get("/fees/:id", getCollegeFeesInfo as any);
-CollegeRouter.get("/departments/:id", getCollegeDepartmentsInfo as any);
+CollegeRouter.get("/campuses/:id", getCollegeDepartmentsInfo as any);
 CollegeRouter.get("/careers/:id", getCollegeCareersInfo as any);
 CollegeRouter.get("/ranking/:id", getCollegeRankingsInfo as any);
 CollegeRouter.get("/scholarships/:id", getCollegeScholarshipInfo as any);
