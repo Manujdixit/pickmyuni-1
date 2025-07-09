@@ -33,7 +33,7 @@ function UniLayout({ college, slugAndId }: UniLayoutProps) {
         <Image
           src={
             college?.bg_url
-              ? `https://pickmyuni-bucket.s3.ap-southeast-2.amazonaws.com/collegebg/${college?.bg_url}`
+              ? `https://pickmyuni-bucket.s3.ap-southeast-2.amazonaws.com/collegebanner/${college?.bg_url}`
               : "/transfer.svg"
           }
           alt={college?.college_name || "college campus"}
