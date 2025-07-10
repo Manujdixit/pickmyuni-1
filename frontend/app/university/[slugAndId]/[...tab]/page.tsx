@@ -11,7 +11,7 @@ import {
 import { ChevronDown, ChevronUp, GraduationCap } from "lucide-react";
 import { getYear } from "@/utils/getYear";
 import { Button } from "@/components/ui/button";
-import styles from "./page.module.css";
+import styles from "../../../styles/page.module.css";
 
 const validTabs = [
   "info",

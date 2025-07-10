@@ -1,9 +1,13 @@
 import { useLatestArticles } from "@/hooks/useLatestArticles";
 import { Article } from "@/types/search";
-import React, { useEffect, useRef, useCallback } from "react";
+import React, { useEffect, useRef, useCallback, useState } from "react";
 import Link from "next/link";
 import { Skeleton } from "@/components/ui/skeleton";
 import { randomImage } from "./home/articles";
+import { notFound } from "next/navigation";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { ChevronLeft, ChevronRight } from "lucide-react";
+import moment from "moment";
 
 function stripHtmlAndTruncate(html: string): string {
   const tempDiv = document.createElement("div");
@@ -13,9 +17,59 @@ function stripHtmlAndTruncate(html: string): string {
 }
 
 function RecentArticles() {
-  const { articles, loading, loadingMore, error, hasMore, loadMore } =
-    useLatestArticles();
   const isLoadingRef = useRef(false);
+  const [selectedSilo, setSelectedSilo] = useState<string>("all");
+
+  const { articles, loading, loadingMore, error, hasMore, loadMore, silos } =
+    useLatestArticles(selectedSilo);
+
+  // Scroll and tab navigation refs
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const [canScrollLeft, setCanScrollLeft] = useState(false);
+  const [canScrollRight, setCanScrollRight] = useState(false);
+
+  // Set initial silo when silos load
+  useEffect(() => {
+    if (silos && silos.length > 0 && selectedSilo === "all") {
+      // Keep "all" as default, or set to first silo if you prefer
+    }
+  }, [silos]);
+
+  // Scroll position checking for tabs
+  const checkScrollPosition = () => {
+    if (scrollRef.current) {
+      const { scrollLeft, scrollWidth, clientWidth } = scrollRef.current;
+      setCanScrollLeft(scrollLeft > 0);
+      setCanScrollRight(scrollLeft < scrollWidth - clientWidth - 1);
+    }
+  };
+
+  useEffect(() => {
+    checkScrollPosition();
+    const handleResize = () => checkScrollPosition();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  const scrollLeft = () => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollBy({ left: -200, behavior: "smooth" });
+      setTimeout(checkScrollPosition, 300);
+    }
+  };
+
+  const scrollRight = () => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollBy({ left: 200, behavior: "smooth" });
+      setTimeout(checkScrollPosition, 300);
+    }
+  };
+
+  // Filter articles based on selected silo
+  const filteredArticles =
+    selectedSilo === "all"
+      ? articles
+      : articles.filter((article) => article.silos === selectedSilo);
 
   // Scroll event handler
   const handleScroll = useCallback(() => {
@@ -70,8 +124,8 @@ function RecentArticles() {
   const ArticleCardSkeleton = () => (
     <div className="animate-pulse">
       <div className="flex flex-col">
-        <Skeleton className="w-full h-52 rounded-lg flex-shrink-0" />
-        <div className="mt-4 flex-1 flex flex-col justify-center space-y-2">
+        <Skeleton className="h-52 w-full flex-shrink-0 rounded-lg" />
+        <div className="mt-4 flex flex-1 flex-col justify-center space-y-2">
           <Skeleton className="h-4 w-24" />
           <Skeleton className="h-6 w-full" />
           <Skeleton className="h-6 w-3/4" />
@@ -83,8 +137,8 @@ function RecentArticles() {
   if (loading && articles.length === 0) {
     return (
       <section className="pt-8">
-        <div className="max-w-[1400px] mx-auto px-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="mx-auto max-w-[1400px] px-4">
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
             {[...Array(6)].map((_, index) => (
               <ArticleCardSkeleton key={index} />
             ))}
@@ -95,55 +149,99 @@ function RecentArticles() {
   }
 
   if (error) {
-    return (
-      <section className="pt-8">
-        <div className="max-w-[1400px] mx-auto px-4">
-          <div className="text-center text-red-600">
-            <p>Error loading articles: {error}</p>
-          </div>
-        </div>
-      </section>
-    );
+    console.log(error);
+    return notFound();
   }
 
   return (
-    <section className="pt-8">
-      <div className="max-w-[1400px] mx-auto px-4">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {articles.map((article: Article) => {
-            // Format date as "MAY 4, 2023"
-            const articleDate = new Date(article.createdAt);
-            const formattedDate = articleDate
-              .toLocaleDateString("en-US", {
-                month: "short",
-                day: "numeric",
-                year: "numeric",
-              })
-              .toUpperCase();
+    <section className="container mx-auto flex flex-col justify-center py-4">
+      {/* Tabs Section */}
+      {silos && silos.length > 0 && (
+        <div className="mx-auto mb-8 max-w-[1400px] px-4">
+          <Tabs
+            value={selectedSilo}
+            onValueChange={setSelectedSilo}
+            className="w-full"
+          >
+            <div className="relative mb-6">
+              {/* Left Arrow */}
+              {canScrollLeft && (
+                <button
+                  onClick={scrollLeft}
+                  className="absolute left-0 top-1/2 z-10 -translate-y-1/2 rounded-full border bg-background/80 p-2 shadow-sm backdrop-blur-sm transition-colors hover:bg-background"
+                  aria-label="Scroll left"
+                >
+                  <ChevronLeft className="h-4 w-4" />
+                </button>
+              )}
 
+              {/* Right Arrow */}
+              {canScrollRight && (
+                <button
+                  onClick={scrollRight}
+                  className="absolute right-0 top-1/2 z-10 -translate-y-1/2 rounded-full border bg-background/80 p-2 shadow-sm backdrop-blur-sm transition-colors hover:bg-background"
+                  aria-label="Scroll right"
+                >
+                  <ChevronRight className="h-4 w-4" />
+                </button>
+              )}
+
+              {/* Scrollable Tabs Container */}
+              <div
+                ref={scrollRef}
+                className="scrollbar-hide mx-8 overflow-x-auto"
+                style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
+                onScroll={checkScrollPosition}
+              >
+                <TabsList className="inline-flex h-auto w-auto min-w-full justify-start gap-4 p-0">
+                  <TabsTrigger
+                    value="all"
+                    className="flex-shrink-0 whitespace-nowrap px-4 py-2 text-sm"
+                  >
+                    ALL
+                  </TabsTrigger>
+                  {silos.map((silo) => (
+                    <TabsTrigger
+                      key={silo}
+                      value={silo}
+                      className="flex-shrink-0 whitespace-nowrap px-4 py-2 text-sm"
+                    >
+                      {silo.toUpperCase()}
+                    </TabsTrigger>
+                  ))}
+                </TabsList>
+              </div>
+            </div>
+          </Tabs>
+        </div>
+      )}
+
+      <div className="mx-auto max-w-[1400px] px-4">
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+          {filteredArticles.map((article: Article) => {
             return (
               <Link
                 href={`/student-resources/${article.slug}-${article.id}`}
                 key={article.id}
                 className="group"
               >
-                <div className="overflow-hidden rounded-lg hover:shadow-md transition-shadow duration-300 bg-[#F6F6F7] max-w-[400px] max-h-[450px] mx-auto">
+                <div className="mx-auto max-h-[450px] max-w-[400px] overflow-hidden rounded-lg bg-[#F6F6F7] transition-shadow duration-300 hover:shadow-md">
                   <div className="flex flex-col">
-                    <div className="relative w-full h-52 flex-shrink-0 overflow-hidden">
+                    <div className="relative h-52 w-full flex-shrink-0 overflow-hidden">
                       <img
                         src={article.image || randomImage()}
                         alt={article.title}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-all duration-300"
+                        className="h-full w-full object-cover transition-all duration-300 group-hover:scale-105"
                       />
                     </div>
-                    <div className="p-4 flex-1 flex flex-col">
-                      <div className="text-base text-gray-500 font-normal mb-2">
-                        {formattedDate}
+                    <div className="flex flex-1 flex-col p-4">
+                      <div className="mb-2 text-base font-normal text-gray-500">
+                        {moment(article.createdAt).format("DD MMM YYYY")}
                       </div>
-                      <h3 className="text-3xl font-medium text-brand-primary transition-colors leading-tight line-clamp-2 group-hover:text-blue-700">
+                      <h3 className="text-brand-primary line-clamp-2 text-2xl font-semibold leading-tight">
                         {article.title}
                       </h3>
-                      <p className="mt-2 text-lg font-light text-gray-500 line-clamp-2">
+                      <p className="mt-2 line-clamp-2 text-base font-light text-gray-500">
                         {stripHtmlAndTruncate(article.content)}
                       </p>
                     </div>
@@ -156,8 +254,8 @@ function RecentArticles() {
 
         {/* Loading indicator for infinite scroll */}
         {loadingMore && (
-          <div className="flex justify-center mt-8">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full">
+          <div className="mt-8 flex justify-center">
+            <div className="grid w-full grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
               <ArticleCardSkeleton />
               <ArticleCardSkeleton />
               <ArticleCardSkeleton />
@@ -166,11 +264,20 @@ function RecentArticles() {
         )}
 
         {/* End of results indicator */}
-        {!hasMore && articles.length > 0 && (
-          <div className="text-center mt-8 text-gray-500">
+        {!hasMore && filteredArticles.length > 0 && (
+          <div className="my-16 text-center text-gray-500">
             <p>You've reached the end of the articles.</p>
           </div>
         )}
+
+        {/* No articles found for selected silo */}
+        {filteredArticles.length === 0 &&
+          !loading &&
+          selectedSilo !== "all" && (
+            <div className="mt-8 text-center text-gray-500">
+              <p>No articles found for this category.</p>
+            </div>
+          )}
       </div>
     </section>
   );
