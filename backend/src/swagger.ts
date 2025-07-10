@@ -6,10 +6,10 @@ const options = {
   definition: {
     openapi: "3.0.0",
     info: {
-      title: "EduScholar API",
+      title: "PickMyUni API",
       version: "1.0.0",
       description:
-        "API documentation for EduScholar - College and Course Information System",
+        "API documentation for PickMyUni - College and Course Information System",
     },
     servers: [
       {
@@ -34,7 +34,7 @@ export const setupSwagger = (app: Express) => {
     swaggerUi.setup(specs, {
       explorer: true,
       customCss: ".swagger-ui .topbar { display: none }",
-      customSiteTitle: "EduScholar API Documentation",
+      customSiteTitle: "PickMyUni API Documentation",
     })
   );
 };
