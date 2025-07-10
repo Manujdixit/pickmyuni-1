@@ -71,7 +71,7 @@ function TabsWithUrlContainer({ id, slugAndId }: TabsWithUrlContainerProps) {
         {canScrollLeft && (
           <button
             onClick={scrollLeft}
-            className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-background/80 backdrop-blur-sm border rounded-full p-2 shadow-sm hover:bg-background transition-colors"
+            className="absolute left-0 top-1/2 z-10 -translate-y-1/2 rounded-full border bg-background/80 p-2 shadow-sm backdrop-blur-sm transition-colors hover:bg-background"
             aria-label="Scroll left"
           >
             <ChevronLeft className="h-4 w-4" />
@@ -82,7 +82,7 @@ function TabsWithUrlContainer({ id, slugAndId }: TabsWithUrlContainerProps) {
         {canScrollRight && (
           <button
             onClick={scrollRight}
-            className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-background/80 backdrop-blur-sm border rounded-full p-2 shadow-sm hover:bg-background transition-colors"
+            className="absolute right-0 top-1/2 z-10 -translate-y-1/2 rounded-full border bg-background/80 p-2 shadow-sm backdrop-blur-sm transition-colors hover:bg-background"
             aria-label="Scroll right"
           >
             <ChevronRight className="h-4 w-4" />
@@ -92,16 +92,16 @@ function TabsWithUrlContainer({ id, slugAndId }: TabsWithUrlContainerProps) {
         {/* Scrollable Tabs Container */}
         <div
           ref={scrollRef}
-          className="overflow-x-auto scrollbar-hide mx-8"
+          className="scrollbar-hide mx-8 overflow-x-auto"
           style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
           onScroll={checkScrollPosition}
         >
-          <TabsList className="inline-flex w-auto gap-4 p-0 h-auto min-w-full justify-start">
+          <TabsList className="inline-flex h-auto w-auto min-w-full justify-start gap-4 p-0">
             {indexes.map((index) => (
               <TabsTrigger
                 key={index}
                 value={index}
-                className="whitespace-nowrap px-4 py-2 text-sm flex-shrink-0"
+                className="flex-shrink-0 whitespace-nowrap px-4 py-2 text-sm"
               >
                 {index.toUpperCase()}
               </TabsTrigger>

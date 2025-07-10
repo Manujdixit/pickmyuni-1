@@ -9,13 +9,14 @@ interface PaginationInfo {
   itemsPerPage: number;
 }
 
-export function useLatestArticles() {
+export function useLatestArticles(selectedSilo: string) {
   const [articles, setArticles] = useState<Article[]>([]);
   const [loading, setLoading] = useState(true);
   const [loadingMore, setLoadingMore] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [pagination, setPagination] = useState<PaginationInfo | null>(null);
   const [hasMore, setHasMore] = useState(true);
+  const [silos, setSilos] = useState<string[]>([]);
 
   const fetchArticles = useCallback(
     async (page: number = 1, limit: number = 6, append: boolean = false) => {
@@ -27,7 +28,7 @@ export function useLatestArticles() {
         }
 
         const response = await axios.get(
-          `${process.env.NEXT_PUBLIC_API_URL}/api/v1/articles/recent?page=${page}&limit=${limit}`
+          `${process.env.NEXT_PUBLIC_API_URL}/api/v1/articles/new?page=${page}&limit=${limit}&silos=${selectedSilo}`,
         );
 
         const { articles: newArticles, pagination: paginationData } =
@@ -37,11 +38,12 @@ export function useLatestArticles() {
           setArticles((prev) => [...prev, ...newArticles]);
         } else {
           setArticles(newArticles);
+          setSilos(response.data.data.allSilos);
         }
 
         setPagination(paginationData);
         setHasMore(
-          parseInt(paginationData.currentPage) < paginationData.totalPages
+          parseInt(paginationData.currentPage) < paginationData.totalPages,
         );
       } catch (err) {
         setError(err instanceof Error ? err.message : "An error occurred");
@@ -50,7 +52,7 @@ export function useLatestArticles() {
         setLoadingMore(false);
       }
     },
-    []
+    [selectedSilo],
   );
 
   const loadMore = useCallback(() => {
@@ -72,5 +74,6 @@ export function useLatestArticles() {
     pagination,
     hasMore,
     loadMore,
+    silos,
   };
 }

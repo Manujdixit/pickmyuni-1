@@ -4,11 +4,15 @@ import SocialShare from "@/components/SocialShare";
 import ArticleContent from "@/components/ArticleContent";
 import { Article } from "@/types/search";
 import { Metadata } from "next";
+import SuggestedArticles from "@/components/SuggestedArticles";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import moment from "moment";
 
 async function getArticle(id: number): Promise<Article | null> {
   try {
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/api/v1/articles/${id}`
+      `${process.env.NEXT_PUBLIC_API_URL}/api/v1/articles/${id}`,
     );
 
     if (!response.ok) {
@@ -137,7 +141,7 @@ export default async function Page({
   return (
     <div className="bg-white font-sans">
       {/* Hero Section */}
-      <section className="relative w-full h-[336px] text-white">
+      <section className="relative h-[336px] w-full text-white">
         <Image
           src="/transfer.svg"
           alt="University campus background"
@@ -152,30 +156,70 @@ export default async function Page({
           <div className="container mx-auto pb-8 text-center">
             {/* Date Badge */}
             {article?.createdAt && (
-              <div className="inline-block bg-orange-500 text-white px-4 py-2 text-sm font-medium mb-4 uppercase">
-                {new Date(article.createdAt)
-                  .toLocaleDateString("en-US", {
-                    month: "short",
-                    day: "numeric",
-                    year: "numeric",
-                  })
-                  .toUpperCase()}
+              <div className="mb-4 inline-block bg-orange-500 px-4 py-2 text-sm font-medium uppercase text-white">
+                {moment(article?.createdAt).format("MMMM Do, YYYY")}
               </div>
             )}
 
             {/* Title */}
-            <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white max-w-4xl mx-auto leading-tight">
+            <h1 className="mx-auto max-w-4xl text-3xl font-bold leading-tight text-white md:text-4xl lg:text-5xl">
               {article?.title}
             </h1>
           </div>
         </div>
-      </section>{" "}
-      <section className="container mx-auto py-8 md:py-12 lg:py-16">
-        <ArticleContent content={article.content} />
-        <SocialShare
-          title={article?.title || "Test Article"}
-          url={currentUrl}
-        />
+      </section>
+      <section className="container mx-auto flex flex-col gap-8 py-8 md:py-12 lg:flex-row lg:py-16">
+        <div className="lg:w-3/4">
+          <ArticleContent content={article.content} />
+          <SocialShare
+            title={article?.title || "Test Article"}
+            url={currentUrl}
+          />
+        </div>
+        <div className="flex h-fit min-h-[200px] w-full min-w-[220px] flex-col space-y-8 lg:w-1/4">
+          <div className="bg-brand-primary flex flex-1 flex-col items-center justify-center rounded-md p-2">
+            <div className="flex h-16 w-16 items-center justify-center overflow-hidden rounded-full bg-white sm:h-20 sm:w-20">
+              <Image
+                src={"/favicon.ico"}
+                alt={"Vercel Logo"}
+                width={80}
+                height={80}
+                className="rounded-lg object-cover"
+              />
+            </div>
+            <span className="mt-2 text-xl text-white">Fixed Sidebar</span>
+            <span className="text-lg text-white">Fixed Sidebar</span>
+          </div>
+
+          <div className="rounded-md bg-[#FAF4F0] p-4">
+            <span className="text-brand-primary text-xl font-semibold">
+              RELATED BLOGS
+            </span>
+            <SuggestedArticles />
+          </div>
+
+          <div className="rounded-md bg-blue-50 p-4">
+            <span className="text-brand-primary text-xl font-semibold">
+              NEWSLETTER
+            </span>
+            <p className="my-1 text-sm leading-tight">
+              Signup our newsletter services for daily news and updates
+            </p>
+            <div className="space-y-2">
+              <Input
+                placeholder="Your Name"
+                className="border-gray-400 bg-white"
+              />
+              <Input
+                placeholder="Email Address"
+                className="border-gray-400 bg-white"
+              />
+              <Button variant={"secondary"} className="w-full">
+                Subscribe
+              </Button>
+            </div>
+          </div>
+        </div>
       </section>
     </div>
   );
