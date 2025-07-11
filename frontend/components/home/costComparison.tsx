@@ -87,7 +87,7 @@ export default function CostComparisonSection() {
       <section className="bg-brand-secondary py-16">
         <div className="container mx-auto mb-12">
           <div className="flex flex-row justify-center md:justify-between">
-            <h2 className="text-4xl leading-[100%] font-semibold text-center md:text-start text-white">
+            <h2 className="text-center text-4xl font-semibold leading-[100%] text-white md:text-start">
               Compare Your Uni Costs
             </h2>
             <Link href="/compare">
@@ -100,38 +100,45 @@ export default function CostComparisonSection() {
               <TableHeader>
                 <TableRow>
                   <TableHead
-                    colSpan={3}
-                    className="text-h3 bg-blue-100 text-brand-primary border-x-2 border-b-2 border-[#FF882E] text-center"
+                    colSpan={1}
+                    className="text-brand-primary border-x-2 border-b-2 border-[#FF882E] bg-blue-100 text-center text-h3"
+                  >
+                    Course
+                  </TableHead>
+                  <TableHead
+                    colSpan={2}
+                    className="text-brand-primary border-x-2 border-b-2 border-[#FF882E] bg-blue-100 text-center text-h3"
                   >
                     CURRENT UNIVERSITIES COST PER YEAR
                   </TableHead>
                   <TableHead
                     colSpan={4}
-                    className="text-h3 bg-orange-100 text-brand-secondary border-x-2 border-b-2 border-[#FF882E] text-center"
+                    className="text-brand-secondary border-x-2 border-b-2 border-[#FF882E] bg-orange-100 text-center text-h3"
                   >
                     UNIVERSITIES SUGGESTION FOR COST SAVING
                   </TableHead>
                 </TableRow>
                 <TableRow>
-                  <TableHead className="text-h4 bg-blue-100 text-gray-600 border-x-2 border-[#ff882e]">
-                    Current Uni
-                  </TableHead>
-                  <TableHead className="text-h4 bg-blue-100 text-gray-600 border-x-2 border-[#ff882e]">
+                  <TableHead className="border-x-2 border-[#ff882e] bg-blue-100 text-h4 text-gray-600">
                     Course
                   </TableHead>
-                  <TableHead className="text-h4 bg-blue-100 text-gray-600 border-x-2 border-[#ff882e]">
+                  <TableHead className="border-x-2 border-[#ff882e] bg-blue-100 text-h4 text-gray-600">
+                    Current Uni
+                  </TableHead>
+
+                  <TableHead className="border-x-2 border-[#ff882e] bg-blue-100 text-h4 text-gray-600">
                     Course Fee
                   </TableHead>
-                  <TableHead className="text-h4 bg-orange-100 text-gray-600 border-x-2 border-[#ff882e]">
+                  <TableHead className="border-x-2 border-[#ff882e] bg-orange-100 text-h4 text-gray-600">
                     Suggested Uni
                   </TableHead>
                   {/* <TableHead className="text-h4 bg-orange-100 text-gray-600 border-x-2 border-[#ff882e]">
                     Course
                   </TableHead> */}
-                  <TableHead className="text-h4 bg-orange-100 text-gray-600 border-x-2 border-[#ff882e]">
+                  <TableHead className="border-x-2 border-[#ff882e] bg-orange-100 text-h4 text-gray-600">
                     Course Fee
                   </TableHead>
-                  <TableHead className="text-h4 bg-orange-100 text-green-600 font-bold border-x-2 border-[#ff882e]">
+                  <TableHead className="border-x-2 border-[#ff882e] bg-orange-100 text-h4 font-bold text-green-600">
                     Savings
                   </TableHead>
                 </TableRow>
@@ -140,16 +147,17 @@ export default function CostComparisonSection() {
                 {costData.map((row, index) => (
                   <TableRow
                     key={index}
-                    className={`text-h4 hover:bg-gray-50 leading-tight ${
+                    className={`text-h4 leading-tight hover:bg-gray-50 ${
                       index % 2 === 0 ? "bg-white" : "bg-gray-50"
                     }`}
                   >
                     <TableCell className="border-x-2 border-[#ff882e]">
-                      {row.currentUni}
-                    </TableCell>
-                    <TableCell className="border-x-2 border-[#ff882e]">
                       {row.currentCourse}
                     </TableCell>
+                    <TableCell className="border-x-2 border-[#ff882e]">
+                      {row.currentUni}
+                    </TableCell>
+
                     <TableCell className="border-x-2 border-[#ff882e]">
                       {row.currentFee}
                     </TableCell>
@@ -162,7 +170,7 @@ export default function CostComparisonSection() {
                     <TableCell className="border-x-2 border-[#ff882e]">
                       {row.suggestedFee}
                     </TableCell>
-                    <TableCell className="border-x-2 border-[#ff882e] text-green-600 font-bold">
+                    <TableCell className="border-x-2 border-[#ff882e] font-bold text-green-600">
                       {row.savings}
                     </TableCell>
                   </TableRow>
@@ -170,7 +178,7 @@ export default function CostComparisonSection() {
               </TableBody>
             </Table>
           </div>
-          <div className="flex justify-center items-center mt-8">
+          <div className="mt-8 flex items-center justify-center">
             <Link href="/compare">
               <Button className="md:hidden">See more savings</Button>
             </Link>
@@ -180,8 +188,8 @@ export default function CostComparisonSection() {
 
       <CitiesSection />
 
-      <section className="flex flex-col container mt-10">
-        <div className="flex flex-col md:flex-row items-center gap-12 mt-12 justify-center">
+      <section className="container mt-10 flex flex-col">
+        <div className="mt-12 flex flex-col items-center justify-center gap-12 md:flex-row">
           <div className="relative w-full md:w-1/3">
             <Image
               src={
@@ -191,30 +199,30 @@ export default function CostComparisonSection() {
               width={0}
               height={0}
               sizes="(max-width: 768px) 300px, (max-width: 1024px) 350px, 400px"
-              className="w-full h-auto max-w-sm mx-auto md:max-w-none"
+              className="mx-auto h-auto w-full max-w-sm md:max-w-none"
             />
           </div>
           <div className="flex flex-col md:w-2/3">
-            <h2 className="text-4xl leading-tight font-semibold mb-3 text-center md:text-left">
+            <h2 className="mb-3 text-center text-4xl font-semibold leading-tight md:text-left">
               <span className="text-brand-primary">Why Choose</span>{" "}
               <br className="md:hidden" />
               <span className="text-brand-secondary">PickMyUni</span>
             </h2>
-            <p className="text-brand-primary text-xl mb-8 font-normal text-center md:text-left">
+            <p className="text-brand-primary mb-8 text-center text-xl font-normal md:text-left">
               We’ve helped{" "}
               <span className="font-bold">1000+ international students</span>{" "}
               successfully transfer and save money on education in Australia.”
             </p>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
               {benefits.map((benefit, index) => (
                 <div key={index}>
                   <Card className="flex items-start">
-                    <CardContent className="flex gap-2 items-center">
+                    <CardContent className="flex items-center gap-2">
                       <div className="text-brand-secondary bg-brand-secondary rounded-full p-2 text-white">
                         {benefit.icon}
                       </div>
-                      <h3 className="font-bold text-brand-primary">
+                      <h3 className="text-brand-primary font-bold">
                         {benefit.title}
                       </h3>
                     </CardContent>

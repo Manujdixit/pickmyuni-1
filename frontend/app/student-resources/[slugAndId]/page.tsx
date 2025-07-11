@@ -4,10 +4,14 @@ import SocialShare from "@/components/SocialShare";
 import ArticleContent from "@/components/ArticleContent";
 import { Article } from "@/types/search";
 import { Metadata } from "next";
-import SuggestedArticles from "@/components/SuggestedArticles";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
 import moment from "moment";
+import dynamic from "next/dynamic";
+
+const SuggestedArticles = dynamic(
+  () => import("@/components/SuggestedArticles"),
+);
+
+const Newsletter = dynamic(() => import("@/components/Newsletter"));
 
 async function getArticle(id: number): Promise<Article | null> {
   try {
@@ -198,27 +202,7 @@ export default async function Page({
             <SuggestedArticles />
           </div>
 
-          <div className="rounded-md bg-blue-50 p-4">
-            <span className="text-brand-primary text-xl font-semibold">
-              NEWSLETTER
-            </span>
-            <p className="my-1 text-sm leading-tight">
-              Signup our newsletter services for daily news and updates
-            </p>
-            <div className="space-y-2">
-              <Input
-                placeholder="Your Name"
-                className="border-gray-400 bg-white"
-              />
-              <Input
-                placeholder="Email Address"
-                className="border-gray-400 bg-white"
-              />
-              <Button variant={"secondary"} className="w-full">
-                Subscribe
-              </Button>
-            </div>
-          </div>
+          <Newsletter />
         </div>
       </section>
     </div>

@@ -9,12 +9,12 @@ export const SitePop = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
-    const hasSeenPopup = Cookies.get("newsletter_popup_shown");
+    const hasSeenPopup = Cookies.get("pickmyuni_popup_shown");
 
     if (!hasSeenPopup) {
       const timer = setTimeout(() => {
         setIsOpen(true);
-        Cookies.set("newsletter_popup_shown", "true", { expires: 7 }); // 7 days
+        Cookies.set("pickmyuni_popup_shown", "true", { expires: 7 }); // 7 days
       }, 5000); // Show after 5 seconds
 
       return () => clearTimeout(timer);
@@ -32,7 +32,7 @@ export const SitePop = () => {
   return (
     <>
       <a
-        className="bg-brand-secondary p-3 rounded-full hover:bg-orange-600 transition-colors cursor-pointer"
+        className="bg-brand-secondary cursor-pointer rounded-full p-3 transition-colors hover:bg-orange-600"
         aria-label="chat with ai"
         onClick={handleClick}
       >

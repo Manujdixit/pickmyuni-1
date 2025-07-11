@@ -194,7 +194,7 @@ async function TabPage({
   if (!info || info.length === 0) {
     return (
       <div className="p-2 sm:p-4 lg:p-6">
-        <div className="text-gray-500 p-4 bg-gray-50 rounded-lg">
+        <div className="rounded-lg bg-gray-50 p-4 text-gray-500">
           No {currentTab} information found for this university
         </div>
       </div>
@@ -239,10 +239,10 @@ const renderContent = (currentTab: string, info: any): any => {
         <div className="space-y-4">
           {info.relatedCourses.length ? (
             <div>
-              <h2 className="text-3xl font-semibold mb-4 text-brand-primary">
+              <h2 className="text-brand-primary mb-4 text-3xl font-semibold">
                 {info.college.college_name} Courses
               </h2>
-              <p className="font-normal text-lg leading-7">
+              <p className="text-lg font-normal leading-7">
                 {/* Monash University, with its 10 academic faculties, offers an
             impressive 516 programs. These include 142 undergraduate courses,
             174 graduate courses, and 71 double-degree options. Additionally,
@@ -264,13 +264,13 @@ const renderContent = (currentTab: string, info: any): any => {
                   {categoryList.map(
                     ([category, courses]: any, index: number) => (
                       <AccordionItem
-                        className="p-4 border-t-2 first-of-type:border-t-0"
+                        className="border-t-2 p-4 first-of-type:border-t-0"
                         key={index}
                         value={category}
                       >
                         <AccordionTrigger asChild>
-                          <button className="flex items-center justify-between w-full group">
-                            <span className="text-brand-primary font-medium text-lg">
+                          <button className="group flex w-full items-center justify-between">
+                            <span className="text-brand-primary text-lg font-medium">
                               <span className="flex items-center gap-4">
                                 <GraduationCap fill="currentColor" />
                                 {category.charAt(0).toUpperCase() +
@@ -279,13 +279,13 @@ const renderContent = (currentTab: string, info: any): any => {
                               </span>
                             </span>
                             <span className="ml-2 mr-2 h-4 w-4">
-                              <ChevronDown className="block group-data-[state=open]:hidden transition-transform duration-200" />
-                              <ChevronUp className="hidden group-data-[state=open]:block transition-transform duration-200" />
+                              <ChevronDown className="block transition-transform duration-200 group-data-[state=open]:hidden" />
+                              <ChevronUp className="hidden transition-transform duration-200 group-data-[state=open]:block" />
                             </span>
                           </button>
                         </AccordionTrigger>
                         <AccordionContent>
-                          <div className="grid gap-4 mt-4">
+                          <div className="mt-4 grid gap-4">
                             <Accordion
                               type="single"
                               className="w-full space-y-4"
@@ -293,34 +293,34 @@ const renderContent = (currentTab: string, info: any): any => {
                             >
                               {courses.map((course: any, index: number) => (
                                 <AccordionItem
-                                  className="bg-[#F6F6F7] shadow-sm hover:shadow-md transition-shadow duration-200 p-4 rounded-lg"
+                                  className="rounded-lg bg-[#F6F6F7] p-4 shadow-sm transition-shadow duration-200 hover:shadow-md"
                                   key={index}
                                   value={course.name}
                                 >
                                   <AccordionTrigger asChild>
-                                    <button className="flex items-center justify-between w-full group">
-                                      <span className="text-brand-primary font-medium text-lg text-start">
+                                    <button className="group flex w-full items-center justify-between">
+                                      <span className="text-brand-primary text-start text-lg font-medium">
                                         {course.name} fees details for {getYear}
                                       </span>
                                       <Button
                                         variant={"outline"}
-                                        className="text-brand-primary hover:text-blue-900 transition-colors"
+                                        className="text-brand-primary transition-colors hover:text-blue-900"
                                       >
                                         <span className="hidden sm:block">
                                           More Details
                                         </span>
-                                        <ChevronDown className="block group-data-[state=open]:hidden transition-transform duration-200" />
-                                        <ChevronUp className="hidden group-data-[state=open]:block transition-transform duration-200" />
+                                        <ChevronDown className="block transition-transform duration-200 group-data-[state=open]:hidden" />
+                                        <ChevronUp className="hidden transition-transform duration-200 group-data-[state=open]:block" />
                                       </Button>
                                     </button>
                                   </AccordionTrigger>
                                   <AccordionContent>
-                                    <div className="grid gap-4 mt-2">
+                                    <div className="mt-2 grid gap-4">
                                       <CourseCard course={course} />
                                     </div>
                                   </AccordionContent>
-                                  <div className="mt-4 flex justify-between bg-white rounded-md ">
-                                    <div className="p-2 hidden sm:flex">
+                                  <div className="mt-4 flex justify-between rounded-md bg-white">
+                                    <div className="hidden p-2 sm:flex">
                                       Total fees for all subjects including
                                       taxes
                                     </div>
@@ -328,7 +328,7 @@ const renderContent = (currentTab: string, info: any): any => {
                                       Total Fees
                                     </div>
                                     <div
-                                      className="bg-brand-secondary min-w-28 sm:min-w-40  font-bold flex items-center justify-end pr-2 rounded-r-md text-white"
+                                      className="bg-brand-secondary flex min-w-28 items-center justify-end rounded-r-md pr-2 font-bold text-white sm:min-w-40"
                                       style={{
                                         clipPath:
                                           "polygon(15px 0%, 100% 0%, 100% 100%, 0% 100%)",
@@ -346,13 +346,13 @@ const renderContent = (currentTab: string, info: any): any => {
                           </div>
                         </AccordionContent>
                       </AccordionItem>
-                    )
+                    ),
                   )}
                 </Accordion>
               </div>
             </div>
           ) : (
-            <p className="text-gray-500 p-4 bg-gray-50">
+            <p className="bg-gray-50 p-4 text-gray-500">
               No {currentTab} information found for this university
             </p>
           )}
@@ -381,7 +381,7 @@ const renderContent = (currentTab: string, info: any): any => {
 
 const CourseCard = ({ course }: any) => {
   return (
-    <div className="border rounded-lg p-4">
+    <div className="rounded-lg border p-4">
       <p className="text-gray-600">Tution Fees: {course.tution_fees}</p>
       <p className="text-gray-600">Hostel Fees: {course.hostel_fees}</p>
       <p className="text-gray-600">Other Fees: {course.other_fees}</p>
