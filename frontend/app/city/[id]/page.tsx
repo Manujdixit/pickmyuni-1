@@ -7,6 +7,7 @@ import {
 import Image from "next/image";
 import { notFound, redirect } from "next/navigation";
 import { Metadata } from "next";
+import styles from "@/app/styles/page.module.css";
 
 interface CityData {
   city: {
@@ -21,7 +22,7 @@ interface CityData {
 async function fetchCity(id: number): Promise<CityData | null> {
   try {
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/api/v1/city/${id}`
+      `${process.env.NEXT_PUBLIC_API_URL}/api/v1/city/${id}`,
     );
 
     if (!response.ok) {
@@ -133,7 +134,7 @@ export default async function PrPath({
           <div className="absolute inset-0 bg-black/40" />
           <div className="absolute inset-0 flex items-end">
             <div className="container mx-auto pb-8">
-              <h1 className="max-w-[850px] text-3xl md:text-4xl lg:text-5xl font-bold text-white">
+              <h1 className="max-w-[850px] text-3xl font-bold text-white md:text-4xl lg:text-5xl">
                 Get Enrolled in the Best Universities in {city.city.name}
               </h1>
             </div>
@@ -142,28 +143,28 @@ export default async function PrPath({
         <div className="container mx-auto my-20">
           {city.city.content && (
             <div
-              className=" prose max-w-none text-gray-700 leading-relaxed"
+              className={`styledContent ${styles.styledContent} prose max-w-none leading-relaxed text-gray-700`}
               dangerouslySetInnerHTML={{ __html: city.city.content }}
             />
           )}
         </div>
         <div className="bg-brand-primary py-24">
-          <div className="container flex flex-col lg:flex-row-reverse items-center gap-8">
+          <div className="container flex flex-col items-center gap-8 lg:flex-row-reverse">
             <div className="flex-1">
-              <h2 className="text-h1 text-white  leading-tight">
+              <h2 className="text-h1 leading-tight text-white">
                 How FindMyUni Helps You Get
                 <span className="text-brand-secondary"> Admitted</span>
               </h2>
-              <p className="text-body text-white mb-4">
+              <p className="mb-4 text-body text-white">
                 At FindMyUni, we make it easy for international students to
                 discover, compare, and apply to the best universities in
                 Melbourne Victoria. Our platform offers:
               </p>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
                 {/* High employability */}
-                <div className="flex items-center gap-3 bg-white rounded-lg p-4 shadow-md">
-                  <div className="flex-shrink-0 w-10 h-10  flex items-center justify-center">
+                <div className="flex items-center gap-3 rounded-lg bg-white p-4 shadow-md">
+                  <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center">
                     <ChartNoAxesCombined className="text-brand-primary" />
                   </div>
                   <div>
@@ -174,8 +175,8 @@ export default async function PrPath({
                 </div>
 
                 {/* Strong migration pathway */}
-                <div className="flex items-center gap-3 bg-white rounded-lg p-4 shadow-md">
-                  <div className="flex-shrink-0 w-10 h-10  flex items-center justify-center">
+                <div className="flex items-center gap-3 rounded-lg bg-white p-4 shadow-md">
+                  <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center">
                     <FileTextIcon className="text-brand-primary" />
                   </div>
                   <div>
@@ -186,8 +187,8 @@ export default async function PrPath({
                 </div>
 
                 {/* Quality education */}
-                <div className="flex items-center gap-3 bg-white rounded-lg p-4 shadow-md">
-                  <div className="flex-shrink-0 w-10 h-10  flex items-center justify-center">
+                <div className="flex items-center gap-3 rounded-lg bg-white p-4 shadow-md">
+                  <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center">
                     <GraduationCapIcon className="text-brand-primary" />
                   </div>
                   <div>
@@ -198,8 +199,8 @@ export default async function PrPath({
                 </div>
 
                 {/* Competitive salary */}
-                <div className="flex items-center gap-3 bg-white rounded-lg p-4 shadow-md">
-                  <div className="flex-shrink-0 w-10 h-10 flex items-center justify-center">
+                <div className="flex items-center gap-3 rounded-lg bg-white p-4 shadow-md">
+                  <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center">
                     <CircleDollarSign className="text-brand-primary" />
                   </div>
                   <div>
@@ -209,8 +210,8 @@ export default async function PrPath({
                   </div>
                 </div>
 
-                <div className="flex items-center gap-3 bg-white rounded-lg p-4 shadow-md">
-                  <div className="flex-shrink-0 w-10 h-10 flex items-center justify-center">
+                <div className="flex items-center gap-3 rounded-lg bg-white p-4 shadow-md">
+                  <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center">
                     <CircleDollarSign className="text-brand-primary" />
                   </div>
                   <div>
@@ -238,7 +239,7 @@ export default async function PrPath({
                   alt="Graduate student celebrating"
                   width={400}
                   height={500}
-                  className="rounded-lg w-full"
+                  className="w-full rounded-lg"
                 />
               </div>
             </div>

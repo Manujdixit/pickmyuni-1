@@ -4,6 +4,8 @@ import { ArticlesLoadingSkeleton } from "@/components/skeleton/article-skeleton"
 import { useTopArticles } from "@/hooks/useTopArticles";
 import { Button } from "../ui/button";
 import Image from "next/image";
+import moment from "moment";
+import { capitalFirst } from "@/utils/capitalFirst";
 
 interface Article {
   id: number;
@@ -16,7 +18,7 @@ interface Article {
   createdAt?: string;
   slug?: string;
   image?: string;
-  category?: string;
+  silos?: string;
 }
 
 const arr = [
@@ -41,18 +43,18 @@ export default function ArticlesSection() {
   }
 
   return (
-    <section className="py-16 bg-white">
+    <section className="bg-white py-16">
       <div className="container mx-auto px-4">
-        <h2 className="text-4xl font-semibold leading-tight text-center mb-12">
+        <h2 className="mb-12 text-center text-4xl font-semibold leading-tight">
           <span className="text-brand-primary">Recent</span>{" "}
           <span className="text-brand-secondary">Articles</span>
         </h2>
 
-        <div className="grid md:grid-cols-3 gap-8">
-          {articles?.splice(0, 3).map((article: Article) => (
+        <div className="grid gap-8 md:grid-cols-3">
+          {articles?.slice(0, 3).map((article: Article) => (
             <div
               key={article.id}
-              className="bg-[#F6F6F7] rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow"
+              className="overflow-hidden rounded-lg bg-[#F6F6F7] shadow-sm transition-shadow hover:shadow-md"
             >
               <div className="relative h-64">
                 <Image
@@ -63,43 +65,35 @@ export default function ArticlesSection() {
                 />
               </div>
               <div className="p-6">
-                <div className="flex items-center text-xs text-gray-500 mb-2">
-                  <span>{article.category || "GENERAL"}</span>
+                <div className="mb-2 flex items-center text-xs text-gray-500">
+                  <span>{capitalFirst(article?.silos) || "GENERAL"}</span>
                   <span className="mx-2">•</span>
-                  <span>
-                    {article.createdAt
-                      ? new Date(article.createdAt)
-                          .toLocaleDateString("en-US", {
-                            month: "short",
-                            day: "numeric",
-                            year: "numeric",
-                          })
-                          .toUpperCase()
-                      : "DATE NOT AVAILABLE"}
-                  </span>
+                  <span>{moment(article.createdAt).format("MMM D, YYYY")}</span>
                 </div>
-                <h3 className="font-bold text-lg text-brand-primary mb-2">
+                <h3 className="text-brand-primary mb-2 text-lg font-bold">
                   {article.title}
                 </h3>
-                <p className="text-gray-600 text-sm mb-4">
+                <p className="mb-4 text-sm text-gray-600">
                   {article.description}
                 </p>
                 <Link
                   href={`/student-resources/${article.slug}-${article.id}`}
-                  className="text-brand-secondary font-medium text-sm hover:underline"
+                  className="text-brand-secondary text-sm font-medium hover:underline"
                 >
                   Read More
                 </Link>
               </div>
             </div>
           ))}
-
-          {articles?.length > 3 && (
-            <div className="flex justify-center mt-8">
-              <Button>View All Articles</Button>
-            </div>
-          )}
         </div>
+
+        {articles?.length > 3 && (
+          <div className="mt-8 flex justify-center">
+            <Link href="/student-resources">
+              <Button>View All Articles</Button>
+            </Link>
+          </div>
+        )}
       </div>
     </section>
   );

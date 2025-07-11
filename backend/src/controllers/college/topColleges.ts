@@ -66,7 +66,7 @@ export const getTopColleges = async (req: Request, res: Response) => {
       prisma.stream.findMany({
         where: { Colleges: { some: {} } },
         select: { id: true, name: true },
-        orderBy: { name: "asc" },
+        orderBy: { score: "desc" },
       }),
     ]);
 

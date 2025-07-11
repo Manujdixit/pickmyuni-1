@@ -9,23 +9,23 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 const CityCard = ({ city }: { city: any }) => {
   return (
     <Link href={`/city/${city.slug}-${city.id}`}>
-      <Card className="flex items-center cursor-pointer hover:shadow-lg transition-shadow">
-        <CardContent className="flex items-center flex-col gap-4 p-6">
-          <div className="rounded-full bg-brand-primary w-28 h-28 flex items-center justify-center overflow-hidden">
+      <Card className="flex cursor-pointer items-center transition-shadow hover:shadow-lg">
+        <CardContent className="flex flex-col items-center gap-4 p-6">
+          <div className="bg-brand-primary flex h-28 w-28 items-center justify-center overflow-hidden rounded-full">
             <Image
               src={city.img1 || city.img2 || city.banner_img || "/vercel.svg"}
               alt={city.name + " logo"}
               width={112}
               height={112}
-              className="rounded-full h-28 w-28 object-cover"
+              className="h-28 w-28 rounded-full object-cover"
             />
           </div>
-          <div className="text-brand-primary text-h3 font-semibold text-center">
+          <div className="text-brand-primary text-center text-h3 font-semibold">
             {city.name
               .toLowerCase()
               .split(" ")
               .map(
-                (word: string) => word.charAt(0).toUpperCase() + word.slice(1)
+                (word: string) => word.charAt(0).toUpperCase() + word.slice(1),
               )
               .join(" ")}
           </div>
@@ -45,7 +45,7 @@ export default function CitiesSection() {
   const fetchCities = async () => {
     try {
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/v1/city/top`
+        `${process.env.NEXT_PUBLIC_API_URL}/api/v1/city/top`,
       );
 
       if (!response.ok) {
@@ -105,18 +105,18 @@ export default function CitiesSection() {
 
   if (loading) {
     return (
-      <section className="flex flex-col container mt-10 md:mt-16">
-        <h2 className="text-4xl font-semibold leading-tight text-center">
+      <section className="container mt-10 flex flex-col md:mt-16">
+        <h2 className="text-center text-4xl font-semibold leading-tight">
           <span className="text-brand-primary">Top Cities</span>{" "}
           <span className="text-brand-secondary">In Australia</span>
         </h2>
-        <div className="flex gap-6 overflow-hidden">
-          {Array.from({ length: 5 }).map((_, index) => (
+        <div className="flex justify-center gap-6 overflow-hidden">
+          {Array.from({ length: 7 }).map((_, index) => (
             <div key={index} className="flex-shrink-0">
               <Card className="animate-pulse">
-                <CardContent className="flex items-center flex-col gap-4 p-6">
-                  <div className="rounded-full bg-gray-300 w-28 h-28"></div>
-                  <div className="bg-gray-300 h-4 w-24 rounded"></div>
+                <CardContent className="flex flex-col items-center gap-4 p-6">
+                  <div className="h-28 w-28 rounded-full bg-gray-300"></div>
+                  <div className="h-4 w-24 rounded bg-gray-300"></div>
                 </CardContent>
               </Card>
             </div>
@@ -131,8 +131,8 @@ export default function CitiesSection() {
   }
 
   return (
-    <section className="flex flex-col container mt-10 md:mt-16">
-      <h2 className="text-3xl font-bold mb-6 text-center">
+    <section className="container mt-10 flex flex-col md:mt-16">
+      <h2 className="mb-6 text-center text-3xl font-bold">
         <span className="text-brand-primary">Top Cities</span>{" "}
         <span className="text-brand-secondary">In Australia</span>
       </h2>
@@ -142,7 +142,7 @@ export default function CitiesSection() {
         {canScrollLeft && (
           <button
             onClick={scrollLeft}
-            className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-background/80 backdrop-blur-sm border rounded-full p-2 shadow-sm hover:bg-background transition-colors"
+            className="absolute left-0 top-1/2 z-10 -translate-y-1/2 rounded-full border bg-background/80 p-2 shadow-sm backdrop-blur-sm transition-colors hover:bg-background"
             aria-label="Scroll left"
           >
             <ChevronLeft className="h-4 w-4" />
@@ -153,7 +153,7 @@ export default function CitiesSection() {
         {canScrollRight && (
           <button
             onClick={scrollRight}
-            className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-background/80 backdrop-blur-sm border rounded-full p-2 shadow-sm hover:bg-background transition-colors"
+            className="absolute right-0 top-1/2 z-10 -translate-y-1/2 rounded-full border bg-background/80 p-2 shadow-sm backdrop-blur-sm transition-colors hover:bg-background"
             aria-label="Scroll right"
           >
             <ChevronRight className="h-4 w-4" />
@@ -163,11 +163,11 @@ export default function CitiesSection() {
         {/* Scrollable Cities Container */}
         <div
           ref={scrollRef}
-          className="overflow-x-auto scrollbar-hide mx-8"
+          className="scrollbar-hide mx-8 overflow-x-auto"
           style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
           onScroll={checkScrollPosition}
         >
-          <div className="flex gap-6 w-max pb-4">
+          <div className="flex w-max gap-6 pb-4">
             {cities.map((city: any, index: number) => (
               <div key={index} className="flex-shrink-0">
                 <CityCard city={city} />

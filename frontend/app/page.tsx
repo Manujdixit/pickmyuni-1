@@ -4,13 +4,13 @@ import { WebsiteSchema } from "@/components/seo";
 
 const HeroSection = dynamic(() => import("@/components/home/Hero"));
 const UniversitiesSection = dynamic(
-  () => import("@/components/home/universities")
+  () => import("@/components/home/universities"),
 );
 const CostComparisonSection = dynamic(
-  () => import("@/components/home/costComparison")
+  () => import("@/components/home/costComparison"),
 );
 const TestimonialsSection = dynamic(
-  () => import("@/components/home/testimonials")
+  () => import("@/components/home/testimonials"),
 );
 const ProcessSection = dynamic(() => import("@/components/home/process"));
 const ArticlesSection = dynamic(() => import("@/components/home/articles"));
