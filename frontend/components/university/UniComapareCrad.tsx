@@ -1,4 +1,4 @@
-export default ({ uni }: { uni: any }) => {
+export default function UniComapareCrad({ uni }: { uni: any }) {
   return (
     <div className="rounded-lg border border-gray-200 bg-gray-50 p-4">
       <div className="grid gap-y-2 text-xs">
@@ -65,4 +65,4 @@ export default ({ uni }: { uni: any }) => {
       </div>
     </div>
   );
-};
+}
