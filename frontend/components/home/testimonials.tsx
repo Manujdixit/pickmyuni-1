@@ -30,7 +30,7 @@ const testimonialsData = [
     _id: "3",
     name: "Saniya Ahmed",
     role: "Certificate IV in Aged Care, transferring to Diploma of Community Services",
-    testimonial: `Aayush Australia: As an international student, I was overwhelmed by the number of universities, courses, and visa requirements. PickMyUni guided me every step of the way — from shortlisting the right course based on my PR goals and budget to handling the application and transfer process smoothly.
+    testimonial: `As an international student, I was overwhelmed by the number of universities, courses, and visa requirements. PickMyUni guided me every step of the way — from shortlisting the right course based on my PR goals and budget to handling the application and transfer process smoothly.
     What really stood out was how supportive and responsive their team was. They took time to understand my situation, explained everything clearly, and even helped me explore scholarship options. It didn’t feel like I was just another student — their service felt genuinely personalised.
     Thanks to PickMyUni, I’m now studying a course I enjoy at a university that fits my future goals perfectly. Highly recommend their services if you’re unsure where to begin or want honest, reliable support throughout your study journey in Australia!`,
     hasVideo: false,
@@ -72,19 +72,11 @@ const testimonialsData = [
     hasVideo: false,
   },
 ];
-const TRUNCATE_LENGTH = 250; // Characters to show before truncating
 
 export default function TestimonialsSection() {
   const scrollRef = React.useRef<HTMLDivElement>(null);
   const [canScrollLeft, setCanScrollLeft] = React.useState(false);
   const [canScrollRight, setCanScrollRight] = React.useState(true);
-  const [expandedTestimonials, setExpandedTestimonials] = React.useState<
-    Record<string, boolean>
-  >({});
-
-  const handleToggleExpand = (id: string) => {
-    setExpandedTestimonials((prev) => ({ ...prev, [id]: !prev[id] }));
-  };
 
   const checkScrollPosition = () => {
     if (scrollRef.current) {
@@ -144,85 +136,54 @@ export default function TestimonialsSection() {
         <div
           ref={scrollRef}
           onScroll={checkScrollPosition}
-          className="scrollbar-hide container mx-auto flex flex-row items-start gap-x-4 overflow-x-auto scroll-smooth"
+          className="scrollbar-hide container mx-auto flex flex-row gap-x-4 overflow-x-auto scroll-smooth"
           style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
         >
-          {testimonialsData.map((testimonial) => {
-            const isExpanded = expandedTestimonials[testimonial._id];
-            const isLongText = testimonial.testimonial.length > TRUNCATE_LENGTH;
-
-            return (
-              <div
-                key={testimonial._id}
-                className="flex h-full flex-shrink-0 flex-col"
-              >
-                {/* Testimonial speech bubble */}
-                <div className="relative mb-6 w-[320px] rounded-2xl bg-white p-6 shadow-lg transition-all duration-300 sm:w-[400px]">
-                  {testimonial.hasVideo ? (
-                    <div className="size-full">
-                      <iframe
-                        style={{ maxWidth: "200px" }}
-                        src={testimonial.videoUrl}
-                        title="YouTube video player"
-                        frameBorder="0"
-                        allowFullScreen
-                      ></iframe>
-                    </div>
-                  ) : (
-                    <div>
-                      <Quote className="mb-1 h-8 font-serif text-5xl leading-none text-gray-400 opacity-50" />
-
-                      {/* MODIFIED LOGIC HERE */}
-                      {!isLongText || isExpanded ? (
-                        <>
-                          <p className="leading-relaxed text-black">
-                            {testimonial.testimonial}
-                          </p>
-                          {isLongText && (
-                            <button
-                              onClick={() =>
-                                handleToggleExpand(testimonial._id)
-                              }
-                              className="mt-2 block text-sm font-semibold text-gray-400 hover:underline"
-                            >
-                              Read less
-                            </button>
-                          )}
-                        </>
-                      ) : (
-                        <p className="leading-relaxed text-black">
-                          {`${testimonial.testimonial.substring(
-                            0,
-                            TRUNCATE_LENGTH,
-                          )}...`}
-                          <button
-                            onClick={() => handleToggleExpand(testimonial._id)}
-                            className="ml-1 text-sm font-semibold text-gray-400 hover:underline"
-                          >
-                            Read more
-                          </button>
-                        </p>
-                      )}
-                    </div>
-                  )}
-                  {/* Speech bubble tail */}
-                  <div className="absolute -bottom-1 right-2">
-                    <div className="h-4 w-4 rotate-45 bg-white" />
+          {testimonialsData.map((testimonial, index) => (
+            <div key={testimonial._id} className="flex flex-shrink-0 flex-col">
+              {/* Testimonial speech bubble */}
+              <div className="relative mb-6 max-w-[320px] rounded-2xl bg-white p-6 shadow-lg sm:max-w-[400px]">
+                {testimonial.hasVideo ? (
+                  <div className="size-full">
+                    <iframe
+                      style={{ maxWidth: "200px" }}
+                      src={testimonial.videoUrl}
+                      title="YouTube video player"
+                      frameBorder="0"
+                      allowFullScreen
+                    ></iframe>
                   </div>
-                </div>
-
-                {/* Profile section */}
-                <div className="flex w-[320px] items-center space-x-4 sm:w-[400px]">
-                  <div>
-                    <p className="mb-1 text-base font-semibold text-white">
-                      {testimonial.name}
-                    </p>
-                    {/* <p className="text-sm text-white/80">{testimonial.role}</p> */}
+                ) : (
+                  <div className="">
+                    <Quote className="mb-1 h-8 font-serif text-5xl leading-none text-gray-400 opacity-50" />
+                    <div
+                      className="scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-transparent max-h-60 overflow-y-scroll hide-scrollbar"
+                      style={{ scrollbarGutter: "stable" }}
+                    >
+                      <p className="leading-relaxed text-black">
+                        {testimonial.testimonial}
+                      </p>
+                    </div>
                   </div>
+                )}
+                {/* Speech bubble tail */}
+                <div className="absolute -bottom-1 right-2">
+                  {/* triangle */}
+                  <div className="h-4 w-4 rotate-45 bg-white" />
                 </div>
               </div>
-            );
-          })}
+
+              {/* Profile section */}
+              <div className="flex max-w-[320px] items-center space-x-4">
+                <div>
+                  <p className="mb-1 text-base font-semibold text-white">
+                    {testimonial.name}
+                  </p>
+                  <p className="text-sm text-white/80">{testimonial.role}</p>
+                </div>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
     </section>

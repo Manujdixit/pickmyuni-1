@@ -5,14 +5,21 @@ import { prisma } from "../../lib/prisma";
  * @swagger
  * /api/v1/college/compare:
  *   get:
- *     summary: Compare colleges by ID
- *     tags: [Colleges]
- *     description: Compare colleges by ID
+ *     summary: Compare colleges by ID or course ID
+ *     tags: [Colleges, Courses]
+ *     description: Compare colleges by ID or course ID
  *     parameters:
  *       - in: query
- *         name: c1
- *         required: true
- *         description: First college ID
+ *         name: college_id
+ *         required: false
+ *         description: College ID
+ *         schema:
+ *           type: integer
+ *           example: 1
+ *       - in: query
+ *         name: course_id
+ *         required: false
+ *         description: Course ID
  *         schema:
  *           type: integer
  *           example: 1
@@ -26,34 +33,84 @@ import { prisma } from "../../lib/prisma";
  */
 export const compareColleges = async (req: Request, res: Response) => {
   try {
-    const { c1 } = req.query;
+    const { college_id, course_id } = req.query;
 
-    if (!c1) {
-      return res.status(400).json({ error: "Invalid request body" });
-    }
-
-    const college = await prisma.colleges.findUnique({
-      where: {
-        id: Number(c1),
-      },
-      include: {
-        CollegesCourses: true,
-      },
-    });
-
-    if (!college) {
-      return res.status(404).json({
+    if (!college_id && !course_id) {
+      return res.status(400).json({
         success: false,
-        message: "College not found",
+        message: "Please provide college_id or course_id",
       });
     }
 
-    res.status(200).json({
-      success: true,
-      data: {
-        college: college,
-      },
-    });
+    if (college_id && !course_id) {
+      // Return the college and its distinct courses (not CollegesCourses)
+      const collegeWithCourses = await prisma.colleges.findUnique({
+        where: {
+          id: Number(college_id),
+        },
+        include: {
+          CollegesCourses: {
+            select: {
+              course: true,
+            },
+          },
+        },
+      });
+      if (!collegeWithCourses) {
+        return res.status(404).json({
+          success: false,
+          message: "College not found",
+        });
+      }
+      // Extract unique courses from CollegesCourses
+      const seen = new Set();
+      const distinctCourses = collegeWithCourses.CollegesCourses.map(
+        (cc) => cc.course
+      ).filter((course) => {
+        if (!course) return false;
+        if (seen.has(course.id)) return false;
+        seen.add(course.id);
+        return true;
+      });
+      // Remove CollegesCourses from college object
+      const { CollegesCourses, ...college } = collegeWithCourses;
+      res.status(200).json({
+        success: true,
+        data: {
+          college,
+          streams: distinctCourses,
+        },
+      });
+    }
+
+    if (college_id && course_id) {
+      const college = await prisma.colleges.findUnique({
+        where: {
+          id: Number(college_id),
+        },
+        include: {
+          CollegesCourses: {
+            where: {
+              course_id: Number(course_id),
+            },
+          },
+        },
+      });
+
+      if (!college) {
+        return res.status(404).json({
+          success: false,
+          message: "College not found",
+        });
+      }
+
+      return res.status(200).json({
+        success: true,
+        data: {
+          college: college,
+        },
+      });
+    }
   } catch (error) {
     console.error("Error fetching college:", error);
     res.status(500).json({ error: "Internal Server Error" });

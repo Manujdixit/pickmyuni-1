@@ -1,3 +1,5 @@
+@import "./styles/hide-scrollbar.css";
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -10,9 +12,19 @@
 body {
   color: rgb(var(--foreground-rgb));
   background: rgb(var(--background-rgb));
-  font-family: var(--font-roboto), -apple-system, BlinkMacSystemFont, "Segoe UI",
-    "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans",
-    "Helvetica Neue", sans-serif;
+  font-family:
+    var(--font-roboto),
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    "Roboto",
+    "Oxygen",
+    "Ubuntu",
+    "Cantarell",
+    "Fira Sans",
+    "Droid Sans",
+    "Helvetica Neue",
+    sans-serif;
 }
 
 @layer base {
@@ -67,14 +79,14 @@ body {
     @apply border-border;
   }
   body {
-    @apply bg-background text-foreground font-sans;
+    @apply bg-background font-sans text-foreground;
   }
 }
 
 /* Custom Phone Input styles */
 
 .react-international-phone-input-container .react-international-phone-input {
-  @apply h-12 bg-gray-100 border-0 placeholder:text-gray-500 rounded-md !important;
+  @apply h-12 rounded-md border-0 bg-gray-100 placeholder:text-gray-500 !important;
   width: 100% !important;
 }
 
@@ -87,7 +99,7 @@ body {
 
 .react-international-phone-input-container
   .react-international-phone-input-native {
-  @apply h-12 bg-gray-100 border-0 placeholder:text-gray-500 !important;
+  @apply h-12 border-0 bg-gray-100 placeholder:text-gray-500 !important;
   border: none !important;
   padding-left: 10px !important;
   font-size: 1rem !important;
@@ -99,34 +111,34 @@ body {
   .react-international-phone-country-selector-button,
 .react-international-phone-input-container.disabled
   .react-international-phone-input-native {
-  @apply opacity-50 cursor-not-allowed !important;
+  @apply cursor-not-allowed opacity-50 !important;
 }
 
 /* Custom Tailwind Component Classes */
 @layer components {
   /* Button Variants */
   .btn-primary {
-    @apply bg-[#2C5680] hover:bg-[#1e3a56] text-white font-medium py-3 px-6 rounded-lg transition-colors duration-200 shadow-sm;
+    @apply rounded-lg bg-[#2C5680] px-6 py-3 font-medium text-white shadow-sm transition-colors duration-200 hover:bg-[#1e3a56];
   }
 
   .btn-secondary {
-    @apply bg-[#FF882E] hover:bg-[#e6741a] text-white font-medium py-3 px-6 rounded-lg transition-colors duration-200 shadow-sm;
+    @apply rounded-lg bg-[#FF882E] px-6 py-3 font-medium text-white shadow-sm transition-colors duration-200 hover:bg-[#e6741a];
   }
 
   .btn-outline {
-    @apply border-2 border-[#2C5680] text-[#2C5680] hover:bg-[#2C5680] hover:text-white font-medium py-3 px-6 rounded-lg transition-all duration-200;
+    @apply rounded-lg border-2 border-[#2C5680] px-6 py-3 font-medium text-[#2C5680] transition-all duration-200 hover:bg-[#2C5680] hover:text-white;
   }
 
   .btn-ghost {
-    @apply text-[#242628] hover:bg-[#EAFDF5] hover:text-[#2C5680] font-medium py-2 px-4 rounded-md transition-colors duration-200;
+    @apply rounded-md px-4 py-2 font-medium text-[#242628] transition-colors duration-200 hover:bg-[#EAFDF5] hover:text-[#2C5680];
   }
 
   .btn-sm {
-    @apply py-2 px-4 text-sm;
+    @apply px-4 py-2 text-sm;
   }
 
   .btn-lg {
-    @apply py-4 px-8 text-lg;
+    @apply px-8 py-4 text-lg;
   }
 
   /* Typography Classes */
@@ -193,16 +205,16 @@ body {
 
   /* Layout Components */
   .section-padding {
-    @apply py-16 px-4 sm:px-6 lg:px-8;
+    @apply px-4 py-16 sm:px-6 lg:px-8;
   }
 
   .grid-auto-fit {
-    @apply grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6;
+    @apply grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4;
   }
 
   /* Navigation Components */
   .nav-link {
-    @apply text-[#242628] hover:text-[#2C5680] font-medium py-2 px-4 rounded-md transition-colors duration-200;
+    @apply rounded-md px-4 py-2 font-medium text-[#242628] transition-colors duration-200 hover:text-[#2C5680];
   }
 
   .nav-link-active {
@@ -211,31 +223,31 @@ body {
 
   /* Content Components */
   .title {
-    @apply text-[46px] font-bold text-[#2C5680] mb-6 leading-tight;
+    @apply mb-6 text-[46px] font-bold leading-tight text-[#2C5680];
   }
 
   .sub-title {
-    @apply text-[36px] font-semibold text-[#2C5680] mb-4 leading-tight;
+    @apply mb-4 text-[36px] font-semibold leading-tight text-[#2C5680];
   }
 
   .tag-h3 {
-    @apply text-[30px] font-semibold text-[#2C5680] mb-3 mt-6 leading-tight;
+    @apply mb-3 mt-6 text-[30px] font-semibold leading-tight text-[#2C5680];
   }
 
   .tag-h4 {
-    @apply text-[26px] font-semibold text-[#2C5680] mb-3 mt-5 leading-tight;
+    @apply mb-3 mt-5 text-[26px] font-semibold leading-tight text-[#2C5680];
   }
 
   .tag-h5 {
-    @apply text-[20px] font-semibold text-[#2C5680] mb-2 mt-4 leading-tight;
+    @apply mb-2 mt-4 text-[20px] font-semibold leading-tight text-[#2C5680];
   }
 
   .tag-h6 {
-    @apply text-[18px] font-medium text-[#2C5680] mb-2 mt-3 leading-tight;
+    @apply mb-2 mt-3 text-[18px] font-medium leading-tight text-[#2C5680];
   }
 
   .content-item {
-    @apply text-[16px] leading-relaxed text-[#242628] mb-4;
+    @apply mb-4 text-[16px] leading-relaxed text-[#242628];
   }
 
   .article-content-body {
@@ -243,7 +255,7 @@ body {
   }
 
   .article-content-body p {
-    @apply text-[16px] leading-relaxed text-[#242628] mb-4;
+    @apply mb-4 text-[16px] leading-relaxed text-[#242628];
   }
 
   .article-content-body img {
@@ -252,11 +264,11 @@ body {
 
   /* List Styles */
   .unordered-list {
-    @apply list-disc list-inside space-y-2 mb-4 ml-4;
+    @apply mb-4 ml-4 list-inside list-disc space-y-2;
   }
 
   .unordered-list li {
-    @apply text-[16px] leading-relaxed text-[#242628] pl-2;
+    @apply pl-2 text-[16px] leading-relaxed text-[#242628];
   }
 
   .unordered-list li::marker {
@@ -264,20 +276,20 @@ body {
   }
 
   .ordered-list {
-    @apply list-decimal list-inside space-y-2 mb-4 ml-4;
+    @apply mb-4 ml-4 list-inside list-decimal space-y-2;
   }
 
   .ordered-list li {
-    @apply text-[16px] leading-relaxed text-[#242628] pl-2;
+    @apply pl-2 text-[16px] leading-relaxed text-[#242628];
   }
 
   .ordered-list li::marker {
-    @apply text-[#242628] font-semibold;
+    @apply font-semibold text-[#242628];
   }
 
   /* Table Styles */
   .table-container {
-    @apply w-full overflow-x-auto mb-6 rounded-lg;
+    @apply mb-6 w-full overflow-x-auto rounded-lg;
     /* Add custom scrollbar styling */
     scrollbar-width: thin;
     scrollbar-color: #2c5680 #f1f1f1;
