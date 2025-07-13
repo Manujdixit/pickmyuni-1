@@ -154,7 +154,10 @@ export default function UniversityComparisonForm() {
                   uni.collegeId ? (
                     <UniComapareCrad key={uni.id} uni={uni} />
                   ) : (
-                    <div className="flex h-full min-h-[120px] flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 p-6 text-gray-400">
+                    <div
+                      className="flex h-full min-h-[120px] flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 p-6 text-gray-400"
+                      key={uni.id}
+                    >
                       <University className="mb-2 h-8 w-8 text-gray-300" />
                       <span className="font-medium">No College available</span>
                     </div>
