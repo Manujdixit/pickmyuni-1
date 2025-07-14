@@ -129,6 +129,13 @@ enum CourseLevel {
   doctorate
   certificate
   other
+  graduate_certificate
+  post_graduate_certificate
+  graduate_diploma
+  post_graduate_diploma
+  elicos
+  associate_degree
+  advanced_diploma
 }
 
 model CollegewiseContent {

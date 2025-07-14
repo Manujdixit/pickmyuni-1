@@ -49,6 +49,11 @@ export const collegeSearch = async (req: Request, res: Response) => {
           id: true,
           college_name: true,
           slug: true,
+          location: true,
+          rating: true,
+        },
+        orderBy: {
+          score: "desc",
         },
       }),
     ]);

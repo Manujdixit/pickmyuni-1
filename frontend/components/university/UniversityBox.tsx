@@ -108,7 +108,7 @@ export default function UniversityBox({
       {canDelete && onDelete && (
         <button
           onClick={onDelete}
-          className="absolute right-1 top-1 z-10 flex h-6 w-6 items-center justify-center text-black transition-colors hover:text-red-500"
+          className="absolute right-1 top-1 z-50 flex h-6 w-6 items-center justify-center text-black transition-colors hover:text-red-500"
         >
           <X className="h-3 w-3" />
         </button>
@@ -125,7 +125,13 @@ export default function UniversityBox({
       >
         <SelectTrigger className="h-12 w-full">
           <SelectValue
-            placeholder={loading ? "Loading courses..." : "Select Course"}
+            placeholder={
+              loading
+                ? "Loading courses..."
+                : !streams.length && selectedCollegeId
+                  ? "N/A"
+                  : "Select Course"
+            }
           />
         </SelectTrigger>
         <SelectContent>
