@@ -308,7 +308,7 @@ export default function PrivacyPage() {
         />
         <div className="absolute inset-0 bg-black/40" />
         <div className="absolute inset-0 flex items-end">
-          <div className="container mx-auto px-4 pb-8">
+          <div className="container mx-auto pb-8">
             <h1 className="text-3xl font-bold text-white md:text-4xl lg:text-5xl">
               Level 1 Universities in Australia​
             </h1>
@@ -317,7 +317,7 @@ export default function PrivacyPage() {
       </div>
 
       {/* Main Content */}
-      <div className="container mx-auto space-y-20 px-4 py-12 lg:py-16">
+      <div className="container mx-auto space-y-20 py-12 lg:py-16">
         {/* Header Section */}
         <p className="text-lg font-normal">
           Australia is renowned for its world-class education system, attracting
@@ -447,7 +447,7 @@ export default function PrivacyPage() {
           </div>{" "}
         </div>
       </section>
-      <div className="container mx-auto space-y-20 px-4 py-12 lg:py-16">
+      <div className="container mx-auto space-y-20 py-12 lg:py-16">
         <section className="py-13 flex flex-col items-center justify-center bg-[#FAF4F0] p-8 text-center">
           <h2 className="text-brand-primary mb-4 max-w-[800px] text-center text-4xl font-semibold">
             How FindMyUni Helps International Students to get into{" "}
