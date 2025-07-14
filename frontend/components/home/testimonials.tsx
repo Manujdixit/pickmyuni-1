@@ -157,7 +157,7 @@ export default function TestimonialsSection() {
                   <div className="">
                     <Quote className="mb-1 h-8 font-serif text-5xl leading-none text-gray-400 opacity-50" />
                     <div
-                      className="scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-transparent max-h-60 overflow-y-scroll hide-scrollbar"
+                      className="scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-transparent hide-scrollbar max-h-60 overflow-y-scroll"
                       style={{ scrollbarGutter: "stable" }}
                     >
                       <p className="leading-relaxed text-black">

@@ -20,7 +20,7 @@ export type UniversityBoxProps = {
   setSelectedCollege?: (collegeId: string | null, collegeName: string) => void;
   selectedStreamId?: string | null;
   selectedStreamName?: string;
-  // setSelectedStream?: (streamId: string | null, streamName: string) => void;
+  setSelectedStream?: (streamId: string | null, streamName: string) => void;
   setUniversityData: (data: any) => void;
   onDelete?: () => void;
   canDelete?: boolean;
@@ -32,7 +32,7 @@ export default function UniversityBox({
   setSelectedCollege,
   selectedStreamId,
   selectedStreamName,
-  // setSelectedStream,
+  setSelectedStream,
   setUniversityData,
   onDelete,
   canDelete = false,
@@ -40,7 +40,9 @@ export default function UniversityBox({
   const { streams, loading } = useOnlyCollegeIdCompare(
     selectedCollegeId || null,
   );
-  const [selectedStream, setSelectedStream] = useState<string | null>(null);
+  const [selectedStreamLocal, setSelectedStreamLocal] = useState<string | null>(
+    selectedStreamId || null,
+  );
 
   // Fetch college+course comparison when both are selected
   const {
@@ -49,7 +51,7 @@ export default function UniversityBox({
     error: courseCompareError,
   } = useCollegeCourseCompare(
     selectedCollegeId || null,
-    selectedStream || null,
+    selectedStreamLocal || null,
   );
 
   useEffect(() => {
@@ -59,9 +61,44 @@ export default function UniversityBox({
   }, [collegeCourseData]);
 
   useEffect(() => {
-    // Reset stream when university changes
-    setSelectedStream(null);
-  }, [selectedCollegeId, streams]);
+    // Reset stream when university changes, but preserve if selectedStreamId is provided
+    if (!selectedStreamId) {
+      setSelectedStreamLocal(null);
+      if (setSelectedStream) {
+        setSelectedStream(null, "");
+      }
+    }
+  }, [selectedCollegeId, streams]); // Remove setSelectedStream from dependencies
+
+  // Update local state when prop changes
+  useEffect(() => {
+    setSelectedStreamLocal(selectedStreamId || null);
+  }, [selectedStreamId]);
+
+  // Set stream when streams are loaded and selectedStreamId is available
+  useEffect(() => {
+    if (selectedStreamId && streams.length > 0 && setSelectedStream) {
+      const selectedStreamObj = streams.find(
+        (stream) => String(stream.id) === selectedStreamId,
+      );
+      if (
+        selectedStreamObj &&
+        selectedStreamObj.course_name !== selectedStreamName
+      ) {
+        setSelectedStream(selectedStreamId, selectedStreamObj.course_name);
+      }
+    }
+  }, [streams, selectedStreamId, selectedStreamName, setSelectedStream]);
+
+  const handleStreamChange = (value: string) => {
+    setSelectedStreamLocal(value);
+    if (setSelectedStream) {
+      const selectedStreamObj = streams.find(
+        (stream) => String(stream.id) === value,
+      );
+      setSelectedStream(value, selectedStreamObj?.course_name || "");
+    }
+  };
 
   return (
     <div
@@ -71,7 +108,7 @@ export default function UniversityBox({
       {canDelete && onDelete && (
         <button
           onClick={onDelete}
-          className="absolute right-2 top-1 z-10 flex h-6 w-6 items-center justify-center rounded-full text-red-500 shadow-md transition-colors hover:bg-red-500 hover:text-white"
+          className="absolute right-1 top-1 z-50 flex h-6 w-6 items-center justify-center text-black transition-colors hover:text-red-500"
         >
           <X className="h-3 w-3" />
         </button>
@@ -83,12 +120,18 @@ export default function UniversityBox({
         }}
       />
       <Select
-        onValueChange={(value) => setSelectedStream(value)}
-        value={selectedStream || ""}
+        onValueChange={handleStreamChange}
+        value={selectedStreamLocal || ""}
       >
         <SelectTrigger className="h-12 w-full">
           <SelectValue
-            placeholder={loading ? "Loading courses..." : "Select Course"}
+            placeholder={
+              loading
+                ? "Loading courses..."
+                : !streams.length && selectedCollegeId
+                  ? "N/A"
+                  : "Select Course"
+            }
           />
         </SelectTrigger>
         <SelectContent>

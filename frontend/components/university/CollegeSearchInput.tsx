@@ -1,6 +1,7 @@
 import { Input } from "@/components/ui/input";
-import { Search } from "lucide-react";
+import { Search, Star } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
+import { createPortal } from "react-dom";
 import { useUniSearch } from "@/hooks/useUniSearch";
 
 export default function CollegeSearchInput({
@@ -64,7 +65,7 @@ export default function CollegeSearchInput({
       <Input
         ref={inputRef}
         placeholder="Enter name of university"
-        className="h-12 pl-4 pr-10"
+        className="h-10 pl-4 pr-10 text-sm"
         value={inputValue}
         onChange={handleInputChange}
         onFocus={() => {
@@ -73,30 +74,67 @@ export default function CollegeSearchInput({
         }}
         autoComplete="off"
       />
-      <Search className="absolute right-3 top-3 h-6 w-6 text-gray-400" />
-      {dropdownOpen && (
-        <div className="absolute left-0 top-14 z-20 max-h-60 w-full overflow-y-auto rounded-md border bg-white shadow-lg">
-          {loading && (
-            <div className="px-4 py-2 text-gray-500">Searching...</div>
-          )}
-          {!loading &&
-            results.colleges.length === 0 &&
-            inputValue.trim().length > 0 && (
-              <div className="px-4 py-2 text-gray-500">No results found</div>
-            )}
-          {results.colleges.map((college) => (
-            <div
-              key={college.id}
-              className="cursor-pointer px-4 py-2 hover:bg-gray-100"
-              onMouseDown={() =>
-                handleSelectCollege(college.college_name, String(college.id))
-              }
-            >
-              {college.college_name}
-            </div>
-          ))}
-        </div>
-      )}
+      <Search className="absolute right-3 top-3 h-4 w-4 text-gray-400" />
+      {dropdownOpen &&
+        typeof window !== "undefined" &&
+        createPortal(
+          (() => {
+            // Calculate dropdown position
+            const inputRect = inputRef.current?.getBoundingClientRect();
+            const width = inputRect?.width || 0;
+            const left = inputRect?.left || 0;
+            const top = inputRect?.bottom || 0;
+            return (
+              <div
+                style={{
+                  position: "fixed",
+                  left,
+                  top,
+                  width,
+                  zIndex: 9999,
+                }}
+                className="max-h-60 overflow-y-auto rounded-md border bg-white shadow-lg"
+              >
+                {loading && (
+                  <div className="px-4 py-2 text-gray-500">Searching...</div>
+                )}
+                {!loading &&
+                  results.colleges.length === 0 &&
+                  inputValue.trim().length > 0 && (
+                    <div className="px-4 py-2 text-gray-500">
+                      No results found
+                    </div>
+                  )}
+                {results.colleges.map((college) => (
+                  <div
+                    key={college.id}
+                    className="cursor-pointer border px-4 py-2 hover:bg-gray-100"
+                    onMouseDown={() =>
+                      handleSelectCollege(
+                        college.college_name,
+                        String(college.id),
+                      )
+                    }
+                  >
+                    <div className="flex justify-between">
+                      <span className="line-clamp-1">
+                        {college.college_name}
+                      </span>
+                      <div className="flex flex-row gap-1 text-xs">
+                        <Star className="size-4 text-yellow-500" />
+                        {college.rating / 2}
+                      </div>
+                    </div>
+                    <span className="font-mdeium line-clamp-1 text-xs text-gray-500">
+                      {college.location}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            );
+          })(),
+          document.body,
+        )}
     </div>
   );
 }
