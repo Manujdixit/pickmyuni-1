@@ -240,9 +240,11 @@ const accordionData = [
   },
 ];
 
-const sec1Cards = (data: any) => {
+const sec1Cards = (data: any, fullHeight = false) => {
   return (
-    <div className="space-y-2 bg-[#F6F6F7] p-4 shadow hover:shadow-md">
+    <div
+      className={`flex w-full flex-col items-center space-y-2 bg-[#F6F6F7] p-4 shadow hover:shadow-md ${fullHeight ? "h-full" : ""}`}
+    >
       <span>
         <HelpCircle className="text-brand-secondary h-20 w-20" />
       </span>
@@ -254,7 +256,7 @@ const sec1Cards = (data: any) => {
 
 const sec2Cards = (data: any, idx: number) => {
   return (
-    <div className="space-y-2 bg-[#F6F6F7] shadow hover:shadow-md">
+    <div className="space-y-2">
       <div className="relative mb-2 h-48 w-full">
         <Image
           src={
@@ -282,7 +284,7 @@ const sec2Cards = (data: any, idx: number) => {
 
 const sec3Cards = (data: any) => {
   return (
-    <div className="space-y-2 rounded-2xl bg-[#F6F6F7] p-4 shadow hover:shadow-md">
+    <div className="space-y-2">
       <span>
         <HelpCircle className="text-brand-secondary h-20 w-20" />
       </span>
@@ -343,8 +345,11 @@ export default function PrivacyPage() {
           </p>
           <div className="mt-8 grid gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-3">
             {sec1CardData.map((data, idx) => (
-              <div key={idx} className="flex flex-col items-center">
-                {sec1Cards(data)}
+              <div
+                key={idx}
+                className="flex h-full flex-col items-center bg-[#F6F6F7]"
+              >
+                {sec1Cards(data, true)}
               </div>
             ))}
           </div>
@@ -362,7 +367,10 @@ export default function PrivacyPage() {
           </p>
           <div className="mt-8 grid gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-3">
             {sec2CardData.map((data, idx) => (
-              <div key={idx} className="flex flex-col items-center">
+              <div
+                key={idx}
+                className="flex h-full flex-col items-center bg-[#F6F6F7] shadow hover:shadow-md"
+              >
                 {sec2Cards(data, idx)}
               </div>
             ))}
@@ -428,7 +436,10 @@ export default function PrivacyPage() {
             </p>
             <div className="mt-8 grid gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-3">
               {sec3CardData.map((data, idx) => (
-                <div key={idx} className="flex flex-col items-center">
+                <div
+                  key={idx}
+                  className="flex h-full flex-col items-center rounded-2xl bg-white p-4 shadow hover:shadow-md"
+                >
                   {sec3Cards(data)}
                 </div>
               ))}
