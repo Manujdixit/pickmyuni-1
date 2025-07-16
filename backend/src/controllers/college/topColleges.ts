@@ -48,8 +48,9 @@ export const getTopColleges = async (req: Request, res: Response) => {
           college_name: true,
           slug: true,
           avg_fees_in_aud: true,
-          pr_pathway: true,
-          intake_start_date: true,
+          level: true,
+          type: true,
+          intake: true,
           location: true,
           score: true,
           _count: {

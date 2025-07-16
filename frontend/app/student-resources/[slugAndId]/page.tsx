@@ -87,10 +87,10 @@ export async function generateMetadata({
       siteName: "PickMyUni",
       type: "article",
       publishedTime: article.createdAt,
-      images: article.image
+      images: article.img1
         ? [
             {
-              url: article.image,
+              url: article.img1,
               width: 1200,
               height: 630,
               alt: article.title,
@@ -102,7 +102,7 @@ export async function generateMetadata({
       card: "summary_large_image",
       title: article.title,
       description: article.meta_desc || article.title,
-      images: article.image ? [article.image] : [],
+      images: article.img1 ? [article.img1] : [],
     },
     alternates: {
       canonical: articleUrl,

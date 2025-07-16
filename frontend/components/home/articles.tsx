@@ -6,6 +6,7 @@ import { Button } from "../ui/button";
 import Image from "next/image";
 import moment from "moment";
 import { capitalFirst } from "@/utils/capitalFirst";
+import { silosMap } from "../RecentArticles";
 
 interface Article {
   id: number;
@@ -17,8 +18,8 @@ interface Article {
   published_date?: string;
   createdAt?: string;
   slug?: string;
-  image?: string;
-  silos?: string;
+  img1?: string;
+  silos: string;
 }
 
 const arr = [
@@ -58,7 +59,7 @@ export default function ArticlesSection() {
             >
               <div className="relative h-64">
                 <Image
-                  src={article.image || randomImage()}
+                  src={article.img1 || randomImage()}
                   alt={article.title}
                   fill
                   className="object-cover"
@@ -66,7 +67,7 @@ export default function ArticlesSection() {
               </div>
               <div className="p-6">
                 <div className="mb-2 flex items-center text-xs text-gray-500">
-                  <span>{capitalFirst(article?.silos) || "GENERAL"}</span>
+                  <span>{silosMap[article.silos] || article.silos}</span>
                   <span className="mx-2">•</span>
                   <span>{moment(article.createdAt).format("MMM D, YYYY")}</span>
                 </div>

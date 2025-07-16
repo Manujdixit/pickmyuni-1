@@ -45,6 +45,7 @@ export const relatedCourses = async (req: Request, res: Response) => {
           duration_in_months: true,
           tution_fees: true,
           hostel_fees: true,
+          one_time_fees: true,
           other_fees: true,
           level: true,
         },

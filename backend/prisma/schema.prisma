@@ -199,6 +199,11 @@ enum ArticlesSilos {
   course
   blog
   other
+  universities
+  fees_scholarships_and_costs
+  international_student_essentials
+  transfers_and_migration_advice
+  application_admissions_and_compliance
 }
 
 model LeadForm {

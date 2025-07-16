@@ -122,7 +122,7 @@ export default function CollegeSearchInput({
                       </span>
                       <div className="flex flex-row gap-1 text-xs">
                         <Star className="size-4 text-yellow-500" />
-                        {college.rating / 2}
+                        {college.rating}
                       </div>
                     </div>
                     <span className="font-mdeium line-clamp-1 text-xs text-gray-500">

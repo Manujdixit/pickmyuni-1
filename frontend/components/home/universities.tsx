@@ -9,6 +9,7 @@ import { UniversitiesLoadingSkeleton } from "@/components/skeleton/university-sk
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import Link from "next/link";
 import { tagSanatize } from "@/utils/tagsanatize";
+import { capitalFirst } from "@/utils/capitalFirst";
 
 export default function UniversitiesSection() {
   const [activeCategory, setActiveCategory] = useState("All");
@@ -53,9 +54,9 @@ export default function UniversitiesSection() {
   }
 
   return (
-    <section className="py-16 bg-gray-50">
+    <section className="bg-gray-50 py-16">
       <div className="container mx-auto">
-        <h2 className="text-4xl leading-tight font-semibold text-center mb-8">
+        <h2 className="mb-8 text-center text-4xl font-semibold leading-tight">
           <span className="text-brand-primary">Top Affordable</span>{" "}
           <span className="text-brand-secondary">Universities</span>
         </h2>
@@ -66,7 +67,7 @@ export default function UniversitiesSection() {
           {canScrollLeft && (
             <button
               onClick={scrollLeft}
-              className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-background/80 backdrop-blur-sm border rounded-full p-2 shadow-sm hover:bg-background transition-colors"
+              className="absolute left-0 top-1/2 z-10 -translate-y-1/2 rounded-full border bg-background/80 p-2 shadow-sm backdrop-blur-sm transition-colors hover:bg-background"
               aria-label="Scroll left"
             >
               <ChevronLeft className="h-4 w-4" />
@@ -77,7 +78,7 @@ export default function UniversitiesSection() {
           {canScrollRight && (
             <button
               onClick={scrollRight}
-              className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-background/80 backdrop-blur-sm border rounded-full p-2 shadow-sm hover:bg-background transition-colors"
+              className="absolute right-0 top-1/2 z-10 -translate-y-1/2 rounded-full border bg-background/80 p-2 shadow-sm backdrop-blur-sm transition-colors hover:bg-background"
               aria-label="Scroll right"
             >
               <ChevronRight className="h-4 w-4" />
@@ -87,19 +88,19 @@ export default function UniversitiesSection() {
           {/* Scrollable Categories Container */}
           <div
             ref={scrollRef}
-            className="overflow-x-auto scrollbar-hide mx-8"
+            className="scrollbar-hide mx-8 overflow-x-auto"
             style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
             onScroll={checkScrollPosition}
           >
-            <div className="flex gap-4 w-max">
+            <div className="flex w-max gap-4">
               {streams?.map((category) => (
                 <button
                   key={category.id}
                   className={cn(
-                    "px-4 py-2 rounded-full text-sm font-medium transition-colors whitespace-nowrap flex-shrink-0",
+                    "flex-shrink-0 whitespace-nowrap rounded-full px-4 py-2 text-sm font-medium transition-colors",
                     activeCategory === category.name
                       ? "bg-brand-secondary text-white"
-                      : "bg-white text-gray-600 hover:bg-gray-100"
+                      : "bg-white text-gray-600 hover:bg-gray-100",
                   )}
                   onClick={() => setActiveCategory(category.name)}
                 >
@@ -111,27 +112,27 @@ export default function UniversitiesSection() {
         </div>
 
         {/* University Cards */}
-        <div className="flex justify-center items-center">
+        <div className="flex items-center justify-center">
           {loading ? (
             <UniversitiesLoadingSkeleton />
           ) : (
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-10">
+            <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-3">
               {universities?.map((uni) => (
                 <div
                   key={uni.id}
-                  className="bg-white rounded-lg shadow-md overflow-hidden flex flex-col"
+                  className="flex flex-col overflow-hidden rounded-lg bg-white shadow-md"
                 >
-                  <div className="p-6 flex-1">
-                    <div className="flex items-center mb-4 gap-4">
+                  <div className="flex-1 p-6">
+                    <div className="mb-4 flex items-center gap-4">
                       <Image
                         src={
                           "https://pickmyuni-bucket.s3.ap-southeast-2.amazonaws.com/collegelogo/" +
                             uni?.logo_url || "/vercel.svg"
                         }
-                        alt={uni?.college_name}
+                        alt={uni?.college_name?.slice(0, 10)}
                         width={60}
                         height={60}
-                        className="object-contain rounded-full"
+                        className="rounded-full object-contain"
                       />
                       <div>
                         <Link
@@ -139,7 +140,7 @@ export default function UniversitiesSection() {
                             uni.id
                           }/info`}
                         >
-                          <h3 className="font-bold text-brand-primary text-lg leading-tight">
+                          <h3 className="text-brand-primary line-clamp-2 text-lg font-bold leading-tight">
                             {uni.college_name}
                           </h3>
                         </Link>
@@ -147,45 +148,41 @@ export default function UniversitiesSection() {
                       </div>
                     </div>
 
-                    <div className="flex justify-between items-center rounded-sm overflow-hidden bg-orange-50 mb-2">
+                    <div className="mb-2 flex items-center justify-between overflow-hidden rounded-sm bg-orange-50">
                       <div className="text-brand-secondary p-2 font-normal">
                         Tuitions Start From
                       </div>
-                      <div className="bg-orange-400 text-white p-2 font-medium">
-                        $
+                      <div className="bg-orange-400 p-2 font-medium text-white">
                         {uni.avg_fees_in_aud
-                          ? uni.avg_fees_in_aud.toLocaleString()
-                          : "N/A"}
-                        /year
+                          ? `AUD ${uni.avg_fees_in_aud.toLocaleString()}/year`
+                          : "AUD -/year"}
                       </div>
                     </div>
 
                     <div className="flex flex-col text-sm">
                       <div className="grid grid-cols-[100px_1fr] gap-1">
-                        <p className="text-gray-500">PR Pathway:</p>
+                        <p className="text-gray-500">Type:</p>
                         <p className="font-medium">
-                          {uni.pr_pathway ? "Yes" : "No"}
+                          {capitalFirst(uni.type) || "-"}
                         </p>
 
                         <p className="text-gray-500">Intakes:</p>
-                        <p className="font-medium">
-                          {uni.intake_start_date
-                            ? new Date(
-                                uni.intake_start_date
-                              ).toLocaleDateString()
-                            : "N/A"}
+                        <p className="line-clamp-1 font-medium">
+                          {uni.intake || "-"}
                         </p>
 
                         <p className="text-gray-500">Courses:</p>
                         <p className="font-medium">
-                          {uni.count_collegewise_course || "N/A"}
+                          {uni.count_collegewise_course > 0
+                            ? uni.count_collegewise_course + " +"
+                            : "-"}
                         </p>
                       </div>
                     </div>
                   </div>
                   <Button
                     variant="ghost"
-                    className="w-full text-gray-600 bg-gray-100 hover:bg-gray-200 font-medium mt-auto"
+                    className="mt-auto w-full bg-gray-100 font-medium text-gray-600 hover:bg-gray-200"
                   >
                     Check Transfer Options
                   </Button>
@@ -195,7 +192,7 @@ export default function UniversitiesSection() {
           )}
         </div>
 
-        <div className="flex justify-center mt-8">
+        <div className="mt-8 flex justify-center">
           <Link href="/university">
             <Button>View All Universities</Button>
           </Link>

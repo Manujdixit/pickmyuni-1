@@ -21,7 +21,7 @@ export interface Article {
   meta_desc: string;
   silos: string;
   content: string;
-  image?: string;
+  img1?: string;
   createdAt: string;
   slug: string;
 }

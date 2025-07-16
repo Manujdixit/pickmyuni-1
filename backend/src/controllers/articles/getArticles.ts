@@ -76,6 +76,7 @@ export const getAllArticlesNew = async (req: Request, res: Response) => {
           title: true,
           content: true,
           createdAt: true,
+          img1: true,
         },
         skip,
         take,
