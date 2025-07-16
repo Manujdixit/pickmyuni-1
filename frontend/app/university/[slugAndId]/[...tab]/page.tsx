@@ -334,10 +334,12 @@ const renderContent = (currentTab: string, info: any): any => {
                                           "polygon(15px 0%, 100% 0%, 100% 100%, 0% 100%)",
                                       }}
                                     >
-                                      {course.tution_fees +
+                                      AUD{" "}
+                                      {(
+                                        course.tution_fees +
                                         course.hostel_fees +
-                                        course.other_fees}{" "}
-                                      AUD
+                                        course.other_fees
+                                      ).toLocaleString()}{" "}
                                     </div>
                                   </div>
                                 </AccordionItem>
@@ -382,10 +384,39 @@ const renderContent = (currentTab: string, info: any): any => {
 const CourseCard = ({ course }: any) => {
   return (
     <div className="rounded-lg border p-4">
-      <p className="text-gray-600">Tution Fees: {course.tution_fees}</p>
-      <p className="text-gray-600">Hostel Fees: {course.hostel_fees}</p>
-      <p className="text-gray-600">Other Fees: {course.other_fees}</p>
-      <p className="text-gray-600">Duration: {course.duration_in_months}</p>
+      <p className="text-gray-600">
+        Tution Fees:{" "}
+        {course.tution_fees != null
+          ? `AUD ${course.tution_fees.toLocaleString()}`
+          : "-"}
+      </p>
+      <p className="text-gray-600">
+        Non Tution Fees:{" "}
+        {course.hostel_fees != null
+          ? `AUD ${course.hostel_fees.toLocaleString()}`
+          : "-"}
+      </p>
+      <p className="text-gray-600">
+        Other Fees:{" "}
+        {course.other_fees != null
+          ? `AUD ${course.other_fees.toLocaleString()}`
+          : "-"}
+      </p>
+      <p className="text-gray-600">
+        Total Estimated Fees:{" "}
+        {course.one_time_fees != null
+          ? `AUD ${course.one_time_fees.toLocaleString()}`
+          : "-"}
+      </p>
+      {/* <p className="text-gray-600">
+        Estimated Total Fees: {course.other_fees?.toLocaleString?.()}
+      </p> */}
+      <p className="text-gray-600">
+        Duration:{" "}
+        {course.duration_in_months != null
+          ? `${course.duration_in_months.toLocaleString()} Weeks`
+          : "-"}
+      </p>
     </div>
   );
 };

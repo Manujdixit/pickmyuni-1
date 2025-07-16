@@ -16,6 +16,20 @@ function stripHtmlAndTruncate(html: string): string {
   return text;
 }
 
+export const silosMap: Record<string, string> = {
+  news: "News",
+  exam: "Exam",
+  course: "Course",
+  blog: "Blog",
+  other: "Other",
+  universities: "Universities",
+  fees_scholarships_and_costs: "Fees, Scholarships, & Costs",
+  international_student_essentials: "International Student Essentials",
+  transfers_and_migration_advice: "Transfers & Migration Advice",
+  application_admissions_and_compliance:
+    "Application, Admissions, & Compliance",
+};
+
 function RecentArticles() {
   const isLoadingRef = useRef(false);
   const [selectedSilo, setSelectedSilo] = useState<string>("all");
@@ -70,6 +84,8 @@ function RecentArticles() {
     selectedSilo === "all"
       ? articles
       : articles.filter((article) => article.silos === selectedSilo);
+
+  console.log({ filteredArticles });
 
   // Scroll event handler
   const handleScroll = useCallback(() => {
@@ -206,7 +222,7 @@ function RecentArticles() {
                       value={silo}
                       className="flex-shrink-0 whitespace-nowrap px-4 py-2 text-sm"
                     >
-                      {silo.toUpperCase()}
+                      {silosMap[silo] || silo}
                     </TabsTrigger>
                   ))}
                 </TabsList>
@@ -229,7 +245,7 @@ function RecentArticles() {
                   <div className="flex flex-col">
                     <div className="relative h-52 w-full flex-shrink-0 overflow-hidden">
                       <img
-                        src={article.image || randomImage()}
+                        src={article.img1 || randomImage()}
                         alt={article.title}
                         className="h-full w-full object-cover transition-all duration-300 group-hover:scale-105"
                       />

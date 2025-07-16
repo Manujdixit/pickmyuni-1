@@ -47,7 +47,7 @@ function SuggestedArticles() {
                   <div className="relative h-16 w-16 flex-shrink-0 overflow-hidden rounded-md">
                     <Image
                       fill
-                      src={article.image || "/transfer3.svg"}
+                      src={article.img1 || "/transfer3.svg"}
                       alt={article.title}
                       className="object-cover"
                     />
