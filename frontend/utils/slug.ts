@@ -14,7 +14,7 @@ export function buildUniversitySlug(filters: {
       ...filters.statename
         .toLowerCase()
         .split(/\s+/)
-        .map((word) => word.replace(/[^a-z0-9-]/g, ""))
+        .map((word) => word.replace(/[^a-z0-9-]/g, "")),
     );
   if (filters.coursename)
     parts.push(
@@ -22,7 +22,7 @@ export function buildUniversitySlug(filters: {
       ...filters.coursename
         .toLowerCase()
         .split(/\s+/)
-        .map((word) => word.replace(/[^a-z0-9-]/g, ""))
+        .map((word) => word.replace(/[^a-z0-9-]/g, "")),
     );
   if (filters.streamname)
     parts.push(
@@ -30,7 +30,7 @@ export function buildUniversitySlug(filters: {
       ...filters.streamname
         .toLowerCase()
         .split(/\s+/)
-        .map((word) => word.replace(/[^a-z0-9-]/g, ""))
+        .map((word) => word.replace(/[^a-z0-9-]/g, "")),
     );
 
   if (filters.min_fees && filters.max_fees) {
@@ -40,7 +40,7 @@ export function buildUniversitySlug(filters: {
       "between",
       `${filters.min_fees / 100000}l`,
       "and",
-      `${filters.max_fees / 100000}l`
+      `${filters.max_fees / 100000}l`,
     );
   } else if (filters.min_fees) {
     parts.push("with", "fees", "from", `${filters.min_fees}k`);
@@ -54,11 +54,11 @@ export function buildUniversitySlug(filters: {
       ...filters.searchquery
         .toLowerCase()
         .split(/\s+/)
-        .map((word) => word.replace(/[^a-z0-9-]/g, ""))
+        .map((word) => word.replace(/[^a-z0-9-]/g, "")),
     );
   }
 
-  return `/university/${parts.join("-")}`;
+  return `/${parts.join("-")}`;
 }
 
 export function parseSlugToFilters(slug: string) {

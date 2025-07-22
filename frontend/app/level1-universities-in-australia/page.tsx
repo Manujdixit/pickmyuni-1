@@ -4,6 +4,7 @@ import {
   AccordionTrigger,
   AccordionContent,
 } from "@/components/ui/radix-accordion";
+import { url } from "inspector";
 import { HelpCircle } from "lucide-react";
 import Image from "next/image";
 
@@ -12,31 +13,37 @@ const sec1CardData = [
     title: "Globally Recognized Degrees",
     description:
       "Graduating from a Level 1 university enhances your career prospects, as degrees from these institutions are recognized and respected worldwide. Employers and industries value graduates from these universities due to their academic rigor and industry-focused learning approach.",
+    url: "https://pickmyuni-bucket.s3.ap-southeast-2.amazonaws.com/static/globally-recognized-degrees-icon.webp",
   },
   {
     title: "High-Quality Education",
     description:
       "These universities maintain high academic standards, ensuring that students receive a top-notch education. With cutting-edge curriculum designs, well-structured programs, and expert faculty members, Level 1 universities provide students with a strong academic foundation.",
+    url: "https://pickmyuni-bucket.s3.ap-southeast-2.amazonaws.com/static/high-quality-education-icon.webp",
   },
   {
     title: "Advanced Research Opportunities",
     description:
       "Australia’s top-tier universities are known for their extensive research initiatives. Students can engage in innovative research projects, work with industry leaders, and contribute to groundbreaking discoveries.",
+    url: "https://pickmyuni-bucket.s3.ap-southeast-2.amazonaws.com/static/advanced-research-opportunities-icon.webp",
   },
   {
     title: "Excellent Campus Facilities",
     description:
       "From modern libraries to advanced laboratories, Assessment Level 1 universities provide state-of-the-art infrastructure to support students’ academic and extracurricular pursuits. These institutions focus on creating a conducive learning environment for both local and international students.",
+    url: "https://pickmyuni-bucket.s3.ap-southeast-2.amazonaws.com/static/excellent-campus-facilities-icon.webp",
   },
   {
     title: "Enhanced Career Opportunities",
     description:
       "Graduating from a top-ranked university increases your chances of securing employment with leading multinational companies. Many of these universities have strong ties with industries, offering internships, placements, and networking opportunities for students.",
+    url: "https://pickmyuni-bucket.s3.ap-southeast-2.amazonaws.com/static/enhanced-career-opportunities-icon.webp",
   },
   {
     title: "Scholarships and Financial Assistance",
     description:
       "Many Level 1 universities in Australia offer scholarships, grants, and financial aid to deserving international students. These scholarships help ease the financial burden and make quality education more accessible.",
+    url: "https://pickmyuni-bucket.s3.ap-southeast-2.amazonaws.com/static/scholarships-and-financial-assistance-icon.webp",
   },
 ];
 
@@ -51,6 +58,7 @@ const sec2CardData = [
   <li>Best level 1 university in Melbourne.</li>
 </ul>
 `,
+    url: "https://pickmyuni-bucket.s3.ap-southeast-2.amazonaws.com/static/the-university-of-melbourne-1.webp",
   },
   {
     title: "The Australian National University (ANU)",
@@ -60,6 +68,7 @@ const sec2CardData = [
   <li>Highly ranked globally for its academic programs and faculty.</li>
 </ul>
 `,
+    url: "https://pickmyuni-bucket.s3.ap-southeast-2.amazonaws.com/static/the-australian-national-university-anu-2.webp",
   },
   {
     title: "The University of Sydney",
@@ -69,6 +78,7 @@ const sec2CardData = [
   <li>Provides world-class facilities and industry connections.</li>
 </ul>
 `,
+    url: "https://pickmyuni-bucket.s3.ap-southeast-2.amazonaws.com/static/the-university-of-sydney-3.webp",
   },
   {
     title: "The University of Queensland (UQ)",
@@ -79,6 +89,7 @@ const sec2CardData = [
   <li>Known as one of the top-notch level 1 universities in Sydney.</li>
 </ul>
 `,
+    url: "https://pickmyuni-bucket.s3.ap-southeast-2.amazonaws.com/static/the-university-of-queensland-uq-4.webp",
   },
   {
     title: "Monash University",
@@ -88,6 +99,7 @@ const sec2CardData = [
   <li>Extensive international student support and exchange programs.</li>
 </ul>
 `,
+    url: "https://pickmyuni-bucket.s3.ap-southeast-2.amazonaws.com/static/monash-university-5.webp",
   },
   {
     title: "The University of New South Wales (UNSW Sydney)",
@@ -97,6 +109,7 @@ const sec2CardData = [
   <li>Strong focus on entrepreneurship and innovation.</li>
 </ul>
 `,
+    url: "https://pickmyuni-bucket.s3.ap-southeast-2.amazonaws.com/static/the-university-of-new-south-wales-unsw-sydney-6.webp",
   },
   {
     title: "The University of Western Australia (UWA)",
@@ -106,6 +119,7 @@ const sec2CardData = [
   <li>Provides various student support programs and scholarships.</li>
 </ul>
 `,
+    url: "https://pickmyuni-bucket.s3.ap-southeast-2.amazonaws.com/static/the-university-of-western-australia-uwa-7.webp",
   },
   {
     title: "The University of Adelaide",
@@ -116,6 +130,7 @@ const sec2CardData = [
   <li>Popular Assessment level 1 universities in Australia for international students.</li>
 </ul>
 `,
+    url: "https://pickmyuni-bucket.s3.ap-southeast-2.amazonaws.com/static/the-university-of-adelaide-8.webp",
   },
 ];
 
@@ -124,31 +139,37 @@ const sec3CardData = [
     title: "University Rankings",
     description:
       "Check global rankings such as QS World University Rankings and Times Higher Education Rankings to identify the top universities in Australia.",
+    url: "https://pickmyuni-bucket.s3.ap-southeast-2.amazonaws.com/static/university_rankings_icon.webp",
   },
   {
     title: "Accreditation & Reputation",
     description:
       "Ensure the university is accredited by Australian educational authorities and has a strong academic reputation.",
+    url: "https://pickmyuni-bucket.s3.ap-southeast-2.amazonaws.com/static/accreditation-Reputation-icon.webp",
   },
   {
     title: "Course Offerings",
     description:
       "Select a university that offers programs aligning with your career goals and interests.",
+    url: "https://pickmyuni-bucket.s3.ap-southeast-2.amazonaws.com/static/course-offerings-icon.webp",
   },
   {
     title: "Industry Partnerships",
     description:
       "Look for universities with strong industry collaborations and internship opportunities.",
+    url: "https://pickmyuni-bucket.s3.ap-southeast-2.amazonaws.com/static/industry-partnerships-icon.webp",
   },
   {
     title: "Alumni Success",
     description:
       "Research the achievements of alumni and their career paths post-graduation.",
+    url: "https://pickmyuni-bucket.s3.ap-southeast-2.amazonaws.com/static/alumni-success-icon.webp",
   },
   {
     title: "Student Reviews & Experience",
     description:
       "Connect with current students or alumni to understand their experience at the university.",
+    url: "https://pickmyuni-bucket.s3.ap-southeast-2.amazonaws.com/static/student-reviews-experience-icon.webp",
   },
 ];
 
@@ -243,11 +264,15 @@ const accordionData = [
 const sec1Cards = (data: any, fullHeight = false) => {
   return (
     <div
-      className={`flex w-full flex-col items-center space-y-2 bg-[#F6F6F7] p-4 shadow hover:shadow-md ${fullHeight ? "h-full" : ""}`}
+      className={`flex w-full flex-col items-center space-y-2 bg-[#F6F6F7] p-4 shadow hover:shadow-md sm:items-start ${fullHeight ? "h-full" : ""}`}
     >
-      <span>
-        <HelpCircle className="text-brand-secondary h-20 w-20" />
-      </span>
+      <Image
+        src={data.url}
+        alt={data.title}
+        width={80}
+        height={80}
+        className="size-20"
+      />
       <p className="text-brand-primary text-xl font-semibold">{data.title}</p>
       <p className="text-base font-normal">{data.description}</p>
     </div>
@@ -260,7 +285,7 @@ const sec2Cards = (data: any, idx: number) => {
       <div className="relative mb-2 h-48 w-full">
         <Image
           src={
-            data.image ||
+            data.url ||
             "https://pickmyuni-bucket.s3.ap-southeast-2.amazonaws.com/static/pr_path1.webp"
           }
           alt={data.title}
@@ -286,7 +311,13 @@ const sec3Cards = (data: any) => {
   return (
     <div className="space-y-2">
       <span>
-        <HelpCircle className="text-brand-secondary h-20 w-20" />
+        <Image
+          src={data.url}
+          alt={data.title}
+          width={100}
+          height={100}
+          className="size-20"
+        />
       </span>
       <p className="text-brand-primary text-xl font-semibold">{data.title}</p>
       <p className="text-base font-normal">{data.description}</p>
@@ -300,7 +331,7 @@ export default function PrivacyPage() {
       {/* Hero Section */}
       <div className="relative h-64 md:h-80 lg:h-96">
         <Image
-          src="/globe.png"
+          src="https://pickmyuni-bucket.s3.ap-southeast-2.amazonaws.com/static/level-1-banner.webp"
           alt="Library with books on shelves"
           fill
           className="object-cover"
@@ -411,7 +442,7 @@ export default function PrivacyPage() {
             <div className="lg:w-1/3">
               <div className="relative">
                 <Image
-                  src="https://pickmyuni-bucket.s3.ap-southeast-2.amazonaws.com/static/pr_path3.webp"
+                  src="https://pickmyuni-bucket.s3.ap-southeast-2.amazonaws.com/static/cheap-level-1-universities-in-australia.webp"
                   alt="Graduate student celebrating"
                   width={400}
                   height={500}
@@ -508,7 +539,7 @@ export default function PrivacyPage() {
           <div className="lg:w-1/3">
             <div className="relative">
               <Image
-                src="https://pickmyuni-bucket.s3.ap-southeast-2.amazonaws.com/static/pr_path3.webp"
+                src="https://pickmyuni-bucket.s3.ap-southeast-2.amazonaws.com/static/why_choose_findmyuni.webp"
                 alt="Graduate student celebrating"
                 width={400}
                 height={500}

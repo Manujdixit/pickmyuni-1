@@ -193,7 +193,7 @@ export default function UniversitiesSection() {
         </div>
 
         <div className="mt-8 flex justify-center">
-          <Link href="/university">
+          <Link href="/top-universities-in-australia">
             <Button>View All Universities</Button>
           </Link>
         </div>

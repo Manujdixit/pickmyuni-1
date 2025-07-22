@@ -2,9 +2,10 @@ import AboutPage from "@/components/about";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "About Us | PickMyUni - Your Guide to Australian Universities",
+  title:
+    "About PickMyUni | Helping Students Find the Right University in Australia",
   description:
-    "Learn about PickMyUni's mission to help international students find the perfect Australian university. Discover our commitment to simplifying university search and application processes.",
+    "PickMyUni is an Australian student platform built to guide course transfers, compare universities, and share honest student reviews — helping you make the right move in your education.",
   keywords: [
     "about PickMyUni",
     "Australian university guide",
@@ -13,9 +14,10 @@ export const metadata: Metadata = {
     "study in Australia",
   ],
   openGraph: {
-    title: "About Us | PickMyUni",
+    title:
+      "About PickMyUni | Helping Students Find the Right University in Australia",
     description:
-      "Learn about PickMyUni's mission to help international students find the perfect Australian university.",
+      "PickMyUni is an Australian student platform built to guide course transfers, compare universities, and share honest student reviews — helping you make the right move in your education.",
     type: "website",
   },
 };

@@ -10,7 +10,7 @@ import { PhoneCall } from "lucide-react";
 import dynamic from "next/dynamic";
 
 const SitePop = dynamic(() =>
-  import("@/components/SitePopup").then((mod) => mod.SitePop)
+  import("@/components/SitePopup").then((mod) => mod.SitePop),
 );
 
 const anton = Anton({
@@ -35,7 +35,8 @@ const plus_jakarta = Plus_Jakarta_Sans({
 
 export const metadata: Metadata = {
   title: {
-    default: "PickMyUni - Find and compare the best universities in Australia",
+    default:
+      "PickMyUni | Find, Compare & Switch to the Right Australian University",
     template: "%s | PickMyUni",
   },
   description:
@@ -94,7 +95,7 @@ export default function RootLayout({
         <OrganizationSchema />
       </head>
       <body
-        className={`${roboto.variable} ${anton.variable} ${plus_jakarta.variable} font-sans antialiased min-h-screen flex flex-col`}
+        className={`${roboto.variable} ${anton.variable} ${plus_jakarta.variable} flex min-h-screen flex-col font-sans antialiased`}
       >
         <Navbar />
         <div className="fixed bottom-4 right-4 z-20 flex flex-col items-end gap-2">
@@ -105,7 +106,7 @@ export default function RootLayout({
             <SitePop />
             <a
               href="tel:+61433502082"
-              className="bg-blue-500 p-3 rounded-full hover:bg-blue-600 transition-colors"
+              className="rounded-full bg-blue-500 p-3 transition-colors hover:bg-blue-600"
               aria-label="call"
             >
               <PhoneCall className="text-white" />
@@ -114,7 +115,7 @@ export default function RootLayout({
               href="https://wa.me/+61433502082"
               target="_blank"
               rel="noopener noreferrer"
-              className="p-3 bg-green-500  rounded-full hover:bg-green-600 transition-colors"
+              className="rounded-full bg-green-500 p-3 transition-colors hover:bg-green-600"
               aria-label="whatsapp"
             >
               <svg

@@ -49,7 +49,7 @@ export default function Footer() {
               </li>
               <li>
                 <Link
-                  href="/university"
+                  href="/top-universities-in-australia"
                   className="text-sm text-gray-300 hover:text-white"
                 >
                   Universities

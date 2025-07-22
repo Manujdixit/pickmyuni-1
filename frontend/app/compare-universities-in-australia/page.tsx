@@ -4,10 +4,9 @@ import { BreadcrumbSchema } from "@/components/seo";
 import { commonBreadcrumbs } from "@/lib/breadcrumbs";
 
 export const metadata: Metadata = {
-  title:
-    "Compare Universities | PickMyUni - Find Your Perfect Australian University",
+  title: "Compare Universities in Australia | Course & Review Match Tool",
   description:
-    "Compare top Australian universities side by side. Analyze fees, courses, rankings, and facilities to make an informed decision about your higher education in Australia.",
+    "Use PickMyUni’s smart platform to compare universities in Australia by courses, reviews, campus life, and student ratings. Find the right match and transfer with confidence.",
   keywords: [
     "compare universities Australia",
     "university comparison tool",
@@ -17,9 +16,10 @@ export const metadata: Metadata = {
     "higher education Australia",
   ],
   openGraph: {
-    title: "Compare Universities | PickMyUni",
+    title:
+      "Compare Universities in Australia | Course & Review Match Tool – PickMyUni",
     description:
-      "Compare top Australian universities side by side. Find the perfect university for your studies in Australia.",
+      "Use PickMyUni’s smart platform to compare universities in Australia by courses, reviews, campus life, and student ratings. Find the right match and transfer with confidence.",
     type: "website",
   },
 };

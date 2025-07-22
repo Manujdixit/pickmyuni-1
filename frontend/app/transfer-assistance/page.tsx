@@ -3,9 +3,9 @@ import { Metadata } from "next";
 
 export const metadata: Metadata = {
   title:
-    "University Transfer Assistance | PickMyUni - Seamless Credit Transfer Services",
+    "Transfer Courses or Universities in Australia | PickMyUni Transfer Support",
   description:
-    "Get expert assistance with university transfers in Australia. We help you transfer credits, navigate admission requirements, and ensure a smooth transition to your new university.",
+    "Get help with a course transfer or university transfer in Australia.  PickMyUni offers expert support to make your transfer smooth, fast, and stress-free.",
   keywords: [
     "university transfer Australia",
     "credit transfer assistance",
@@ -16,9 +16,10 @@ export const metadata: Metadata = {
     "transfer student support",
   ],
   openGraph: {
-    title: "University Transfer Assistance | PickMyUni",
+    title:
+      "Transfer Courses or Universities in Australia | PickMyUni Transfer Support",
     description:
-      "Expert assistance for seamless university transfers in Australia. Get help with credit transfers and admission requirements.",
+      "Get help with a course transfer or university transfer in Australia.  PickMyUni offers expert support to make your transfer smooth, fast, and stress-free.",
     type: "website",
   },
 };

@@ -20,7 +20,7 @@ export default function WebsiteSchema({
   url = "https://pickmyuni.com",
   description = "Discover and compare top Australian universities for international students",
   searchAction = {
-    target: "https://pickmyuni.com/university?search={search_term_string}",
+    target: "https://pickmyuni.com/universities-?search={search_term_string}",
     queryInput: "required name=search_term_string",
   },
 }: WebsiteSchemaProps) {

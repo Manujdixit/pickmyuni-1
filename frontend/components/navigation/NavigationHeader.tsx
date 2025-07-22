@@ -54,7 +54,7 @@ export default function NavigationHeader() {
                 Home
               </Link>
               <Link
-                href="/compare"
+                href="/compare-universities-in-australia"
                 className="text-gray-600 hover:text-blue-800"
               >
                 Compare
@@ -118,7 +118,7 @@ export default function NavigationHeader() {
                       Home
                     </Link>
                     <Link
-                      href="/compare"
+                      href="/compare-universities-in-australia"
                       className="text-gray-600 hover:text-blue-800"
                       onClick={() => setIsOpen(false)}
                     >

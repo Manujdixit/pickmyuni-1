@@ -6,7 +6,7 @@ import { BreadcrumbItem } from "@/components/seo";
  */
 export function generateBreadcrumbData(
   pathname: string,
-  params?: Record<string, string>
+  params?: Record<string, string>,
 ): BreadcrumbItem[] {
   const baseUrl = "https://pickmyuni.com";
   const segments = pathname.split("/").filter(Boolean);
@@ -78,7 +78,7 @@ export const commonBreadcrumbs = {
     { name: "Home", item: "https://pickmyuni.com", position: 1 },
     {
       name: "Universities",
-      item: "https://pickmyuni.com/university",
+      item: "https://pickmyuni.com/top-universities-in-australia",
       position: 2,
     },
     ...(universityName
@@ -90,7 +90,7 @@ export const commonBreadcrumbs = {
     { name: "Home", item: "https://pickmyuni.com", position: 1 },
     {
       name: "Compare Universities",
-      item: "https://pickmyuni.com/compare",
+      item: "https://pickmyuni.com/compare-universities-in-australia",
       position: 2,
     },
   ],

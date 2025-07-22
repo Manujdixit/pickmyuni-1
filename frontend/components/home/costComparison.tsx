@@ -90,7 +90,7 @@ export default function CostComparisonSection() {
             <h2 className="text-center text-4xl font-semibold leading-[100%] text-white md:text-start">
               Compare Your Uni Costs
             </h2>
-            <Link href="/compare">
+            <Link href="/compare-universities-in-australia">
               <Button className="hidden md:block">See more savings</Button>
             </Link>
           </div>
@@ -179,7 +179,7 @@ export default function CostComparisonSection() {
             </Table>
           </div>
           <div className="mt-8 flex items-center justify-center">
-            <Link href="/compare">
+            <Link href="/compare-universities-in-australia">
               <Button className="md:hidden">See more savings</Button>
             </Link>
           </div>

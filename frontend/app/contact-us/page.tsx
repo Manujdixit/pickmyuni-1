@@ -2,9 +2,9 @@ import ContactPage from "@/components/contactpage";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Contact Us | PickMyUni - Get Expert University Guidance",
+  title: "Contact PickMyUni | Talk to Our Student Support Team",
   description:
-    "Get in touch with PickMyUni for personalized university guidance, admission assistance, and expert advice for studying in Australia. We're here to help you succeed.",
+    "Have questions about course transfers or comparing universities in Australia? Get in touch with PickMyUni’s support team — we're here to help you make confident study decisions.",
   keywords: [
     "contact PickMyUni",
     "university admission help",
@@ -14,9 +14,9 @@ export const metadata: Metadata = {
     "education consultancy",
   ],
   openGraph: {
-    title: "Contact Us | PickMyUni",
+    title: "Contact PickMyUni | Talk to Our Student Support Team",
     description:
-      "Get expert guidance for your Australian university journey. Contact our team for personalized assistance.",
+      "Have questions about course transfers or comparing universities in Australia? Get in touch with PickMyUni’s support team — we're here to help you make confident study decisions.",
     type: "website",
   },
 };
