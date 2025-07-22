@@ -17,9 +17,9 @@ const ArticlesSection = dynamic(() => import("@/components/home/articles"));
 
 export const metadata: Metadata = {
   title:
-    "PickMyUni - Find the Perfect Australian University for International Students",
+    "PickMyUni | Find, Compare & Switch to the Right Australian University",
   description:
-    "Discover and compare top Australian universities. Get expert guidance on courses, fees, admission requirements, and student services. Your gateway to studying in Australia starts here.",
+    "Australia’s trusted student platform to compare universities, switch courses, and read student reviews. Get expert help to find the right uni for your future.",
   keywords: [
     "Australian universities",
     "study in Australia",

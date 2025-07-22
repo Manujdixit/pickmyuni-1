@@ -13,7 +13,7 @@ type ApiResponse = {
 async function fetchWithRetry(
   url: string,
   retries = 2,
-  timeout = 5000
+  timeout = 5000,
 ): Promise<ApiResponse | null> {
   for (let attempt = 0; attempt <= retries; attempt++) {
     try {
@@ -47,7 +47,7 @@ async function fetchWithRetry(
       if (attempt === retries) {
         console.error(
           `Failed to fetch ${url} after ${retries + 1} attempts:`,
-          error
+          error,
         );
         return null;
       }
@@ -55,7 +55,7 @@ async function fetchWithRetry(
       // Exponential backoff
       if (attempt < retries) {
         await new Promise((resolve) =>
-          setTimeout(resolve, Math.pow(2, attempt) * 1000)
+          setTimeout(resolve, Math.pow(2, attempt) * 1000),
         );
       }
     }
@@ -94,13 +94,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.8,
     },
     {
-      url: `${baseUrl}/compare`,
+      url: `${baseUrl}/compare-universities-in-australia`,
       lastModified: new Date(),
       changeFrequency: "weekly",
       priority: 0.8,
     },
     {
-      url: `${baseUrl}/university`,
+      url: `${baseUrl}/top-universities-in-australia`,
       lastModified: new Date(),
       changeFrequency: "weekly",
       priority: 0.7,
@@ -187,7 +187,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         lastModified: new Date(),
         changeFrequency: "daily" as const,
         priority: 0.8,
-      }))
+      })),
     );
     console.log(`Generated ${collegeRoutes.length} college routes`);
   }

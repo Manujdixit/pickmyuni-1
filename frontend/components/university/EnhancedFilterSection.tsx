@@ -66,10 +66,10 @@ export function EnhancedFilterSection({
       setSelectedCourseName(currentFilters.coursename || "");
       setSelectedStreamName(currentFilters.streamname || "");
       setMinFees(
-        currentFilters.min_fees ? currentFilters.min_fees.toString() : ""
+        currentFilters.min_fees ? currentFilters.min_fees.toString() : "",
       );
       setMaxFees(
-        currentFilters.max_fees ? currentFilters.max_fees.toString() : ""
+        currentFilters.max_fees ? currentFilters.max_fees.toString() : "",
       );
     }
   }, [currentFilters]);
@@ -161,16 +161,16 @@ export function EnhancedFilterSection({
   };
 
   return (
-    <div className="lg:w-80 flex-shrink-0">
+    <div className="flex-shrink-0 lg:w-80">
       {/* Mobile Filter Toggle */}
-      <div className="lg:hidden mb-4">
+      <div className="mb-4 lg:hidden">
         <Button
           variant="outline"
           onClick={() => setIsOpen(!isOpen)}
           className="w-full justify-between"
         >
           <div className="flex items-center">
-            <Filter className="w-4 h-4 mr-2" />
+            <Filter className="mr-2 h-4 w-4" />
             Filters
             {hasActiveFilters && (
               <Badge variant="secondary" className="ml-2 text-xs">
@@ -179,7 +179,7 @@ export function EnhancedFilterSection({
             )}
           </div>
           <ChevronDown
-            className={`w-4 h-4 transition-transform ${
+            className={`h-4 w-4 transition-transform ${
               isOpen ? "rotate-180" : ""
             }`}
           />
@@ -190,7 +190,7 @@ export function EnhancedFilterSection({
       <div
         className={`${
           isOpen ? "block" : "hidden"
-        } lg:block bg-orange-50 p-4 rounded-lg space-y-6`}
+        } space-y-6 rounded-lg bg-orange-50 p-4 lg:block`}
       >
         <div className="flex items-center justify-between">
           <h3 className="font-semibold text-gray-900">Filters</h3>
@@ -208,8 +208,8 @@ export function EnhancedFilterSection({
 
         {/* Active Filters */}
         {hasActiveFilters && (
-          <div className="py-4 border-y border-gray-200">
-            <h4 className="text-sm font-medium text-gray-700 mb-2">
+          <div className="border-y border-gray-200 py-4">
+            <h4 className="mb-2 text-sm font-medium text-gray-700">
               Active Filters:
             </h4>
             <div className="flex flex-wrap gap-2">
@@ -224,10 +224,10 @@ export function EnhancedFilterSection({
                       if (onSearch) onSearch("");
                     }
                   }}
-                  className="text-xs cursor-pointer"
+                  className="cursor-pointer text-xs"
                 >
                   Search: {currentFilters.searchquery}
-                  <X className="w-3 h-3 ml-1" />
+                  <X className="ml-1 h-3 w-3" />
                 </Badge>
               )}
               {currentFilters?.statename && availableFilters?.state && (
@@ -240,13 +240,13 @@ export function EnhancedFilterSection({
                       handleStateChange("all");
                     }
                   }}
-                  className="text-xs cursor-pointer"
+                  className="cursor-pointer text-xs"
                 >
                   State:{" "}
                   {availableFilters.state.find(
-                    (s: any) => s.slug === currentFilters.statename
+                    (s: any) => s.slug === currentFilters.statename,
                   )?.name || currentFilters.statename}
-                  <X className="w-3 h-3 ml-1" />
+                  <X className="ml-1 h-3 w-3" />
                 </Badge>
               )}
               {currentFilters?.streamname && availableFilters?.stream && (
@@ -259,13 +259,13 @@ export function EnhancedFilterSection({
                       handleStreamChange("all");
                     }
                   }}
-                  className="text-xs cursor-pointer"
+                  className="cursor-pointer text-xs"
                 >
                   Stream:{" "}
                   {availableFilters.stream.find(
-                    (s: any) => s.slug === currentFilters.streamname
+                    (s: any) => s.slug === currentFilters.streamname,
                   )?.name || currentFilters.streamname}
-                  <X className="w-3 h-3 ml-1" />
+                  <X className="ml-1 h-3 w-3" />
                 </Badge>
               )}
               {currentFilters?.coursename && availableFilters?.courses && (
@@ -278,13 +278,13 @@ export function EnhancedFilterSection({
                       handleCourseChange("all");
                     }
                   }}
-                  className="text-xs cursor-pointer"
+                  className="cursor-pointer text-xs"
                 >
                   Course:{" "}
                   {availableFilters.courses.find(
-                    (c: any) => c.slug === currentFilters.coursename
+                    (c: any) => c.slug === currentFilters.coursename,
                   )?.course_name || currentFilters.coursename}
-                  <X className="w-3 h-3 ml-1" />
+                  <X className="ml-1 h-3 w-3" />
                 </Badge>
               )}
               {(currentFilters?.min_fees || currentFilters?.max_fees) && (
@@ -302,11 +302,11 @@ export function EnhancedFilterSection({
                       }
                     }
                   }}
-                  className="text-xs cursor-pointer"
+                  className="cursor-pointer text-xs"
                 >
                   Fees: {currentFilters.min_fees || "0"} -{" "}
                   {currentFilters.max_fees || "∞"}
-                  <X className="w-3 h-3 ml-1" />
+                  <X className="ml-1 h-3 w-3" />
                 </Badge>
               )}
             </div>
@@ -327,14 +327,14 @@ export function EnhancedFilterSection({
               className="flex-1"
             />
             <Button onClick={handleSearch} size="sm" className="px-3">
-              <Search className="w-4 h-4" />
+              <Search className="h-4 w-4" />
             </Button>
           </div>
         </div>
 
         {/* State Filter */}
         {availableFilters?.state && availableFilters.state.length > 0 && (
-          <div className="space-y-2 w-full">
+          <div className="w-full space-y-2">
             <label className="text-sm font-medium text-gray-700">
               State/Province
             </label>
@@ -359,7 +359,7 @@ export function EnhancedFilterSection({
 
         {/* Stream Filter */}
         {availableFilters?.stream && availableFilters.stream.length > 0 && (
-          <div className="space-y-2 w-full">
+          <div className="w-full space-y-2">
             <label className="text-sm font-medium text-gray-700">Stream</label>
             <Select
               value={selectedStreamName || "all"}
@@ -388,7 +388,7 @@ export function EnhancedFilterSection({
               value={selectedCourseName || "all"}
               onValueChange={handleCourseChange}
             >
-              <SelectTrigger>
+              <SelectTrigger className="w-full">
                 <SelectValue placeholder="Select Course" />
               </SelectTrigger>
               <SelectContent>

@@ -82,7 +82,7 @@ export default function UniversityComparisonForm() {
             `college${idx + 1}=${encodeURIComponent(uni.collegeId!)}&stream${idx + 1}=${encodeURIComponent(uni.streamId!)}`,
         )
         .join("&");
-      const url = `/compare${params ? `?${params}` : ""}`;
+      const url = `/compare-universities-in-australia${params ? `?${params}` : ""}`;
       console.log("Updating URL", { url });
       router.push(url, { scroll: false });
     }, 500); // 500ms debounce

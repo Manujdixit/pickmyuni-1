@@ -19,10 +19,11 @@ import { parseSlugToFilters, buildUniversitySlug } from "@/utils/slug";
 function UniversityPage() {
   // Get slug from URL params
   const paramsRoute = useParams();
+
   const router = useRouter();
 
   // Extract slug from either 'slug' or 'slugAndId' parameter
-  const rawSlug = paramsRoute?.slug || paramsRoute?.slugAndId || "";
+  const rawSlug = paramsRoute?.slugAndId || paramsRoute?.filterSlug || "";
   const slug = Array.isArray(rawSlug) ? rawSlug.join("-") : rawSlug;
 
   const initialParams = parseSlugToFilters(slug);
@@ -30,8 +31,8 @@ function UniversityPage() {
   // Clean up initialParams to remove empty values
   const cleanInitialParams = Object.fromEntries(
     Object.entries(initialParams).filter(
-      ([key, value]) => value !== "" && value !== null && value !== undefined
-    )
+      ([key, value]) => value !== "" && value !== null && value !== undefined,
+    ),
   );
 
   const {
@@ -166,7 +167,7 @@ function UniversityPage() {
     });
     clearFilters();
     // Navigate to base URL when clearing all filters
-    router.replace("/university/universities", { scroll: false });
+    router.replace("/top-universities-in-australia", { scroll: false });
   };
 
   // Clear individual filter
@@ -287,7 +288,7 @@ function UniversityPage() {
 
       {/* Main Content */}
       <div className="container mx-auto py-6">
-        <div className="flex flex-col lg:flex-row gap-6">
+        <div className="flex flex-col gap-6 lg:flex-row">
           {/* Filter Section */}
           <EnhancedFilterSection
             filters={localFilters}
@@ -304,7 +305,7 @@ function UniversityPage() {
           />
 
           {/* University List */}
-          <div className="flex-1 min-w-0">
+          <div className="min-w-0 flex-1">
             {/* Results Header */}
             <UniversityListHeader
               totalCount={pagination.totalItems}
@@ -341,13 +342,13 @@ function UniversityPage() {
 
             {/* No Results */}
             {universities.length === 0 && !loading && (
-              <div className="flex flex-col items-center justify-center min-h-[400px] py-12">
-                <div className="text-gray-500 text-lg mb-4">
+              <div className="flex min-h-[400px] flex-col items-center justify-center py-12">
+                <div className="mb-4 text-lg text-gray-500">
                   No universities found matching your criteria.
                 </div>
                 <button
                   onClick={clearAllFilters}
-                  className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                  className="rounded-lg bg-blue-600 px-6 py-2 text-white transition-colors hover:bg-blue-700"
                 >
                   Clear All Filters
                 </button>

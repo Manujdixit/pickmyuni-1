@@ -18,9 +18,9 @@ import { Metadata } from "next";
 
 export const metadata: Metadata = {
   title:
-    "PR Pathway Courses in Australia 2025 | PickMyUni - Your Route to Permanent Residency",
+    "Top PR Courses in Australia by PickMyUni | Compare & Choose the Right Path",
   description:
-    "Discover the best PR pathway courses in Australia for 2025. Get comprehensive information about courses leading to permanent residency, skill assessment requirements, and immigration pathways.",
+    "Explore the best PR courses in Australia that increase your chances of permanent residency. Compare universities, course durations, and career outcomes with PickMyUni.",
   keywords: [
     "PR pathway courses Australia 2025",
     "permanent residency courses Australia",
@@ -55,7 +55,7 @@ export default function PrPath() {
           <div className="absolute inset-0 bg-black/40" />
           <div className="absolute inset-0 flex items-end">
             <div className="container mx-auto pb-8">
-              <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white">
+              <h1 className="text-3xl font-bold text-white md:text-4xl lg:text-5xl">
                 Best PR Courses in Australia 2025
               </h1>
             </div>
@@ -78,9 +78,9 @@ export default function PrPath() {
           </p>
 
           {/* What Are PR List Courses Section */}
-          <div className="flex flex-col lg:flex-row gap-8 items-start">
+          <div className="flex flex-col items-start gap-8 lg:flex-row">
             <div className="flex-1">
-              <h2 className="text-h1 text-brand-primary mb-6">
+              <h2 className="text-brand-primary mb-6 text-h1">
                 What Are PR List Courses in Australia 2025?
               </h2>
 
@@ -106,7 +106,7 @@ export default function PrPath() {
                   Pathways Courses in Australia 2025 across various industries:
                 </p>
 
-                <ul className="list-disc list-outside ml-5 space-y-2">
+                <ul className="ml-5 list-outside list-disc space-y-2">
                   <li>
                     The Skilled Occupation List is split into two main
                     categories:
@@ -128,7 +128,7 @@ export default function PrPath() {
                   alt="PR Courses in Australia"
                   width={500}
                   height={400}
-                  className="rounded-lg w-full"
+                  className="w-full rounded-lg"
                 />
               </div>
             </div>
@@ -136,10 +136,10 @@ export default function PrPath() {
 
           {/* PR Pathways Courses */}
           <div className="mt-10">
-            <h2 className="text-h1 text-brand-primary">
+            <h2 className="text-brand-primary text-h1">
               Regional Occupation List (ROL)
             </h2>
-            <p className="text-body my-6">Course tied to these occupations:</p>
+            <p className="my-6 text-body">Course tied to these occupations:</p>
 
             <div className="mt-6">
               <PRCoursesTable />
@@ -147,15 +147,15 @@ export default function PrPath() {
           </div>
 
           {/* What Are PR List Courses Section */}
-          <div className="flex flex-col lg:flex-row-reverse gap-8 items-start py-12">
+          <div className="flex flex-col items-start gap-8 py-12 lg:flex-row-reverse">
             <div className="flex-1">
-              <h2 className="text-h1 text-brand-primary mb-6">
+              <h2 className="text-brand-primary mb-6 text-h1">
                 Popular Courses for PR in Australia
               </h2>
 
               <div className="text-body text-gray-950">
                 <ol>
-                  <li className="text-h2 text-brand-primary mb-2">
+                  <li className="text-brand-primary mb-2 text-h2">
                     1. Trade Courses in Australia for PR
                   </li>
                   <p className="mb-4">
@@ -166,7 +166,7 @@ export default function PrPath() {
                     Australia's immigration framework, particularly the Skilled
                     Occupation List (SOL) and the related lists.
                   </p>
-                  <li className="text-h2 text-brand-primary mb-2">
+                  <li className="text-brand-primary mb-2 text-h2">
                     2. Diploma Courses for PR in Australia
                   </li>
                   <p className="mb-4">
@@ -174,12 +174,12 @@ export default function PrPath() {
                     they provide practical training and high employability.
                     These courses include:
                   </p>
-                  <ul className="list-disc list-outside ml-5 space-y-1 mb-4">
+                  <ul className="mb-4 ml-5 list-outside list-disc space-y-1">
                     <li>Diploma of Nursing</li>
                     <li>Diploma of Automotive Technology</li>
                     <li>Diploma of Hospitality Management</li>
                   </ul>
-                  <li className="text-h2 text-brand-primary mb-2">
+                  <li className="text-brand-primary mb-2 text-h2">
                     3. IT & Engineering PR Pathway Courses in Australia
                   </li>
                   <p className="mb-4">
@@ -199,7 +199,7 @@ export default function PrPath() {
                   alt="PR Courses in Australia"
                   width={500}
                   height={400}
-                  className="rounded-lg w-full"
+                  className="w-full rounded-lg"
                 />
               </div>
             </div>
@@ -210,21 +210,21 @@ export default function PrPath() {
 
         {/* Why Study PR Leading Courses in Australia */}
         <div className="bg-blue-50 py-24">
-          <div className="container flex flex-col lg:flex-row items-center gap-8">
+          <div className="container flex flex-col items-center gap-8 lg:flex-row">
             <div className="flex-1">
-              <h2 className="text-h1 text-brand-primary mb-8 leading-tight">
+              <h2 className="text-brand-primary mb-8 text-h1 leading-tight">
                 Why Study PR Leading Courses in
                 <span className="text-brand-secondary"> Australia?</span>
               </h2>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
                 {/* High employability */}
-                <div className="flex items-start gap-3 bg-white rounded-lg p-4 shadow-md">
-                  <div className="flex-shrink-0 w-10 h-10  flex items-center justify-center">
+                <div className="flex items-start gap-3 rounded-lg bg-white p-4 shadow-md">
+                  <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center">
                     <ChartNoAxesCombined className="text-brand-primary" />
                   </div>
                   <div>
-                    <h3 className="font-semibold text-lg mb-1">
+                    <h3 className="mb-1 text-lg font-semibold">
                       High employability and
                     </h3>
                     <p className="text-gray-600">career growth</p>
@@ -232,12 +232,12 @@ export default function PrPath() {
                 </div>
 
                 {/* Strong migration pathway */}
-                <div className="flex items-start gap-3 bg-white rounded-lg p-4 shadow-md">
-                  <div className="flex-shrink-0 w-10 h-10  flex items-center justify-center">
+                <div className="flex items-start gap-3 rounded-lg bg-white p-4 shadow-md">
+                  <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center">
                     <FileTextIcon className="text-brand-primary" />
                   </div>
                   <div>
-                    <h3 className="font-semibold text-lg mb-1">
+                    <h3 className="mb-1 text-lg font-semibold">
                       Strong migration pathway
                     </h3>
                     <p className="text-gray-600">System</p>
@@ -245,12 +245,12 @@ export default function PrPath() {
                 </div>
 
                 {/* Quality education */}
-                <div className="flex items-start gap-3 bg-white rounded-lg p-4 shadow-md">
-                  <div className="flex-shrink-0 w-10 h-10  flex items-center justify-center">
+                <div className="flex items-start gap-3 rounded-lg bg-white p-4 shadow-md">
+                  <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center">
                     <GraduationCapIcon className="text-brand-primary" />
                   </div>
                   <div>
-                    <h3 className="font-semibold text-lg mb-1">
+                    <h3 className="mb-1 text-lg font-semibold">
                       Quality education and global
                     </h3>
                     <p className="text-gray-600">recognition</p>
@@ -258,12 +258,12 @@ export default function PrPath() {
                 </div>
 
                 {/* Competitive salary */}
-                <div className="flex items-start gap-3 bg-white rounded-lg p-4 shadow-md">
-                  <div className="flex-shrink-0 w-10 h-10 flex items-center justify-center">
+                <div className="flex items-start gap-3 rounded-lg bg-white p-4 shadow-md">
+                  <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center">
                     <CircleDollarSign className="text-brand-primary" />
                   </div>
                   <div>
-                    <h3 className="font-semibold text-lg mb-1">
+                    <h3 className="mb-1 text-lg font-semibold">
                       Competitive salary packages
                     </h3>
                     <p className="text-gray-600">in PR-listed occupations</p>
@@ -273,7 +273,7 @@ export default function PrPath() {
 
               <div className="mt-8">
                 <Button
-                  className="font-semibold inline-flex items-center gap-2"
+                  className="inline-flex items-center gap-2 font-semibold"
                   variant={"secondary"}
                 >
                   <FileTextIcon className="h-4 w-4" />
@@ -301,7 +301,7 @@ export default function PrPath() {
                   alt="Graduate student celebrating"
                   width={400}
                   height={500}
-                  className="rounded-lg w-full"
+                  className="w-full rounded-lg"
                 />
               </div>
             </div>
@@ -311,7 +311,7 @@ export default function PrPath() {
         <div className="container py-24">
           {" "}
           <div className="flex-1">
-            <h2 className="text-h1 text-brand-primary mb-6">Final Thoughts </h2>
+            <h2 className="text-brand-primary mb-6 text-h1">Final Thoughts </h2>
 
             <div className="text-body text-gray-950">
               <p className="mb-4">
@@ -333,11 +333,11 @@ export default function PrPath() {
 
         <div className="container pb-24">
           <div className="flex-1">
-            <h2 className="text-h1 text-brand-primary mb-6 text-center">
+            <h2 className="text-brand-primary mb-6 text-center text-h1">
               FAQs on Best PR Courses in Australia 2025
             </h2>
 
-            <div className="max-w-4xl mx-auto">
+            <div className="mx-auto max-w-4xl">
               <Accordion type="single" collapsible className="w-full">
                 <AccordionItem value="item-1">
                   <AccordionTrigger>

@@ -4,9 +4,9 @@ import Image from "next/image";
 import React from "react";
 
 export const metadata: Metadata = {
-  title: "Student Resources & Blog | PickMyUni - Study Abroad Tips & Guides",
+  title: "Study in Australia Blog | Courses, Transfers, Admissions & More",
   description:
-    "Access comprehensive student resources, study abroad guides, university tips, and expert advice for international students planning to study in Australia.",
+    "Stay informed with PickMyUni’s expert blog on studying in Australia. Explore guides on courses, universities, fees, student life, migration advice, and course transfers.",
   keywords: [
     "student resources Australia",
     "study abroad blog",
@@ -18,9 +18,10 @@ export const metadata: Metadata = {
     "university preparation",
   ],
   openGraph: {
-    title: "Student Resources & Blog | PickMyUni",
+    title:
+      "Study in Australia Blog | Courses, Transfers, Admissions & More | PickMyUni",
     description:
-      "Access comprehensive guides and tips for studying in Australia. Get expert advice for your educational journey.",
+      "Stay informed with PickMyUni’s expert blog on studying in Australia. Explore guides on courses, universities, fees, student life, migration advice, and course transfers.",
     type: "website",
   },
 };
@@ -29,7 +30,7 @@ function page() {
   return (
     <div className="bg-white font-sans">
       {/* Hero Section */}
-      <section className="relative w-full h-[336px] text-white">
+      <section className="relative h-[336px] w-full text-white">
         <Image
           src="/transfer.svg"
           alt="University campus background"
@@ -42,7 +43,7 @@ function page() {
         <div className="absolute inset-0 bg-black/20" />
         <div className="absolute inset-0 flex items-end">
           <div className="container mx-auto pb-8">
-            <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white">
+            <h1 className="text-3xl font-bold text-white md:text-4xl lg:text-5xl">
               Blog
             </h1>
           </div>

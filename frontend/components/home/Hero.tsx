@@ -4,7 +4,7 @@ import Link from "next/link";
 
 export default function HeroSection() {
   return (
-    <section className="bg-brand-primary text-white relative overflow-hidden">
+    <section className="bg-brand-primary relative overflow-hidden text-white">
       <Image
         src="https://pickmyuni-bucket.s3.ap-southeast-2.amazonaws.com/static/home_banner.webp"
         alt="University campus"
@@ -13,20 +13,20 @@ export default function HeroSection() {
         className="object-cover"
         fetchPriority="high"
       />
-      <div className="container mx-auto relative z-10">
-        <div className="flex flex-col md:flex-row justify-between items-center">
+      <div className="container relative z-10 mx-auto">
+        <div className="flex flex-col items-center justify-between md:flex-row">
           <div className="z-10 py-10">
-            <h1 className="font-anton text-4xl sm:text-[53px] sm:leading-[60px] mb-4 max-w-screen-sm">
+            <h1 className="mb-4 max-w-screen-sm font-anton text-4xl sm:text-[53px] sm:leading-[60px]">
               TRANSFER TO A BETTER UNI IN AUSTRALIA -{" "}
               <span className="text-yellow-400">
                 HASSLE-FREE, AFFORDABLE, FAST.
               </span>
             </h1>
-            <p className="font-plus_jakarta text-sm leading-6 sm:text-lg sm:leading-9 mb-6">
+            <p className="mb-6 font-plus_jakarta text-sm leading-6 sm:text-lg sm:leading-9">
               Struggling with high fees or course dissatisfaction? <br />
               We&apos;ll help you transfer to the right university.
             </p>
-            <Link href="/compare">
+            <Link href="/compare-universities-in-australia">
               <Button
                 className="flex items-center"
                 variant={"secondary"}
@@ -38,7 +38,7 @@ export default function HeroSection() {
                   alt="Icon"
                   width={50}
                   height={50}
-                  className="-ml-2 w-12 h-12"
+                  className="-ml-2 h-12 w-12"
                   priority
                 />
               </Button>

@@ -9,7 +9,7 @@ export default function UniversityComparisonCTA() {
         <h1 className="mb-6 text-3xl font-bold text-white md:text-4xl">
           Compare. Choose. Succeed
         </h1>
-        <Link href="/university">
+        <Link href="/top-universities-in-australia">
           <Button className="flex items-center">
             Start Your University Search Today!{" "}
             <Image
