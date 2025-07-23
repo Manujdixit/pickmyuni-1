@@ -15,18 +15,38 @@ import { BreadcrumbSchema } from "@/components/seo";
 import { commonBreadcrumbs } from "@/lib/breadcrumbs";
 import { useParams, useRouter } from "next/navigation";
 import { parseSlugToFilters, buildUniversitySlug } from "@/utils/slug";
+import { NotFound } from "../ui/not-found";
 
 function UniversityPage() {
   // Get slug from URL params
   const paramsRoute = useParams();
-
   const router = useRouter();
 
-  // Extract slug from either 'slug' or 'slugAndId' parameter
-  const rawSlug = paramsRoute?.slugAndId || paramsRoute?.filterSlug || "";
-  const slug = Array.isArray(rawSlug) ? rawSlug.join("-") : rawSlug;
+  // Move all useState hooks to the top
+  const [localFilters, setLocalFilters] = useState({
+    course: "All Courses",
+    location: "All Locations",
+    feesRange: "All Fees",
+    exams: "All Exams",
+    search: "",
+    stream: "All Streams",
+    state: "All States",
+    type: "All Types",
+    level: "All Levels",
+  });
 
-  const initialParams = parseSlugToFilters(slug);
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
+  const [sortBy, setSortBy] = useState("Top Rated First");
+
+  let initialParams: Record<string, any> = {};
+
+  if (paramsRoute?.filterSlug != "top-universities-in-australia") {
+    // Extract slug from either 'slug' or 'slugAndId' parameter
+    const rawSlug = paramsRoute?.slugAndId || paramsRoute?.filterSlug || "";
+    const slug = Array.isArray(rawSlug) ? rawSlug.join("-") : rawSlug;
+
+    initialParams = parseSlugToFilters(slug);
+  }
 
   // Clean up initialParams to remove empty values
   const cleanInitialParams = Object.fromEntries(
@@ -57,16 +77,6 @@ function UniversityPage() {
     fetchNextPage: loadNextPage,
   });
 
-  const [localFilters, setLocalFilters] = useState({
-    course: "All Courses",
-    location: "All Locations",
-    feesRange: "All Fees",
-    exams: "All Exams",
-    search: "",
-    stream: "All Streams",
-    state: "All States",
-  });
-
   // Sync local filters with applied filters from URL/slug
   useEffect(() => {
     if (params) {
@@ -76,6 +86,8 @@ function UniversityPage() {
         course: params.coursename || "All Courses",
         state: params.statename || "All States",
         stream: params.streamname || "All Streams",
+        type: params.type || "All Types",
+        level: params.level || "All Levels",
         feesRange:
           params.min_fees || params.max_fees
             ? `${params.min_fees || 0} - ${params.max_fees || "∞"}`
@@ -83,6 +95,9 @@ function UniversityPage() {
       }));
     }
   }, [params]);
+
+  // Early return for error - AFTER all hooks
+  if (error) return <NotFound />;
 
   // Get current applied filters from the hook
   const currentFilters = {
@@ -92,9 +107,9 @@ function UniversityPage() {
     streamname: params?.streamname || "",
     min_fees: params?.min_fees,
     max_fees: params?.max_fees,
+    type: params?.type,
+    level: params?.level,
   };
-  const [isFilterOpen, setIsFilterOpen] = useState(false);
-  const [sortBy, setSortBy] = useState("Top Rated First");
 
   // Function to update URL based on current filters
   const updateURL = (newFilters: any) => {
@@ -164,6 +179,8 @@ function UniversityPage() {
       search: "",
       stream: "All Streams",
       state: "All States",
+      type: "All Types",
+      level: "All Levels",
     });
     clearFilters();
     // Navigate to base URL when clearing all filters
@@ -200,6 +217,16 @@ function UniversityPage() {
         updateFilters({ min_fees: undefined, max_fees: undefined });
         filterUpdates.min_fees = undefined;
         filterUpdates.max_fees = undefined;
+        break;
+      case "type":
+        setLocalFilters((prev) => ({ ...prev, type: "All Types" }));
+        updateFilters({ type: undefined });
+        filterUpdates.type = undefined;
+        break;
+      case "level":
+        setLocalFilters((prev) => ({ ...prev, level: "All Levels" }));
+        updateFilters({ level: undefined });
+        filterUpdates.level = undefined;
         break;
     }
 
@@ -257,6 +284,18 @@ function UniversityPage() {
           filterUpdates.min_fees = params.min_fees;
         }
         break;
+      case "type":
+        const typeName =
+          typeof value === "string" && value !== "" ? value : undefined;
+        updateFilters({ type: typeName });
+        filterUpdates.type = typeName;
+        break;
+      case "level":
+        const levelName =
+          typeof value === "string" && value !== "" ? value : undefined;
+        updateFilters({ level: levelName });
+        filterUpdates.level = levelName;
+        break;
     }
 
     // Update URL after filter change
@@ -288,6 +327,9 @@ function UniversityPage() {
 
       {/* Main Content */}
       <div className="container mx-auto py-6">
+        {availableFilters?.content && (
+          <p className="mb-8 text-lg font-normal">{availableFilters.content}</p>
+        )}
         <div className="flex flex-col gap-6 lg:flex-row">
           {/* Filter Section */}
           <EnhancedFilterSection

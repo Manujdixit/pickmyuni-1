@@ -85,6 +85,7 @@ export const getCollegeList = async (req: Request, res: Response) => {
       searchquery,
       statename,
       coursename,
+      type,
       min_fees,
       max_fees,
       streamname,
@@ -146,6 +147,48 @@ export const getCollegeList = async (req: Request, res: Response) => {
       }
     }
 
+    if (type) {
+      whereClause.type = type;
+    }
+
+    let getContentFor;
+    // Set getContentFor according to priority: state > stream > course
+    if (statename) {
+      getContentFor = "state";
+    } else if (streamname) {
+      getContentFor = "stream";
+    } else if (coursename) {
+      getContentFor = "course";
+    } else {
+      getContentFor = undefined;
+    }
+
+    const getContent = () => {
+      if (getContentFor === "state" && statename) {
+        return prisma.state.findFirst({
+          where: { slug: { contains: String(statename), mode: "insensitive" } },
+          select: { content: true },
+        });
+      }
+      if (getContentFor === "stream" && streamname) {
+        return prisma.stream.findFirst({
+          where: {
+            slug: { contains: String(streamname), mode: "insensitive" },
+          },
+          select: { content: true },
+        });
+      }
+      if (getContentFor === "course" && coursename) {
+        return prisma.courses.findFirst({
+          where: {
+            slug: { contains: String(coursename), mode: "insensitive" },
+          },
+          select: { content: true },
+        });
+      }
+      return Promise.resolve(null);
+    };
+
     // Determine sort order
     let orderBy: any = { score: "desc" }; // default
 
@@ -167,29 +210,48 @@ export const getCollegeList = async (req: Request, res: Response) => {
     }
 
     // Fetch colleges and total count in parallel for efficiency
-    const [colleges, totalColleges] = await Promise.all([
-      prisma.colleges.findMany({
-        where: whereClause,
-        select: {
-          id: true,
-          slug: true,
-          logo_url: true,
-          college_name: true,
-          location: true,
-          rating: true,
-          score: true,
-          brochure_url: true,
-          avg_fees_in_aud: true,
-          city: { select: { name: true } },
-          state: { select: { name: true } },
-          CollegesCourses: { select: { id: true } },
-        },
-        orderBy,
-        skip,
-        take,
-      }),
-      prisma.colleges.count({ where: whereClause }),
-    ]);
+    const [colleges, totalColleges, content, streams, states, courses] =
+      await Promise.all([
+        prisma.colleges.findMany({
+          where: whereClause,
+          select: {
+            id: true,
+            slug: true,
+            logo_url: true,
+            college_name: true,
+            location: true,
+            rating: true,
+            score: true,
+            brochure_url: true,
+            avg_fees_in_aud: true,
+            type: true,
+            level: true,
+            city: { select: { name: true } },
+            state: { select: { name: true } },
+            CollegesCourses: { select: { id: true } },
+          },
+          orderBy,
+          skip,
+          take,
+        }),
+        prisma.colleges.count({ where: whereClause }),
+        getContent(),
+        prisma.stream.findMany({
+          where: { Colleges: { some: {} } },
+          select: { id: true, name: true, slug: true },
+          orderBy: { name: "asc" },
+        }),
+        prisma.state.findMany({
+          where: { Colleges: { some: {} } },
+          select: { id: true, name: true, slug: true },
+          orderBy: { name: "asc" },
+        }),
+        prisma.courses.findMany({
+          where: { CollegesCourses: { some: {} } },
+          select: { id: true, course_name: true, slug: true },
+          orderBy: { course_name: "asc" },
+        }),
+      ]);
 
     // Transform data to include course_count and flatten city/state names
     const collegeList = colleges.map((college) => ({
@@ -205,26 +267,9 @@ export const getCollegeList = async (req: Request, res: Response) => {
       city_name: college.city.name,
       state_name: college.state.name,
       course_count: college.CollegesCourses.length,
+      type: college.type,
+      level: college.level,
     }));
-
-    // Fetch filter options with both id and name, in parallel
-    const [streams, states, courses] = await Promise.all([
-      prisma.stream.findMany({
-        where: { Colleges: { some: {} } },
-        select: { id: true, name: true, slug: true },
-        orderBy: { name: "asc" },
-      }),
-      prisma.state.findMany({
-        where: { Colleges: { some: {} } },
-        select: { id: true, name: true, slug: true },
-        orderBy: { name: "asc" },
-      }),
-      prisma.courses.findMany({
-        where: { CollegesCourses: { some: {} } },
-        select: { id: true, course_name: true, slug: true },
-        orderBy: { course_name: "asc" },
-      }),
-    ]);
 
     const response = {
       success: true,
@@ -240,6 +285,9 @@ export const getCollegeList = async (req: Request, res: Response) => {
           stream: streams,
           state: states,
           courses: courses,
+          type: ["government", "private", "other"],
+          level: ["level1", "level2", "level3"],
+          content: content?.content,
         },
       },
     };

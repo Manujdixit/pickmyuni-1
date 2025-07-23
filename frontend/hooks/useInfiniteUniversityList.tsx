@@ -21,6 +21,8 @@ export function useInfiniteUniversityList(initialParams: any = {}) {
     city: [],
     state: [],
     courses: [],
+    type: [],
+    content: "",
   });
   const [pagination, setPagination] = useState({
     currentPage: 1,
@@ -63,6 +65,8 @@ export function useInfiniteUniversityList(initialParams: any = {}) {
           searchParams.append("coursename", queryParams.coursename);
         if (queryParams.streamname)
           searchParams.append("streamname", queryParams.streamname);
+        if (queryParams.type) searchParams.append("type", queryParams.type);
+        if (queryParams.level) searchParams.append("level", queryParams.level);
         if (queryParams.min_fees)
           searchParams.append("min_fees", queryParams.min_fees.toString());
         if (queryParams.max_fees)
@@ -71,7 +75,7 @@ export function useInfiniteUniversityList(initialParams: any = {}) {
           searchParams.append("sortBy", queryParams.sortBy);
 
         const response = await fetch(
-          `${API_BASE_URL}/api/v1/college/list?${searchParams.toString()}`
+          `${API_BASE_URL}/api/v1/college/list?${searchParams.toString()}`,
         );
 
         if (!response.ok) {
@@ -114,7 +118,7 @@ export function useInfiniteUniversityList(initialParams: any = {}) {
         setLoadingMore(false);
       }
     },
-    []
+    [],
   );
 
   // Fetch data when params change (except for page changes during infinite scroll)
