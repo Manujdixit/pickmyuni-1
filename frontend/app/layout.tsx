@@ -26,13 +26,6 @@ const roboto = Roboto({
   subsets: ["latin"],
 });
 
-const plus_jakarta = Plus_Jakarta_Sans({
-  weight: ["500"],
-  variable: "--font-jakarta",
-  subsets: ["latin"],
-  display: "swap",
-});
-
 export const metadata: Metadata = {
   title: {
     default:
@@ -95,7 +88,7 @@ export default function RootLayout({
         <OrganizationSchema />
       </head>
       <body
-        className={`${roboto.variable} ${anton.variable} ${plus_jakarta.variable} flex min-h-screen flex-col font-sans antialiased`}
+        className={`${roboto.variable} ${anton.variable} flex min-h-screen flex-col font-sans antialiased`}
       >
         <Navbar />
         <div className="fixed bottom-4 right-4 z-20 flex flex-col items-end gap-2">
@@ -134,10 +127,10 @@ export default function RootLayout({
         <Toaster />
         <Footer />
         <Script
-          strategy="afterInteractive"
+          strategy="lazyOnload"
           src="https://www.googletagmanager.com/gtag/js?id=G-25ZL17BREH"
         />
-        <Script id="google-analytics" strategy="afterInteractive">
+        <Script id="google-analytics" strategy="lazyOnload">
           {`
           window.dataLayer = window.dataLayer || [];
           function gtag(){dataLayer.push(arguments);}

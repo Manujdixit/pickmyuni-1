@@ -1,6 +1,12 @@
 import Image from "next/image";
 import Link from "next/link";
-import { Facebook, Twitter, Mail } from "lucide-react";
+import {
+  Music2Icon,
+  Youtube,
+  FacebookIcon,
+  LinkedinIcon,
+  Instagram,
+} from "lucide-react";
 import { getYear } from "@/utils/getYear";
 
 export default function Footer() {
@@ -136,23 +142,42 @@ export default function Footer() {
             <h4 className="mb-4 mt-6 text-lg font-bold">Social Media</h4>
             <div className="flex justify-center space-x-4 sm:justify-start">
               <Link
-                href="#"
+                href="https://www.facebook.com/people/Pickmyuni/61576633748893/?mibextid=wwXIfr&rdid=55blvIqh3W7qBMYx&share_url=https://www.facebook.com/share/19hveAoxQw/?mibextid=wwXIfr"
                 className="rounded-full bg-gray-700 p-2 transition-colors hover:bg-gray-600"
               >
-                <Facebook size={20} />
+                <FacebookIcon size={20} />
               </Link>
               <Link
-                href="#"
+                href="https://www.instagram.com/pickmyuni/"
                 className="rounded-full bg-gray-700 p-2 transition-colors hover:bg-gray-600"
               >
-                <Twitter size={20} />
+                <Instagram size={20} />
               </Link>
               <Link
+                href="https://www.linkedin.com/company/pick-my-uni/"
+                className="rounded-full bg-gray-700 p-2 transition-colors hover:bg-gray-600"
+              >
+                <LinkedinIcon size={20} />
+              </Link>
+              <Link
+                href="https://www.tiktok.com/@pickmyuni1"
+                className="rounded-full bg-gray-700 p-2 transition-colors hover:bg-gray-600"
+              >
+                <Music2Icon size={20} />
+              </Link>
+
+              <Link
+                href="https://www.youtube.com/@PickMyUni"
+                className="rounded-full bg-gray-700 p-2 transition-colors hover:bg-gray-600"
+              >
+                <Youtube size={20} />
+              </Link>
+              {/* <Link
                 href="#"
                 className="rounded-full bg-gray-700 p-2 transition-colors hover:bg-gray-600"
               >
                 <Mail size={20} />
-              </Link>
+              </Link> */}
             </div>
           </div>
         </div>

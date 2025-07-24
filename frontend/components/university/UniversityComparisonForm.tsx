@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Clock, Plus, University } from "lucide-react";
 
 import { useEffect, useState, useCallback, useRef } from "react";
+import { useVirtualizer } from "@tanstack/react-virtual";
 import CourseCard from "./CourseCard";
 import UniversityBox from "./UniversityBox";
 import UniComapareCrad from "./UniComapareCrad";
@@ -16,13 +17,62 @@ export default function UniversityComparisonForm() {
   const [show, setshow] = useState(false);
   const [isInitialized, setIsInitialized] = useState(false);
   const urlUpdateTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+
+  // Virtualized Course List Component
+  const VirtualizedCourseList = ({ courses }: { courses: any[] }) => {
+    const parentRef = useRef<HTMLDivElement>(null);
+
+    const virtualizer = useVirtualizer({
+      count: courses.length,
+      getScrollElement: () => parentRef.current,
+      estimateSize: () => 250, // Estimated height of each CourseCard
+      overscan: 5,
+    });
+
+    return (
+      <div
+        ref={parentRef}
+        className="scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-transparent max-h-[300px] overflow-y-auto"
+        style={{ scrollbarGutter: "stable" }}
+      >
+        <div
+          style={{
+            height: `${virtualizer.getTotalSize()}px`,
+            width: "100%",
+            position: "relative",
+          }}
+        >
+          {virtualizer.getVirtualItems().map((virtualItem) => {
+            const course = courses[virtualItem.index];
+            return (
+              <div
+                key={virtualItem.key}
+                style={{
+                  position: "absolute",
+                  top: 0,
+                  left: 0,
+                  width: "100%",
+                  height: `${virtualItem.size}px`,
+                  transform: `translateY(${virtualItem.start}px)`,
+                  padding: "0 4px 16px 4px", // Add some spacing between items
+                }}
+              >
+                <CourseCard course={course} />
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    );
+  };
+
   // Each university: { id: number, collegeId: string|null, collegeName: string|null }
   type University = {
     id: number;
     collegeId: string | null;
     collegeName: string;
-    streamId: string | null;
-    streamName: string | null;
+    courseId: string | null;
+    courseName: string | null;
     data: any | null;
   };
 
@@ -31,16 +81,16 @@ export default function UniversityComparisonForm() {
       id: 1,
       collegeId: null,
       collegeName: "",
-      streamId: null,
-      streamName: "",
+      courseId: null,
+      courseName: "",
       data: null,
     },
     {
       id: 2,
       collegeId: null,
       collegeName: "",
-      streamId: null,
-      streamName: "",
+      courseId: null,
+      courseName: "",
       data: null,
     },
   ]);
@@ -53,8 +103,8 @@ export default function UniversityComparisonForm() {
           id: Date.now(),
           collegeId: null,
           collegeName: "",
-          streamId: null,
-          streamName: "",
+          courseId: null,
+          courseName: "",
           data: null,
         },
       ]);
@@ -76,10 +126,10 @@ export default function UniversityComparisonForm() {
     // Debounce URL updates to avoid excessive calls
     urlUpdateTimeoutRef.current = setTimeout(() => {
       const params = universities
-        .filter((uni) => uni.collegeId && uni.streamId)
+        .filter((uni) => uni.collegeId && uni.courseId)
         .map(
           (uni, idx) =>
-            `college${idx + 1}=${encodeURIComponent(uni.collegeId!)}&stream${idx + 1}=${encodeURIComponent(uni.streamId!)}`,
+            `college${idx + 1}=${encodeURIComponent(uni.collegeId!)}&course${idx + 1}=${encodeURIComponent(uni.courseId!)}`,
         )
         .join("&");
       const url = `/compare-universities-in-australia${params ? `?${params}` : ""}`;
@@ -99,11 +149,11 @@ export default function UniversityComparisonForm() {
     [],
   );
 
-  const setSelectedStream = useCallback(
-    (index: number, streamId: string | null, streamName: string) => {
+  const setSelectedCourse = useCallback(
+    (index: number, courseId: string | null, courseName: string) => {
       setUniversities((prev) =>
         prev.map((uni, i) =>
-          i === index ? { ...uni, streamId, streamName } : uni,
+          i === index ? { ...uni, courseId, courseName } : uni,
         ),
       );
     },
@@ -135,16 +185,16 @@ export default function UniversityComparisonForm() {
       // Parse URL parameters
       for (let i = 1; i <= 4; i++) {
         const collegeId = searchParams.get(`college${i}`);
-        const streamId = searchParams.get(`stream${i}`);
+        const courseId = searchParams.get(`course${i}`);
 
-        if (collegeId || streamId) {
+        if (collegeId || courseId) {
           hasUrlParams = true;
           initialUniversities.push({
             id: i,
             collegeId: collegeId || null,
             collegeName: "", // Will be populated when university data loads
-            streamId: streamId || null,
-            streamName: "", // Will be populated when university data loads
+            courseId: courseId || null,
+            courseName: "", // Will be populated when university data loads
             data: null,
           });
         }
@@ -158,8 +208,8 @@ export default function UniversityComparisonForm() {
             id: initialUniversities.length + 1,
             collegeId: null,
             collegeName: "",
-            streamId: null,
-            streamName: "",
+            courseId: null,
+            courseName: "",
             data: null,
           });
         }
@@ -171,20 +221,20 @@ export default function UniversityComparisonForm() {
           if (uni.collegeId) {
             try {
               const response = await fetch(
-                `${process.env.NEXT_PUBLIC_API_URL}/api/v1/college/compare?college_id=${uni.collegeId}`,
+                `${process.env.NEXT_PUBLIC_API_URL}/api/v1/college/compare?college_id=${uni.collegeId}&course_id=${uni.courseId}`,
               );
               const data = await response.json();
               if (data.success && data.data.college) {
                 const collegeName = data.data.college.college_name;
-                const streams = data.data.streams || [];
+                const courses = data.data.college?.CollegesCourses || [];
 
                 // Find stream name if streamId exists
-                let streamName = "";
-                if (uni.streamId && streams.length > 0) {
-                  const stream = streams.find(
-                    (s: any) => String(s.id) === uni.streamId,
+                let courseName = "";
+                if (uni.courseId && courses.length > 0) {
+                  const course = courses.find(
+                    (s: any) => String(s.id) === uni.courseId,
                   );
-                  streamName = stream ? stream.course_name : "";
+                  courseName = course ? course.name : "";
                 }
 
                 // Update the university with fetched data
@@ -194,7 +244,7 @@ export default function UniversityComparisonForm() {
                       ? {
                           ...u,
                           collegeName,
-                          streamName,
+                          courseName,
                         }
                       : u,
                   ),
@@ -266,16 +316,16 @@ export default function UniversityComparisonForm() {
                 id={uni.id}
                 selectedCollegeId={uni.collegeId}
                 selectedCollegeName={uni.collegeName}
-                selectedStreamId={uni.streamId}
-                selectedStreamName={uni.streamName || undefined}
+                selectedCourseId={uni.courseId}
+                selectedCourseName={uni.courseName || undefined}
                 setSelectedCollege={(
                   collegeId: string | null,
                   collegeName: string,
                 ) => setSelectedUniversity(idx, collegeId, collegeName)}
-                setSelectedStream={(
-                  streamId: string | null,
-                  streamName: string,
-                ) => setSelectedStream(idx, streamId, streamName)}
+                setSelectedCourse={(
+                  courseId: string | null,
+                  courseName: string,
+                ) => setSelectedCourse(idx, courseId, courseName)}
                 setUniversityData={(data: any) => setUniversityData(idx, data)}
                 onDelete={() => deleteUniversity(uni.id)}
                 canDelete={universities.length > 2}
@@ -324,20 +374,9 @@ export default function UniversityComparisonForm() {
                 {universities.map((uni) => {
                   const courses = uni.data?.college?.CollegesCourses || [];
                   return (
-                    <div
-                      key={uni.id}
-                      className="scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-transparent flex max-h-[300px] flex-col gap-4 overflow-y-auto"
-                      style={{ scrollbarGutter: "stable" }}
-                    >
+                    <div key={uni.id} className="flex flex-col">
                       {courses.length > 0 ? (
-                        <div className="grid gap-4">
-                          {courses.map((course: any, idx: number) => (
-                            <CourseCard
-                              key={course.id || idx}
-                              course={course}
-                            />
-                          ))}
-                        </div>
+                        <VirtualizedCourseList courses={courses} />
                       ) : (
                         <div className="flex h-full min-h-[120px] flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 p-6 text-gray-400">
                           <Clock className="mb-2 h-8 w-8 text-gray-300" />

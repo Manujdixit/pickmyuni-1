@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
 import { motion } from "framer-motion";
-import { useRef } from "react";
+import React, { useRef } from "react";
 import { useInView } from "framer-motion";
 
 const steps = [
@@ -39,6 +39,117 @@ const steps = [
   },
 ];
 
+// Memoized step component to avoid re-renders and optimize TBT
+const ProcessStep = React.memo(function ProcessStep({
+  step,
+  index,
+  isMobile,
+}: {
+  step: (typeof steps)[0];
+  index: number;
+  isMobile: boolean;
+}) {
+  const ref = useRef(null);
+  const inView = useInView(ref, {
+    once: true,
+    margin: isMobile ? "-50px" : "-100px",
+  });
+
+  return (
+    <motion.div
+      key={index}
+      ref={ref}
+      initial={{ opacity: 0, y: isMobile ? 25 : 35 }}
+      animate={inView ? { opacity: 1, y: 0 } : {}}
+      transition={{
+        duration: isMobile ? 0.4 : 0.5,
+        delay: index * (isMobile ? 0.1 : 0.15),
+        ease: "easeOut",
+      }}
+      className={isMobile ? "relative pl-12" : "relative"}
+    >
+      {/* Timeline Dot */}
+      <div
+        className={
+          isMobile
+            ? "bg-brand-secondary absolute left-4 top-6 z-10 h-4 w-4 -translate-x-1/2 transform rounded-full"
+            : "bg-brand-secondary absolute left-1/2 top-1/2 z-10 h-4 w-4 -translate-x-1/2 -translate-y-1/2 transform rounded-full"
+        }
+      />
+
+      {isMobile ? (
+        <div className="flex flex-col">
+          <h3 className="text-brand-primary mb-2 font-bold">{step.title}</h3>
+          <p className="mb-4 text-base font-extralight text-gray-600 md:text-xl">
+            {step.description}
+          </p>
+          <div className="flex justify-center">
+            <Image
+              src={step.icon || "/placeholder.svg"}
+              alt={`Step ${step.number}`}
+              width={200}
+              height={152}
+              className="mx-auto"
+              loading="lazy"
+              priority={false}
+            />
+          </div>
+        </div>
+      ) : (
+        <div className="grid items-center gap-8 md:grid-cols-2">
+          {step.position === "right" ? (
+            <>
+              <div className="flex flex-col text-right md:pr-12">
+                <div className="flex flex-col items-end">
+                  <h3 className="text-brand-primary mb-2 font-bold">
+                    {step.title}
+                  </h3>
+                  <p className="max-w-md text-xl font-extralight text-gray-600">
+                    {step.description}
+                  </p>
+                </div>
+              </div>
+              <div className="ml-10 flex justify-start">
+                <Image
+                  src={step.icon || "/placeholder.svg"}
+                  alt={`Step ${step.number}`}
+                  width={282}
+                  height={214}
+                  loading="lazy"
+                  priority={false}
+                />
+              </div>
+            </>
+          ) : (
+            <>
+              <div className="mr-10 flex justify-end">
+                <Image
+                  src={step.icon || "/placeholder.svg"}
+                  alt={`Step ${step.number}`}
+                  width={282}
+                  height={214}
+                  loading="lazy"
+                  priority={false}
+                />
+              </div>
+              <div className="md:pl-12">
+                <div className="flex flex-col">
+                  <h3 className="text-brand-primary mb-2 font-bold">
+                    {step.title}
+                  </h3>
+                  <p className="max-w-md text-xl font-extralight text-gray-600">
+                    {step.description}
+                  </p>
+                </div>
+              </div>
+            </>
+          )}
+        </div>
+      )}
+    </motion.div>
+  );
+});
+
 export default function ProcessSection() {
   return (
     <section className="bg-white py-8 md:py-16">
@@ -50,118 +161,32 @@ export default function ProcessSection() {
 
         {/* Mobile Timeline (visible only on small screens) */}
         <div className="relative mx-auto w-full md:hidden">
-          <div className="absolute bottom-0 left-4 top-0 w-0.5 bg-gray-200"></div>
-
+          <div className="absolute bottom-0 left-4 top-0 w-0.5 bg-gray-200" />
           <div className="space-y-8">
-            {steps.map((step, index) => {
-              const ref = useRef(null);
-              const inView = useInView(ref, { once: true, margin: "-50px" });
-              return (
-                <motion.div
-                  key={index}
-                  ref={ref}
-                  initial={{ opacity: 0, y: 40 }}
-                  animate={inView ? { opacity: 1, y: 0 } : {}}
-                  transition={{ duration: 0.6, delay: index * 0.2 }}
-                  className="relative pl-12"
-                >
-                  {/* Timeline Dot */}
-                  <div className="bg-brand-secondary absolute left-4 top-6 z-10 h-4 w-4 -translate-x-1/2 transform rounded-full"></div>
-
-                  <div className="flex flex-col">
-                    <h3 className="text-brand-primary mb-2 font-bold">
-                      {step.title}
-                    </h3>
-                    <p className="mb-4 text-base font-extralight text-gray-600 md:text-xl">
-                      {step.description}
-                    </p>
-                    <div className="flex justify-center">
-                      <Image
-                        src={step.icon || "/placeholder.svg"}
-                        alt={`Step ${step.number}`}
-                        width={200}
-                        height={152}
-                        className="mx-auto"
-                        loading="lazy"
-                      />
-                    </div>
-                  </div>
-                </motion.div>
-              );
-            })}
+            {steps.map((step, index) => (
+              <ProcessStep
+                key={index}
+                step={step}
+                index={index}
+                isMobile={true}
+              />
+            ))}
           </div>
         </div>
 
         {/* Desktop Timeline (hidden on small screens) */}
         <div className="relative hidden md:block">
           {/* Vertical Timeline Line */}
-          <div className="absolute bottom-0 left-1/2 top-0 w-0.5 -translate-x-1/2 transform bg-gray-200"></div>
-
+          <div className="absolute bottom-0 left-1/2 top-0 w-0.5 -translate-x-1/2 transform bg-gray-200" />
           <div className="relative space-y-16">
-            {steps.map((step, index) => {
-              const ref = useRef(null);
-              const inView = useInView(ref, { once: true, margin: "-100px" });
-              return (
-                <motion.div
-                  key={index}
-                  ref={ref}
-                  initial={{ opacity: 0, y: 60 }}
-                  animate={inView ? { opacity: 1, y: 0 } : {}}
-                  transition={{ duration: 0.7, delay: index * 0.25 }}
-                  className="relative"
-                >
-                  {/* Timeline Dot */}
-                  <div className="bg-brand-secondary absolute left-1/2 top-1/2 z-10 h-4 w-4 -translate-x-1/2 -translate-y-1/2 transform rounded-full"></div>
-
-                  <div className="grid items-center gap-8 md:grid-cols-2">
-                    {step.position === "right" ? (
-                      <>
-                        <div className="flex flex-col text-right md:pr-12">
-                          <div className="flex flex-col items-end">
-                            <h3 className="text-brand-primary mb-2 font-bold">
-                              {step.title}
-                            </h3>
-                            <p className="max-w-md text-xl font-extralight text-gray-600">
-                              {step.description}
-                            </p>
-                          </div>
-                        </div>
-                        <div className="ml-10 flex justify-start">
-                          <Image
-                            src={step.icon || "/placeholder.svg"}
-                            alt={`Step ${step.number}`}
-                            width={282}
-                            height={214}
-                            loading="lazy"
-                          />
-                        </div>
-                      </>
-                    ) : (
-                      <>
-                        <div className="mr-10 flex justify-end">
-                          <Image
-                            src={step.icon || "/placeholder.svg"}
-                            alt={`Step ${step.number}`}
-                            width={282}
-                            height={214}
-                          />
-                        </div>
-                        <div className="md:pl-12">
-                          <div className="flex flex-col">
-                            <h3 className="text-brand-primary mb-2 font-bold">
-                              {step.title}
-                            </h3>
-                            <p className="max-w-md text-xl font-extralight text-gray-600">
-                              {step.description}
-                            </p>
-                          </div>
-                        </div>
-                      </>
-                    )}
-                  </div>
-                </motion.div>
-              );
-            })}
+            {steps.map((step, index) => (
+              <ProcessStep
+                key={index}
+                step={step}
+                index={index}
+                isMobile={false}
+              />
+            ))}
           </div>
         </div>
       </div>

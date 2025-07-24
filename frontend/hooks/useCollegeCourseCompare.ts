@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import axios from "axios";
+// import axios from "axios";
 
 export type CollegeCourseCompareResult = {
   college: any; // You can type this more strictly if you know the shape
@@ -25,11 +25,15 @@ export const useCollegeCourseCompare = (
       setLoading(true);
       setError(null);
       try {
-        const response = await axios.get(
+        const res = await fetch(
           `${process.env.NEXT_PUBLIC_API_URL}/api/v1/college/compare?college_id=${collegeId}&course_id=${courseId}`,
         );
-        if (response.data.success) {
-          setData(response.data.data);
+        if (!res.ok) {
+          throw new Error(`HTTP error! status: ${res.status}`);
+        }
+        const data = await res.json();
+        if (data.success) {
+          setData(data.data);
         } else {
           setError("Failed to fetch comparison");
         }
