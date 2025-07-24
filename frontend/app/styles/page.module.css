@@ -151,3 +151,44 @@
   overflow: hidden;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
+
+/* Accordion styles - must be at the top level, not inside any block */
+.styledContent .accordion-header {
+  cursor: pointer;
+  display: flex;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  justify-content: space-between;
+  align-items: center;
+  transition: all 0.3s ease;
+  border-bottom: 1px solid #cdced1;
+}
+
+.styledContent .accordion-header h4 {
+  color: #2c5680;
+  font-size: 1.2em;
+  margin: 0;
+}
+
+.styledContent .accordion-icon {
+  font-size: 1.5em;
+  color: #2c5680;
+  transition: transform 0.3s ease;
+}
+
+.styledContent .accordion-content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+  background: white;
+}
+
+.styledContent .accordion-content.active {
+  max-height: 200px;
+}
+
+.styledContent .accordion-content p {
+  padding: 20px;
+  margin: 0;
+  color: #374151;
+}

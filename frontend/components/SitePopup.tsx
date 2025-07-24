@@ -31,13 +31,13 @@ export const SitePop = () => {
 
   return (
     <>
-      <a
+      <button
         className="bg-brand-secondary cursor-pointer rounded-full p-3 transition-colors hover:bg-orange-600"
         aria-label="chat with ai"
         onClick={handleClick}
       >
         <BotMessageSquare className="text-white" />
-      </a>
+      </button>
       {isOpen && <ContactWrapper open={isOpen} onOpenChange={handleClose} />}
     </>
   );

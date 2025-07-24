@@ -1,4 +1,8 @@
+"use client";
 import Image from "next/image";
+import { motion } from "framer-motion";
+import { useRef } from "react";
+import { useInView } from "framer-motion";
 
 const steps = [
   {
@@ -37,105 +41,127 @@ const steps = [
 
 export default function ProcessSection() {
   return (
-    <section className="py-8 md:py-16 bg-white">
+    <section className="bg-white py-8 md:py-16">
       <div className="container mx-auto px-4">
-        <h2 className="text-4xl font-semibold leading-tight text-center mb-8 md:mb-16">
+        <h2 className="mb-8 text-center text-4xl font-semibold leading-tight md:mb-16">
           <span className="text-brand-primary">Our Process 4 Simple</span>{" "}
           <span className="text-brand-secondary">Steps</span>
         </h2>
 
         {/* Mobile Timeline (visible only on small screens) */}
-        <div className="md:hidden relative mx-auto w-full">
-          <div className="absolute left-4 top-0 bottom-0 w-0.5 bg-gray-200"></div>
+        <div className="relative mx-auto w-full md:hidden">
+          <div className="absolute bottom-0 left-4 top-0 w-0.5 bg-gray-200"></div>
 
           <div className="space-y-8">
-            {steps.map((step, index) => (
-              <div key={index} className="relative pl-12">
-                {/* Timeline Dot */}
-                <div className="absolute left-4 top-6 w-4 h-4 bg-brand-secondary rounded-full transform -translate-x-1/2 z-10"></div>
+            {steps.map((step, index) => {
+              const ref = useRef(null);
+              const inView = useInView(ref, { once: true, margin: "-50px" });
+              return (
+                <motion.div
+                  key={index}
+                  ref={ref}
+                  initial={{ opacity: 0, y: 40 }}
+                  animate={inView ? { opacity: 1, y: 0 } : {}}
+                  transition={{ duration: 0.6, delay: index * 0.2 }}
+                  className="relative pl-12"
+                >
+                  {/* Timeline Dot */}
+                  <div className="bg-brand-secondary absolute left-4 top-6 z-10 h-4 w-4 -translate-x-1/2 transform rounded-full"></div>
 
-                <div className="flex flex-col">
-                  <h3 className="text-brand-primary font-bold mb-2">
-                    {step.title}
-                  </h3>
-                  <p className="text-gray-600 text-base md:text-xl font-extralight mb-4">
-                    {step.description}
-                  </p>
-                  <div className="flex justify-center">
-                    <Image
-                      src={step.icon || "/placeholder.svg"}
-                      alt={`Step ${step.number}`}
-                      width={200}
-                      height={152}
-                      className="mx-auto"
-                      loading="lazy"
-                    />
+                  <div className="flex flex-col">
+                    <h3 className="text-brand-primary mb-2 font-bold">
+                      {step.title}
+                    </h3>
+                    <p className="mb-4 text-base font-extralight text-gray-600 md:text-xl">
+                      {step.description}
+                    </p>
+                    <div className="flex justify-center">
+                      <Image
+                        src={step.icon || "/placeholder.svg"}
+                        alt={`Step ${step.number}`}
+                        width={200}
+                        height={152}
+                        className="mx-auto"
+                        loading="lazy"
+                      />
+                    </div>
                   </div>
-                </div>
-              </div>
-            ))}
+                </motion.div>
+              );
+            })}
           </div>
         </div>
 
         {/* Desktop Timeline (hidden on small screens) */}
-        <div className="hidden md:block relative">
+        <div className="relative hidden md:block">
           {/* Vertical Timeline Line */}
-          <div className="absolute left-1/2 top-0 bottom-0 w-0.5 bg-gray-200 transform -translate-x-1/2"></div>
+          <div className="absolute bottom-0 left-1/2 top-0 w-0.5 -translate-x-1/2 transform bg-gray-200"></div>
 
-          <div className="space-y-16 relative">
-            {steps.map((step, index) => (
-              <div key={index} className="relative">
-                {/* Timeline Dot */}
-                <div className="absolute left-1/2 top-1/2 w-4 h-4 bg-brand-secondary rounded-full transform -translate-x-1/2 -translate-y-1/2 z-10"></div>
+          <div className="relative space-y-16">
+            {steps.map((step, index) => {
+              const ref = useRef(null);
+              const inView = useInView(ref, { once: true, margin: "-100px" });
+              return (
+                <motion.div
+                  key={index}
+                  ref={ref}
+                  initial={{ opacity: 0, y: 60 }}
+                  animate={inView ? { opacity: 1, y: 0 } : {}}
+                  transition={{ duration: 0.7, delay: index * 0.25 }}
+                  className="relative"
+                >
+                  {/* Timeline Dot */}
+                  <div className="bg-brand-secondary absolute left-1/2 top-1/2 z-10 h-4 w-4 -translate-x-1/2 -translate-y-1/2 transform rounded-full"></div>
 
-                <div className="grid md:grid-cols-2 gap-8 items-center">
-                  {step.position === "right" ? (
-                    <>
-                      <div className="flex flex-col md:pr-12 text-right">
-                        <div className="flex flex-col items-end">
-                          <h3 className="text-brand-primary font-bold mb-2">
-                            {step.title}
-                          </h3>
-                          <p className="text-gray-600 text-xl font-extralight max-w-md">
-                            {step.description}
-                          </p>
+                  <div className="grid items-center gap-8 md:grid-cols-2">
+                    {step.position === "right" ? (
+                      <>
+                        <div className="flex flex-col text-right md:pr-12">
+                          <div className="flex flex-col items-end">
+                            <h3 className="text-brand-primary mb-2 font-bold">
+                              {step.title}
+                            </h3>
+                            <p className="max-w-md text-xl font-extralight text-gray-600">
+                              {step.description}
+                            </p>
+                          </div>
                         </div>
-                      </div>
-                      <div className="flex justify-start ml-10">
-                        <Image
-                          src={step.icon || "/placeholder.svg"}
-                          alt={`Step ${step.number}`}
-                          width={282}
-                          height={214}
-                          loading="lazy"
-                        />
-                      </div>
-                    </>
-                  ) : (
-                    <>
-                      <div className="flex justify-end mr-10">
-                        <Image
-                          src={step.icon || "/placeholder.svg"}
-                          alt={`Step ${step.number}`}
-                          width={282}
-                          height={214}
-                        />
-                      </div>
-                      <div className="md:pl-12">
-                        <div className="flex flex-col">
-                          <h3 className="text-brand-primary font-bold mb-2">
-                            {step.title}
-                          </h3>
-                          <p className="text-gray-600 text-xl font-extralight max-w-md">
-                            {step.description}
-                          </p>
+                        <div className="ml-10 flex justify-start">
+                          <Image
+                            src={step.icon || "/placeholder.svg"}
+                            alt={`Step ${step.number}`}
+                            width={282}
+                            height={214}
+                            loading="lazy"
+                          />
                         </div>
-                      </div>
-                    </>
-                  )}
-                </div>
-              </div>
-            ))}
+                      </>
+                    ) : (
+                      <>
+                        <div className="mr-10 flex justify-end">
+                          <Image
+                            src={step.icon || "/placeholder.svg"}
+                            alt={`Step ${step.number}`}
+                            width={282}
+                            height={214}
+                          />
+                        </div>
+                        <div className="md:pl-12">
+                          <div className="flex flex-col">
+                            <h3 className="text-brand-primary mb-2 font-bold">
+                              {step.title}
+                            </h3>
+                            <p className="max-w-md text-xl font-extralight text-gray-600">
+                              {step.description}
+                            </p>
+                          </div>
+                        </div>
+                      </>
+                    )}
+                  </div>
+                </motion.div>
+              );
+            })}
           </div>
         </div>
       </div>

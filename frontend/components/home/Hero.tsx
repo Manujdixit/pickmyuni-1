@@ -48,13 +48,11 @@ export default function HeroSection() {
             <Image
               src="https://pickmyuni-bucket.s3.ap-southeast-2.amazonaws.com/static/student_image.webp"
               alt="Student with card"
-              width={450}
-              height={800}
-              className="relative z-10"
+              width={149}
+              height={160}
+              className="relative z-10 h-[397px] w-[426px]"
               priority
-              quality={55}
               fetchPriority="high"
-              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             />
           </div>
         </div>

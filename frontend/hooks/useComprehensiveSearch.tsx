@@ -1,5 +1,5 @@
 import { useState, useCallback } from "react";
-import axios from "axios";
+// import axios from "axios";
 import { SearchResults } from "@/types/search";
 
 export const useComprehensiveSearch = () => {
@@ -18,12 +18,15 @@ export const useComprehensiveSearch = () => {
       try {
         setLoading(true);
         setError(null);
-        const response = await axios.get(
-          `${apiUrl}/api/v1/search?q=${encodeURIComponent(query)}`
+        const res = await fetch(
+          `${apiUrl}/api/v1/search?q=${encodeURIComponent(query)}`,
         );
-
-        if (response.data.success) {
-          setResults(response.data.data);
+        if (!res.ok) {
+          throw new Error(`HTTP error! status: ${res.status}`);
+        }
+        const data = await res.json();
+        if (data.success) {
+          setResults(data.data);
         } else {
           setResults({ colleges: [], courses: [], articles: [] });
         }
@@ -35,7 +38,7 @@ export const useComprehensiveSearch = () => {
         setLoading(false);
       }
     },
-    [apiUrl]
+    [apiUrl],
   );
 
   const getTotalResults = () => {

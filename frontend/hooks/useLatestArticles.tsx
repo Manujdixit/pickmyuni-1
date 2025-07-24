@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
-import axios from "axios";
+// import axios from "axios";
 import { Article } from "@/types/search";
 
 interface PaginationInfo {
@@ -27,20 +27,24 @@ export function useLatestArticles(selectedSilo: string) {
           setLoading(true);
         }
 
-        const response = await axios.get(
+        const res = await fetch(
           `${process.env.NEXT_PUBLIC_API_URL}/api/v1/articles/new?page=${page}&limit=${limit}&silos=${selectedSilo}`,
         );
-
-        const { articles: newArticles, pagination: paginationData } =
-          response.data.data;
-
+        if (!res.ok) {
+          throw new Error(`HTTP error! status: ${res.status}`);
+        }
+        const data = await res.json();
+        const {
+          articles: newArticles,
+          pagination: paginationData,
+          allSilos,
+        } = data.data;
         if (append) {
           setArticles((prev) => [...prev, ...newArticles]);
         } else {
           setArticles(newArticles);
-          setSilos(response.data.data.allSilos);
+          setSilos(allSilos);
         }
-
         setPagination(paginationData);
         setHasMore(
           parseInt(paginationData.currentPage) < paginationData.totalPages,

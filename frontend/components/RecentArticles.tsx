@@ -7,7 +7,7 @@ import { randomImage } from "./home/articles";
 import { notFound } from "next/navigation";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import moment from "moment";
+import dayjs from "dayjs";
 
 function stripHtmlAndTruncate(html: string): string {
   const tempDiv = document.createElement("div");
@@ -252,7 +252,7 @@ function RecentArticles() {
                     </div>
                     <div className="flex flex-1 flex-col p-4">
                       <div className="mb-2 text-base font-normal text-gray-500">
-                        {moment(article.createdAt).format("DD MMM YYYY")}
+                        {dayjs(article.createdAt).format("DD MMM YYYY")}
                       </div>
                       <h3 className="text-brand-primary line-clamp-2 text-2xl font-semibold leading-tight">
                         {article.title}

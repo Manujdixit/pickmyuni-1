@@ -2,7 +2,7 @@ import { Article } from "@/types/search";
 import React from "react";
 import Link from "next/link";
 import { useTopArticles } from "@/hooks/useTopArticles";
-import moment from "moment";
+import dayjs from "dayjs";
 
 function PopularArticles() {
   const { articles, loading, error } = useTopArticles();
@@ -63,7 +63,7 @@ function PopularArticles() {
                   </div>
                   <div className="flex flex-1 flex-col justify-center px-4">
                     <div className="mb-2 text-xs font-medium uppercase tracking-wide text-gray-400">
-                      {moment(article.createdAt).format("MMMM Do, YYYY")}
+                      {dayjs(article.createdAt).format("MMMM Do, YYYY")}
                     </div>
                     <h3 className="text-brand-primary line-clamp-3 text-2xl font-medium leading-tight transition-colors">
                       {article.title}

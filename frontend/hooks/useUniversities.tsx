@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
+// import axios from "axios";
 
 export const useUniversities = (stream: string = "All") => {
   const [universities, setUniversities] = useState<any[]>([]);
@@ -11,28 +11,22 @@ export const useUniversities = (stream: string = "All") => {
     const fetchUniversities = async () => {
       setLoading(true);
       try {
-        const endpoint =
-          stream === "All"
-            ? `${process.env.NEXT_PUBLIC_API_URL}/api/v1/college/top`
-            : `${process.env.NEXT_PUBLIC_API_URL}/api/v1/college/top`;
-
-        const response = await axios.get(endpoint, {
-          params: stream !== "All" ? { stream } : undefined,
-        });
-
-        setUniversities(response.data.data.colleges);
-        setStreams(response.data.data.streams);
+        const endpoint = `${process.env.NEXT_PUBLIC_API_URL}/api/v1/college/top`;
+        let url = endpoint;
+        if (stream !== "All") {
+          const params = new URLSearchParams({ stream });
+          url += `?${params.toString()}`;
+        }
+        const res = await fetch(url);
+        if (!res.ok) {
+          throw new Error(`HTTP error! status: ${res.status}`);
+        }
+        const data = await res.json();
+        setUniversities(data.data.colleges);
+        setStreams(data.data.streams);
         setError(null);
       } catch (err) {
-        setError(
-          axios.isAxiosError(err)
-            ? err.response?.data?.message ||
-                err.message ||
-                "Failed to fetch universities"
-            : err instanceof Error
-            ? err.message
-            : "An error occurred"
-        );
+        setError(err instanceof Error ? err.message : "An error occurred");
         setUniversities([]);
       } finally {
         setLoading(false);

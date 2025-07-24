@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
+// import axios from "axios";
 import { Article } from "@/types/search";
 
 export function useTopArticles() {
@@ -10,10 +10,14 @@ export function useTopArticles() {
   useEffect(() => {
     const fetchArticles = async () => {
       try {
-        const response = await axios.get(
-          `${process.env.NEXT_PUBLIC_API_URL}/api/v1/articles/top`
+        const res = await fetch(
+          `${process.env.NEXT_PUBLIC_API_URL}/api/v1/articles/top`,
         );
-        setArticles(response.data.data.articles);
+        if (!res.ok) {
+          throw new Error(`HTTP error! status: ${res.status}`);
+        }
+        const data = await res.json();
+        setArticles(data.data.articles);
       } catch (err) {
         setError(err instanceof Error ? err.message : "An error occurred");
       } finally {
