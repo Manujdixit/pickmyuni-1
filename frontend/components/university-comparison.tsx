@@ -1,8 +1,12 @@
 import UniversityComparisonHero from "./university/UniversityComparisonHero";
 import UniversityComparisonHeader from "./university/UniversityComparisonHeader";
-import UniversityComparisonForm from "./university/UniversityComparisonForm";
 import UniversityBenefits from "./university/UniversityBenefits";
 import UniversityComparisonCTA from "./university/UniversityComparisonCTA";
+import dynamic from "next/dynamic";
+
+const UniversityComparisonForm = dynamic(
+  () => import("./university/UniversityComparisonForm"),
+);
 
 export default function ComaprisonComponent() {
   return (

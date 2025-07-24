@@ -16,31 +16,33 @@ datasource db {
 }
 
 model Colleges {
-  id                         Int         @id @default(autoincrement())
-  college_name               String
-  address                    String      @default("")
-  location                   String
-  established                Int?
-  email                      String?
-  contact                    String?
-  logo_url                   String?
-  bg_url                     String?
-  media_url                  Json?
-  rating                     Float? // Must be between 1 and 10
-  score                      Int         @default(1) // Must be between 1 and 999
-  intake_start_date          DateTime?
-  pr_pathway                 Boolean?
-  slug                       String      @unique
-  total_students             Int?
-  acceptance_rate            Float?
-  international_student_rate Float?
-  brochure_url               String?
-  avg_fees_in_aud            Float?
-  search_names               String?
-  is_active                  Boolean     @default(true)
-  level                      String?
-  type                       CollegeType @default(other)
-  intake                     String?
+  id                             Int         @id @default(autoincrement())
+  college_name                   String
+  address                        String      @default("")
+  location                       String
+  established                    Int?
+  email                          String?
+  contact                        String?
+  logo_url                       String?
+  bg_url                         String?
+  media_url                      Json?
+  rating                         Float? // Must be between 1 and 10
+  score                          Int         @default(1) // Must be between 1 and 999
+  intake_start_date              DateTime?
+  pr_pathway                     Boolean?
+  slug                           String      @unique
+  total_students                 Int?
+  acceptance_rate                Float?
+  international_student_rate     Float?
+  brochure_url                   String?
+  avg_fees_in_aud                Float?
+  search_names                   String?
+  is_active                      Boolean     @default(true)
+  level                          String?
+  type                           CollegeType @default(other)
+  intake                         String?
+  min_fees_int                   Float?
+  international_student_accepted Boolean     @default(false)
 
   streamId          Int  @default(1)
   cityId            Int  @default(1)
@@ -267,6 +269,7 @@ model State {
   img1       String?
   img2       String?
   is_active  Boolean @default(true)
+  content    String?
 
   Colleges Colleges[]
 
@@ -301,6 +304,7 @@ model Stream {
   img1       String?
   img2       String?
   is_active  Boolean @default(true)
+  content    String?
 
   Colleges        Colleges[]
   Courses         Courses[]

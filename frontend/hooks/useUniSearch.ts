@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useCallback } from "react";
-import axios from "axios";
+// import axios from "axios";
 import { College } from "@/types/search";
 
 export interface UniSearchResult {
@@ -17,13 +17,13 @@ export function useUniSearch() {
     setLoading(true);
     setError(null);
     try {
-      const res = await axios.get(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/v1/search/colleges`,
-        {
-          params: { q: query },
-        },
-      );
-      setResults({ colleges: res.data.data.colleges || [] });
+      const url = `${process.env.NEXT_PUBLIC_API_URL}/api/v1/search/colleges?q=${encodeURIComponent(query)}`;
+      const res = await fetch(url);
+      if (!res.ok) {
+        throw new Error(`HTTP error! status: ${res.status}`);
+      }
+      const data = await res.json();
+      setResults({ colleges: data.data.colleges || [] });
     } catch (err: any) {
       setError(err.message || "Error searching universities");
       setResults({ colleges: [] });

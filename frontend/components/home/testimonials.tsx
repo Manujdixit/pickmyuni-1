@@ -142,7 +142,7 @@ export default function TestimonialsSection() {
           {testimonialsData.map((testimonial, index) => (
             <div key={testimonial._id} className="flex flex-shrink-0 flex-col">
               {/* Testimonial speech bubble */}
-              <div className="relative mb-6 max-w-[320px] rounded-2xl bg-white p-6 shadow-lg sm:max-w-[400px]">
+              <div className="relative mb-6 max-w-[300px] rounded-2xl bg-white p-6 shadow-lg sm:max-w-[400px]">
                 {testimonial.hasVideo ? (
                   <div className="size-full">
                     <iframe
@@ -157,7 +157,7 @@ export default function TestimonialsSection() {
                   <div className="">
                     <Quote className="mb-1 h-8 font-serif text-5xl leading-none text-gray-400 opacity-50" />
                     <div
-                      className="scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-transparent hide-scrollbar max-h-60 overflow-y-scroll"
+                      className="scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-transparent hide-scrollbar h-40 overflow-y-scroll"
                       style={{ scrollbarGutter: "stable" }}
                     >
                       <p className="leading-relaxed text-black">

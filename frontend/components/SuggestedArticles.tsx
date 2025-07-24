@@ -6,7 +6,7 @@ import Link from "next/link";
 import { useTopArticles } from "@/hooks/useTopArticles";
 import Image from "next/image";
 import { Skeleton } from "./ui/skeleton";
-import moment from "moment";
+import dayjs from "dayjs";
 
 function SuggestedArticles() {
   const { articles, loading, error } = useTopArticles();
@@ -54,7 +54,7 @@ function SuggestedArticles() {
                   </div>
                   <div className="flex flex-1 flex-col justify-center p-2">
                     <span className="text-xs text-gray-500">
-                      {moment(article.createdAt).format("DD MMM YYYY")}
+                      {dayjs(article.createdAt).format("DD MMM YYYY")}
                     </span>
                     <h3 className="text-brand-primary line-clamp-2 text-sm font-medium leading-tight">
                       {article.title}

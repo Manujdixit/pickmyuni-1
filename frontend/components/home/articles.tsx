@@ -1,12 +1,12 @@
 "use client";
+
 import Link from "next/link";
 import { ArticlesLoadingSkeleton } from "@/components/skeleton/article-skeleton";
 import { useTopArticles } from "@/hooks/useTopArticles";
 import { Button } from "../ui/button";
 import Image from "next/image";
-import moment from "moment";
-import { capitalFirst } from "@/utils/capitalFirst";
 import { silosMap } from "../RecentArticles";
+import dayjs from "dayjs";
 
 interface Article {
   id: number;
@@ -69,7 +69,7 @@ export default function ArticlesSection() {
                 <div className="mb-2 flex items-center text-xs text-gray-500">
                   <span>{silosMap[article.silos] || article.silos}</span>
                   <span className="mx-2">•</span>
-                  <span>{moment(article.createdAt).format("MMM D, YYYY")}</span>
+                  <span>{dayjs(article.createdAt).format("MMM D, YYYY")}</span>
                 </div>
                 <h3 className="text-brand-primary mb-2 text-lg font-bold">
                   {article.title}

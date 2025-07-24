@@ -45,6 +45,8 @@ export function EnhancedFilterSection({
   const [selectedStreamName, setSelectedStreamName] = useState<string>("");
   const [minFees, setMinFees] = useState<string>("");
   const [maxFees, setMaxFees] = useState<string>("");
+  const [selectedType, setSelectedType] = useState<string>("");
+  const [selectedLevel, setSelectedLevel] = useState<string>("");
 
   // Use currentFilters (actual applied filters) for active filter detection
   const hasActiveFilters = currentFilters
@@ -54,7 +56,9 @@ export function EnhancedFilterSection({
         currentFilters.coursename ||
         currentFilters.streamname ||
         currentFilters.min_fees ||
-        currentFilters.max_fees
+        currentFilters.max_fees ||
+        currentFilters.type ||
+        currentFilters.level
       )
     : false;
 
@@ -65,6 +69,8 @@ export function EnhancedFilterSection({
       setSelectedStateName(currentFilters.statename || "");
       setSelectedCourseName(currentFilters.coursename || "");
       setSelectedStreamName(currentFilters.streamname || "");
+      setSelectedType(currentFilters.type || "");
+      setSelectedLevel(currentFilters.level || "");
       setMinFees(
         currentFilters.min_fees ? currentFilters.min_fees.toString() : "",
       );
@@ -88,6 +94,8 @@ export function EnhancedFilterSection({
       feesRange: "All Fees",
       exams: "All Exams",
       search: "",
+      type: "All Types",
+      level: "All Levels",
     });
     setSearchTerm("");
     setSelectedStateName("");
@@ -95,12 +103,16 @@ export function EnhancedFilterSection({
     setSelectedStreamName("");
     setMinFees("");
     setMaxFees("");
+    setSelectedType("");
+    setSelectedLevel("");
 
     // Clear API filters
     if (onFilterChange) {
       onFilterChange("state", "");
       onFilterChange("course", "");
       onFilterChange("stream", "");
+      onFilterChange("type", "");
+      onFilterChange("level", "");
     }
 
     if (onFeeRangeChange) {
@@ -157,6 +169,22 @@ export function EnhancedFilterSection({
     setSelectedStreamName(name);
     if (onFilterChange) {
       onFilterChange("stream", name);
+    }
+  };
+
+  const handleTypeChange = (typeName: string) => {
+    const name = typeName === "all" ? "" : typeName;
+    setSelectedType(name);
+    if (onFilterChange) {
+      onFilterChange("type", name);
+    }
+  };
+
+  const handleLevelChange = (levelName: string) => {
+    const name = levelName === "all" ? "" : levelName;
+    setSelectedLevel(name);
+    if (onFilterChange) {
+      onFilterChange("level", name);
     }
   };
 
@@ -287,6 +315,42 @@ export function EnhancedFilterSection({
                   <X className="ml-1 h-3 w-3" />
                 </Badge>
               )}
+              {currentFilters?.type && availableFilters?.type && (
+                <Badge
+                  variant="secondary"
+                  onClick={() => {
+                    if (onClearIndividualFilter) {
+                      onClearIndividualFilter("type");
+                    } else {
+                      handleTypeChange("all");
+                    }
+                  }}
+                  className="cursor-pointer text-xs"
+                >
+                  Type:{" "}
+                  {currentFilters.type.charAt(0).toUpperCase() +
+                    currentFilters.type.slice(1)}
+                  <X className="ml-1 h-3 w-3" />
+                </Badge>
+              )}
+              {currentFilters?.level && availableFilters?.level && (
+                <Badge
+                  variant="secondary"
+                  onClick={() => {
+                    if (onClearIndividualFilter) {
+                      onClearIndividualFilter("level");
+                    } else {
+                      handleLevelChange("all");
+                    }
+                  }}
+                  className="cursor-pointer text-xs"
+                >
+                  Level:{" "}
+                  {currentFilters.level.charAt(0).toUpperCase() +
+                    currentFilters.level.slice(1)}
+                  <X className="ml-1 h-3 w-3" />
+                </Badge>
+              )}
               {(currentFilters?.min_fees || currentFilters?.max_fees) && (
                 <Badge
                   variant="secondary"
@@ -396,6 +460,56 @@ export function EnhancedFilterSection({
                 {availableFilters.courses.map((course: any) => (
                   <SelectItem key={course.id} value={course.slug}>
                     {course.course_name}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+        )}
+
+        {/* Type Filter */}
+        {availableFilters?.type && availableFilters.type.length > 0 && (
+          <div className="w-full space-y-2">
+            <label className="text-sm font-medium text-gray-700">
+              Ownership Type
+            </label>
+            <Select
+              value={selectedType || "all"}
+              onValueChange={handleTypeChange}
+            >
+              <SelectTrigger className="w-full">
+                <SelectValue placeholder="Select Type" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">All Types</SelectItem>
+                {availableFilters.type.map((type: string) => (
+                  <SelectItem key={type} value={type}>
+                    {type.charAt(0).toUpperCase() + type.slice(1)}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+        )}
+
+        {/* Level Filter */}
+        {availableFilters?.level && availableFilters.level.length > 0 && (
+          <div className="w-full space-y-2">
+            <label className="text-sm font-medium text-gray-700">
+              Level of University
+            </label>
+            <Select
+              value={selectedLevel || ""}
+              onValueChange={handleLevelChange}
+            >
+              <SelectTrigger className="w-full">
+                <SelectValue placeholder="Select Level" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">All Levels</SelectItem>
+                {availableFilters.level.map((level: string) => (
+                  <SelectItem key={level} value={level}>
+                    {level.charAt(0).toUpperCase() + level.slice(1)}
                   </SelectItem>
                 ))}
               </SelectContent>

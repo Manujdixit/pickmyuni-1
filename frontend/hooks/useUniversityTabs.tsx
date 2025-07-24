@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
+// import axios from "axios";
 
 export const useUniversityTabs = (tab: string, id: number) => {
   const [info, setInfo] = useState<any[]>([]);
@@ -29,25 +29,22 @@ export const useUniversityTabs = (tab: string, id: number) => {
           return;
         }
 
-        const response = await axios.get(endpoint);
-
-        if (response.data.success) {
-          const content = extractTabContent(tab, response.data.data);
+        const res = await fetch(endpoint);
+        if (!res.ok) {
+          throw new Error(`HTTP error! status: ${res.status}`);
+        }
+        const data = await res.json();
+        if (data.success) {
+          const content = extractTabContent(tab, data.data);
           setInfo(content);
         } else {
-          setError(
-            response.data.message || `Failed to fetch ${tab} information`
-          );
+          setError(data.message || `Failed to fetch ${tab} information`);
         }
       } catch (err) {
         setError(
-          axios.isAxiosError(err)
-            ? err.response?.data?.message ||
-                err.message ||
-                `Failed to fetch ${tab} information`
-            : err instanceof Error
+          err instanceof Error
             ? err.message
-            : "An error occurred"
+            : `Failed to fetch ${tab} information`,
         );
         setInfo([]);
       } finally {
@@ -106,7 +103,7 @@ const extractTabContent = (tab: string, data: any): any[] => {
                   <h4 class="font-semibold text-brand-primary">Course ID: ${course.course_id}</h4>
                   <p class="text-gray-600">College ID: ${course.college_id}</p>
                 </div>
-              `
+              `,
                 )
                 .join("")}
             </div>

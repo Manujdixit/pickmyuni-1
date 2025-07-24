@@ -1,19 +1,21 @@
-import React from "react";
+import dynamic from "next/dynamic";
 import { notFound } from "next/navigation";
-import UniversityPage from "@/components/university/Universitypage";
+
+const UniversityPage = dynamic(
+  () => import("@/components/university/Universitypage"),
+);
 
 interface PageProps {
-  params: Promise<{
-    filterSlug: string;
-  }>;
+  params: Promise<{ filterSlug: string }>;
 }
 
 const page = async ({ params }: PageProps) => {
   const { filterSlug } = await params;
 
-  if (filterSlug.includes("top-universities-in-australia")) {
-    return <UniversityPage />;
-  } else if (filterSlug.includes("universities")) {
+  if (
+    filterSlug.startsWith("top-universities-in-australia") ||
+    filterSlug.startsWith("universities")
+  ) {
     return <UniversityPage />;
   } else {
     notFound();

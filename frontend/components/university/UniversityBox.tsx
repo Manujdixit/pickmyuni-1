@@ -1,16 +1,18 @@
 "use client";
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
 import { useOnlyCollegeIdCompare } from "@/hooks/useOnlyCollegeIdCompare";
 import { useCollegeCourseCompare } from "@/hooks/useCollegeCourseCompare";
-import { X } from "lucide-react";
+import { X, ChevronDown } from "lucide-react";
 
 import CollegeSearchInput from "./CollegeSearchInput";
+import CourseDialogContent from "./CourseDialogContent";
 import { useEffect, useState } from "react";
 
 export type UniversityBoxProps = {
@@ -18,9 +20,9 @@ export type UniversityBoxProps = {
   selectedCollegeId?: string | null;
   selectedCollegeName?: string;
   setSelectedCollege?: (collegeId: string | null, collegeName: string) => void;
-  selectedStreamId?: string | null;
-  selectedStreamName?: string;
-  setSelectedStream?: (streamId: string | null, streamName: string) => void;
+  selectedCourseId?: string | null;
+  selectedCourseName?: string;
+  setSelectedCourse?: (courseId: string | null, courseName: string) => void;
   setUniversityData: (data: any) => void;
   onDelete?: () => void;
   canDelete?: boolean;
@@ -30,19 +32,40 @@ export default function UniversityBox({
   selectedCollegeId,
   selectedCollegeName,
   setSelectedCollege,
-  selectedStreamId,
-  selectedStreamName,
-  setSelectedStream,
+  selectedCourseId,
+  selectedCourseName,
+  setSelectedCourse,
   setUniversityData,
   onDelete,
   canDelete = false,
 }: UniversityBoxProps) {
-  const { streams, loading } = useOnlyCollegeIdCompare(
+  const { college, courses, loading } = useOnlyCollegeIdCompare(
     selectedCollegeId || null,
   );
-  const [selectedStreamLocal, setSelectedStreamLocal] = useState<string | null>(
-    selectedStreamId || null,
+  const [selectedCourseLocal, setSelectedCourseLocal] = useState<string | null>(
+    selectedCourseId || null,
   );
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+
+  // Handler for course selection
+  const handleCourseChange = (courseId: string, courseName: string) => {
+    setSelectedCourseLocal(courseId);
+    if (setSelectedCourse) {
+      setSelectedCourse(courseId, courseName);
+    }
+  };
+
+  // Get the selected course name for display
+  const getSelectedCourseName = () => {
+    if (selectedCourseName) return selectedCourseName;
+    if (selectedCourseLocal && courses.length > 0) {
+      const courseObj = courses.find(
+        (c: any) => String(c.id) === selectedCourseLocal,
+      );
+      return courseObj?.name || courseObj?.course_name || "";
+    }
+    return "";
+  };
 
   // Fetch college+course comparison when both are selected
   const {
@@ -51,7 +74,7 @@ export default function UniversityBox({
     error: courseCompareError,
   } = useCollegeCourseCompare(
     selectedCollegeId || null,
-    selectedStreamLocal || null,
+    selectedCourseLocal || null,
   );
 
   useEffect(() => {
@@ -61,45 +84,20 @@ export default function UniversityBox({
   }, [collegeCourseData]);
 
   useEffect(() => {
+    if (college) {
+      setUniversityData(college);
+    }
+  }, [college]);
+
+  useEffect(() => {
     // Reset stream when university changes, but preserve if selectedStreamId is provided
-    if (!selectedStreamId) {
-      setSelectedStreamLocal(null);
-      if (setSelectedStream) {
-        setSelectedStream(null, "");
+    if (!selectedCourseId) {
+      setSelectedCourseLocal(null);
+      if (setSelectedCourse) {
+        setSelectedCourse(null, "");
       }
     }
-  }, [selectedCollegeId, streams]); // Remove setSelectedStream from dependencies
-
-  // Update local state when prop changes
-  useEffect(() => {
-    setSelectedStreamLocal(selectedStreamId || null);
-  }, [selectedStreamId]);
-
-  // Set stream when streams are loaded and selectedStreamId is available
-  useEffect(() => {
-    if (selectedStreamId && streams.length > 0 && setSelectedStream) {
-      const selectedStreamObj = streams.find(
-        (stream) => String(stream.id) === selectedStreamId,
-      );
-      if (
-        selectedStreamObj &&
-        selectedStreamObj.course_name !== selectedStreamName
-      ) {
-        setSelectedStream(selectedStreamId, selectedStreamObj.course_name);
-      }
-    }
-  }, [streams, selectedStreamId, selectedStreamName, setSelectedStream]);
-
-  const handleStreamChange = (value: string) => {
-    setSelectedStreamLocal(value);
-    if (setSelectedStream) {
-      const selectedStreamObj = streams.find(
-        (stream) => String(stream.id) === value,
-      );
-      setSelectedStream(value, selectedStreamObj?.course_name || "");
-    }
-  };
-
+  }, [selectedCollegeId, courses]); // Remove setSelectedStream from dependencies
   return (
     <div
       className={`relative space-y-4 rounded bg-white p-4 shadow-md hover:shadow-lg`}
@@ -119,29 +117,37 @@ export default function UniversityBox({
           if (setSelectedCollege) setSelectedCollege(collegeId || null, name);
         }}
       />
-      <Select
-        onValueChange={handleStreamChange}
-        value={selectedStreamLocal || ""}
-      >
-        <SelectTrigger className="h-12 w-full">
-          <SelectValue
-            placeholder={
-              loading
+      <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+        <DialogTrigger asChild>
+          <Button
+            variant="outline"
+            className="h-12 w-full justify-between text-left font-normal"
+            disabled={loading || (!courses.length && !!selectedCollegeId)}
+          >
+            <span>
+              {loading
                 ? "Loading courses..."
-                : !streams.length && selectedCollegeId
-                  ? "N/A"
-                  : "Select Course"
-            }
+                : selectedCourseLocal && getSelectedCourseName()
+                  ? getSelectedCourseName()
+                  : !courses.length && selectedCollegeId
+                    ? "N/A"
+                    : "Select Course"}
+            </span>
+            <ChevronDown className="h-4 w-4 opacity-50" />
+          </Button>
+        </DialogTrigger>
+        <DialogContent className="max-w-md">
+          <DialogHeader>
+            <DialogTitle>Select Course</DialogTitle>
+          </DialogHeader>
+          <CourseDialogContent
+            courses={courses}
+            onSelect={handleCourseChange}
+            selected={selectedCourseLocal}
+            onClose={() => setIsDialogOpen(false)}
           />
-        </SelectTrigger>
-        <SelectContent>
-          {streams.map((stream) => (
-            <SelectItem key={stream.id} value={String(stream.id)}>
-              {stream.course_name}
-            </SelectItem>
-          ))}
-        </SelectContent>
-      </Select>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

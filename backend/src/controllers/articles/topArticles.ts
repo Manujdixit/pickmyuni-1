@@ -42,6 +42,19 @@ export const getTopArticles = async (req: Request, res: Response) => {
         orderBy: { score: "desc" },
         skip,
         take,
+        select: {
+          id: true,
+          title: true,
+          silos: true,
+          img1: true,
+          img2: true,
+          meta_desc: true,
+          slug: true,
+          updatedAt: true,
+        },
+        where: {
+          is_active: true,
+        },
       }),
       prisma.articles.count(),
     ]);

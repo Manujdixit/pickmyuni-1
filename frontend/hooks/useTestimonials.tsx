@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
+// import axios from "axios";
 
 interface Testimonial {
   _id: string;
@@ -17,10 +17,14 @@ export function useTestimonials() {
   useEffect(() => {
     const fetchTestimonials = async () => {
       try {
-        const response = await axios.get(
-          `${process.env.NEXT_PUBLIC_API_URL}/api/testimonials`
+        const res = await fetch(
+          `${process.env.NEXT_PUBLIC_API_URL}/api/testimonials`,
         );
-        setTestimonials(response.data.data);
+        if (!res.ok) {
+          throw new Error(`HTTP error! status: ${res.status}`);
+        }
+        const data = await res.json();
+        setTestimonials(data.data);
       } catch (err) {
         setError(err instanceof Error ? err.message : "An error occurred");
       } finally {

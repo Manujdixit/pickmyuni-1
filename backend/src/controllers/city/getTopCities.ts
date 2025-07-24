@@ -43,6 +43,12 @@ export const getTopCities = async (req: Request, res: Response) => {
         orderBy: {
           score: "desc",
         },
+        select: {
+          id: true,
+          name: true,
+          img1: true,
+          slug: true,
+        },
         skip,
         take,
       }),

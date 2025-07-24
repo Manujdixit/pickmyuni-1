@@ -15,7 +15,7 @@ export default function PrivacyPage() {
         <div className="absolute inset-0 bg-black/40" />
         <div className="absolute inset-0 flex items-end">
           <div className="container mx-auto px-4 pb-8">
-            <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white">
+            <h1 className="text-3xl font-bold text-white md:text-4xl lg:text-5xl">
               Privacy Policy{" "}
             </h1>
           </div>
@@ -25,7 +25,7 @@ export default function PrivacyPage() {
       {/* Main Content */}
       <div className="container mx-auto px-4 py-12 lg:py-16">
         {/* Header Section */}
-        <p className="text-gray-600 text-lg font-normal mb-8">
+        <p className="mb-8 text-lg font-normal text-gray-600">
           At pickmyuni.com, operated by Stepping Stones Career Solutions, we
           value and respect your privacy. This Privacy Policy explains how we
           collect, use, disclose, and safeguard your personal information when
@@ -36,19 +36,19 @@ export default function PrivacyPage() {
 
         <div className="space-y-8">
           <section>
-            <h2 className="text-2xl font-semibold text-brand-primary mb-4">
+            <h2 className="text-brand-primary mb-4 text-2xl font-semibold">
               1. Information We Collect
             </h2>
-            <p className="text-gray-600 mb-4">
+            <p className="mb-4 text-gray-600">
               When you visit or use PickMyUni.com, we may collect the following
               types of information:
             </p>
-            <div className="space-y-4 ml-4">
+            <div className="ml-4 space-y-4">
               <div>
-                <h3 className="text-xl font-medium text-brand-secondary mb-2">
+                <h3 className="text-brand-secondary mb-2 text-xl font-medium">
                   a) Personal Information
                 </h3>
-                <ul className="list-disc list-inside text-gray-600 space-y-1">
+                <ul className="list-inside list-disc space-y-1 text-gray-600">
                   <li>Full Name</li>
                   <li>Email Address</li>
                   <li>Mobile Number</li>
@@ -61,10 +61,10 @@ export default function PrivacyPage() {
                 </ul>
               </div>
               <div>
-                <h3 className="text-xl font-medium text-brand-secondary mb-2">
+                <h3 className="text-brand-secondary mb-2 text-xl font-medium">
                   b) Non-Personal Information
                 </h3>
-                <ul className="list-disc list-inside text-gray-600 space-y-1">
+                <ul className="list-inside list-disc space-y-1 text-gray-600">
                   <li>IP Address</li>
                   <li>Browser type</li>
                   <li>Device information</li>
@@ -72,10 +72,10 @@ export default function PrivacyPage() {
                 </ul>
               </div>
               <div>
-                <h3 className="text-xl font-medium text-brand-secondary mb-2">
+                <h3 className="text-brand-secondary mb-2 text-xl font-medium">
                   c) User Communications and Consent
                 </h3>
-                <ul className="list-disc list-inside text-gray-600 space-y-1">
+                <ul className="list-inside list-disc space-y-1 text-gray-600">
                   <li>
                     Enquiry form: I authorise INDO INTERNET PRIVATE LIMITED &
                     its representatives to contact me with updates and
@@ -102,13 +102,13 @@ export default function PrivacyPage() {
           </section>
 
           <section>
-            <h2 className="text-2xl font-semibold text-brand-primary mb-4">
+            <h2 className="text-brand-primary mb-4 text-2xl font-semibold">
               2. How We Use Your Information
             </h2>
-            <p className="text-gray-600 mb-2">
+            <p className="mb-2 text-gray-600">
               We may use your information for the following purposes:
             </p>
-            <ul className="list-disc list-inside text-gray-600 space-y-1 ml-4">
+            <ul className="ml-4 list-inside list-disc space-y-1 text-gray-600">
               <li>To provide educational counseling and guidance.</li>
               <li>
                 To share your information with partnered colleges/universities
@@ -125,13 +125,13 @@ export default function PrivacyPage() {
           </section>
 
           <section>
-            <h2 className="text-2xl font-semibold text-brand-primary mb-4">
+            <h2 className="text-brand-primary mb-4 text-2xl font-semibold">
               3. Sharing of Information
             </h2>
-            <p className="text-gray-600 mb-2">
+            <p className="mb-2 text-gray-600">
               We may share your personal information:
             </p>
-            <ul className="list-disc list-inside text-gray-600 space-y-1 ml-4">
+            <ul className="ml-4 list-inside list-disc space-y-1 text-gray-600">
               <li>
                 With partnered colleges/universities for admission and
                 counseling purposes.
@@ -142,14 +142,14 @@ export default function PrivacyPage() {
               </li>
               <li>When required by law or legal processes.</li>
             </ul>
-            <p className="text-gray-600 mt-2">
+            <p className="mt-2 text-gray-600">
               We do not sell your personal information to third parties for
               marketing purposes.
             </p>
           </section>
 
           <section>
-            <h2 className="text-2xl font-semibold text-brand-primary mb-4">
+            <h2 className="text-brand-primary mb-4 text-2xl font-semibold">
               4. Cookies and Tracking Technologies
             </h2>
             <p className="text-gray-600">
@@ -161,7 +161,7 @@ export default function PrivacyPage() {
           </section>
 
           <section>
-            <h2 className="text-2xl font-semibold text-brand-primary mb-4">
+            <h2 className="text-brand-primary mb-4 text-2xl font-semibold">
               5. Data Security
             </h2>
             <p className="text-gray-600">
@@ -174,11 +174,11 @@ export default function PrivacyPage() {
           </section>
 
           <section>
-            <h2 className="text-2xl font-semibold text-brand-primary mb-4">
+            <h2 className="text-brand-primary mb-4 text-2xl font-semibold">
               6. Your Choices & Rights
             </h2>
-            <p className="text-gray-600 mb-2">You have the right to:</p>
-            <ul className="list-disc list-inside text-gray-600 space-y-1 ml-4">
+            <p className="mb-2 text-gray-600">You have the right to:</p>
+            <ul className="ml-4 list-inside list-disc space-y-1 text-gray-600">
               <li>
                 Access, update, or delete your personal information by
                 contacting us.
@@ -192,7 +192,7 @@ export default function PrivacyPage() {
           </section>
 
           <section>
-            <h2 className="text-2xl font-semibold text-brand-primary mb-4">
+            <h2 className="text-brand-primary mb-4 text-2xl font-semibold">
               7. Third-Party Links
             </h2>
             <p className="text-gray-600">
@@ -203,7 +203,7 @@ export default function PrivacyPage() {
           </section>
 
           <section>
-            <h2 className="text-2xl font-semibold text-brand-primary mb-4">
+            <h2 className="text-brand-primary mb-4 text-2xl font-semibold">
               8. Changes to This Privacy Policy
             </h2>
             <p className="text-gray-600">
@@ -214,18 +214,18 @@ export default function PrivacyPage() {
           </section>
 
           <section>
-            <h2 className="text-2xl font-semibold text-brand-primary mb-4">
+            <h2 className="text-brand-primary mb-4 text-2xl font-semibold">
               9. Contact Us
             </h2>
-            <p className="text-gray-600 mb-2">
+            <p className="mb-2 text-gray-600">
               For any concerns regarding this Privacy Policy, please contact:
             </p>
             <p className="text-brand-secondary">Support Team: PickMyUni</p>
             <p className="text-brand-secondary">Email: contact@pickmyuni.com</p>
           </section>
 
-          <p className="text-gray-600 text-sm mt-8">
-            By using KollegeApply.com, you acknowledge and agree to this Privacy
+          <p className="mt-8 text-sm text-gray-600">
+            By using PickMyUni.com, you acknowledge and agree to this Privacy
             Policy.
           </p>
         </div>

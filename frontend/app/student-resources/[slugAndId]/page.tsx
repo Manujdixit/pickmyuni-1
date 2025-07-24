@@ -4,8 +4,8 @@ import SocialShare from "@/components/SocialShare";
 import ArticleContent from "@/components/ArticleContent";
 import { Article } from "@/types/search";
 import { Metadata } from "next";
-import moment from "moment";
 import dynamic from "next/dynamic";
+import dayjs from "dayjs";
 
 const SuggestedArticles = dynamic(
   () => import("@/components/SuggestedArticles"),
@@ -161,7 +161,7 @@ export default async function Page({
             {/* Date Badge */}
             {article?.createdAt && (
               <div className="mb-4 inline-block bg-orange-500 px-4 py-2 text-sm font-medium uppercase text-white">
-                {moment(article?.createdAt).format("MMMM Do, YYYY")}
+                {dayjs(article?.createdAt).format("MMMM Do, YYYY")}
               </div>
             )}
 

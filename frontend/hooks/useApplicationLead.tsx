@@ -1,5 +1,5 @@
 import { useState } from "react";
-import axios from "axios";
+// import axios from "axios";
 
 export const useApplicationLead = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -10,22 +10,27 @@ export const useApplicationLead = () => {
     setError(null);
 
     try {
-      const response = await axios.post(
+      const res = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/api/v1/leads`,
-        data,
         {
+          method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
-        }
+          body: JSON.stringify(data),
+        },
       );
-
-      return response.data;
+      if (!res.ok) {
+        const errorData = await res.json().catch(() => ({}));
+        const errorMessage =
+          errorData.message || `HTTP error! status: ${res.status}`;
+        setError(errorMessage);
+        throw new Error(errorMessage);
+      }
+      const responseData = await res.json();
+      return responseData;
     } catch (err: any) {
-      const errorMessage =
-        err.response?.data?.message ||
-        err.message ||
-        "Failed to submit application";
+      const errorMessage = err.message || "Failed to submit application";
       setError(errorMessage);
       throw new Error(errorMessage);
     } finally {

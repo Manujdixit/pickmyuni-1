@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import axios from "axios";
+// import axios from "axios";
 
 export const useCity = (id: number) => {
   const [city, setCity] = useState<any>({});
@@ -12,22 +12,17 @@ export const useCity = (id: number) => {
     const fetchCity = async () => {
       setLoading(true);
       try {
-        const response = await axios.get(
-          `${process.env.NEXT_PUBLIC_API_URL}/api/v1/city/${id}`
+        const res = await fetch(
+          `${process.env.NEXT_PUBLIC_API_URL}/api/v1/city/${id}`,
         );
-
-        setCity(response.data.data);
+        if (!res.ok) {
+          throw new Error(`HTTP error! status: ${res.status}`);
+        }
+        const data = await res.json();
+        setCity(data.data);
         setError(null);
       } catch (err) {
-        setError(
-          axios.isAxiosError(err)
-            ? err.response?.data?.message ||
-                err.message ||
-                "Failed to fetch city"
-            : err instanceof Error
-            ? err.message
-            : "An error occurred"
-        );
+        setError(err instanceof Error ? err.message : "An error occurred");
         setCity({});
       } finally {
         setLoading(false);

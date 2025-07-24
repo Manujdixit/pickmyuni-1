@@ -5,12 +5,14 @@ export function buildUniversitySlug(filters: {
   min_fees?: number;
   max_fees?: number;
   searchquery?: string;
+  type?: string;
+  level?: string;
 }) {
   const parts = ["universities"];
 
   if (filters.statename)
     parts.push(
-      "state",
+      "in",
       ...filters.statename
         .toLowerCase()
         .split(/\s+/)
@@ -28,6 +30,23 @@ export function buildUniversitySlug(filters: {
     parts.push(
       "stream",
       ...filters.streamname
+        .toLowerCase()
+        .split(/\s+/)
+        .map((word) => word.replace(/[^a-z0-9-]/g, "")),
+    );
+
+  if (filters.type)
+    parts.push(
+      "type",
+      ...filters.type
+        .toLowerCase()
+        .split(/\s+/)
+        .map((word) => word.replace(/[^a-z0-9-]/g, "")),
+    );
+  if (filters.level)
+    parts.push(
+      "level",
+      ...filters.level
         .toLowerCase()
         .split(/\s+/)
         .map((word) => word.replace(/[^a-z0-9-]/g, "")),
@@ -68,7 +87,7 @@ export function parseSlugToFilters(slug: string) {
   // Define keywords that can appear in the slug
   const keywords = [
     "universities",
-    "state",
+    "in",
     "for",
     "stream",
     "with",
@@ -77,6 +96,8 @@ export function parseSlugToFilters(slug: string) {
     "and",
     "from",
     "upto",
+    "type",
+    "level",
     "search",
   ];
 
@@ -92,7 +113,7 @@ export function parseSlugToFilters(slug: string) {
   };
 
   for (let i = 0; i < words.length; i++) {
-    if (words[i] === "state") {
+    if (words[i] === "in") {
       const stateWords = getValuesBetweenKeywords(i);
       if (stateWords.length > 0) {
         filters.statename = stateWords.join("-");
@@ -110,10 +131,22 @@ export function parseSlugToFilters(slug: string) {
         filters.streamname = streamWords.join("-");
       }
     }
+    if (words[i] === "type") {
+      const typeWords = getValuesBetweenKeywords(i);
+      if (typeWords.length > 0) {
+        filters.type = typeWords.join("-");
+      }
+    }
+    if (words[i] === "level") {
+      const levelWords = getValuesBetweenKeywords(i);
+      if (levelWords.length > 0) {
+        filters.level = levelWords.join("-");
+      }
+    }
     if (words[i] === "search") {
       const searchWords = getValuesBetweenKeywords(i);
       if (searchWords.length > 0) {
-        filters.searchquery = searchWords.join("-");
+        filters.searchquery = searchWords.join(" ");
       }
     }
     if (words[i] === "with" && words[i + 1] === "fees") {

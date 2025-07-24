@@ -49,11 +49,7 @@ export const compareColleges = async (req: Request, res: Response) => {
           id: Number(college_id),
         },
         include: {
-          CollegesCourses: {
-            select: {
-              course: true,
-            },
-          },
+          CollegesCourses: true,
         },
       });
       if (!collegeWithCourses) {
@@ -62,23 +58,13 @@ export const compareColleges = async (req: Request, res: Response) => {
           message: "College not found",
         });
       }
-      // Extract unique courses from CollegesCourses
-      const seen = new Set();
-      const distinctCourses = collegeWithCourses.CollegesCourses.map(
-        (cc) => cc.course
-      ).filter((course) => {
-        if (!course) return false;
-        if (seen.has(course.id)) return false;
-        seen.add(course.id);
-        return true;
-      });
-      // Remove CollegesCourses from college object
-      const { CollegesCourses, ...college } = collegeWithCourses;
+
+      // // Remove CollegesCourses from college object
+      // const { CollegesCourses, ...college } = collegeWithCourses;
       res.status(200).json({
         success: true,
         data: {
-          college,
-          streams: distinctCourses,
+          college: collegeWithCourses,
         },
       });
     }
@@ -91,7 +77,7 @@ export const compareColleges = async (req: Request, res: Response) => {
         include: {
           CollegesCourses: {
             where: {
-              course_id: Number(course_id),
+              id: Number(course_id),
             },
           },
         },

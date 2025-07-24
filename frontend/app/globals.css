@@ -17,14 +17,7 @@ body {
     -apple-system,
     BlinkMacSystemFont,
     "Segoe UI",
-    "Roboto",
-    "Oxygen",
-    "Ubuntu",
-    "Cantarell",
-    "Fira Sans",
-    "Droid Sans",
-    "Helvetica Neue",
-    sans-serif;
+    "Roboto";
 }
 
 @layer base {
@@ -116,66 +109,10 @@ body {
 
 /* Custom Tailwind Component Classes */
 @layer components {
-  /* Button Variants */
-  .btn-primary {
-    @apply rounded-lg bg-[#2C5680] px-6 py-3 font-medium text-white shadow-sm transition-colors duration-200 hover:bg-[#1e3a56];
-  }
-
-  .btn-secondary {
-    @apply rounded-lg bg-[#FF882E] px-6 py-3 font-medium text-white shadow-sm transition-colors duration-200 hover:bg-[#e6741a];
-  }
-
-  .btn-outline {
-    @apply rounded-lg border-2 border-[#2C5680] px-6 py-3 font-medium text-[#2C5680] transition-all duration-200 hover:bg-[#2C5680] hover:text-white;
-  }
-
-  .btn-ghost {
-    @apply rounded-md px-4 py-2 font-medium text-[#242628] transition-colors duration-200 hover:bg-[#EAFDF5] hover:text-[#2C5680];
-  }
-
-  .btn-sm {
-    @apply px-4 py-2 text-sm;
-  }
-
-  .btn-lg {
-    @apply px-8 py-4 text-lg;
-  }
-
   /* Typography Classes */
-  .text-heading-1 {
-    @apply text-[46px] font-semibold leading-[100%] text-[#242628];
-  }
-
-  .text-heading-2 {
-    @apply text-[36px] font-semibold leading-[100%] text-[#242628];
-  }
-
-  .text-heading-3 {
-    @apply text-[30px] font-medium leading-[100%] text-[#242628];
-  }
-
-  .text-heading-4 {
-    @apply text-[26px] font-normal leading-[100%] text-[#242628];
-  }
-
-  .text-heading-5 {
-    @apply text-[20px] font-normal leading-[100%] text-[#242628];
-  }
-
-  .text-body-large {
-    @apply text-[18px] font-normal leading-[150%] text-[#242628];
-  }
 
   .text-body {
     @apply text-[16px] font-normal leading-[150%] text-[#242628];
-  }
-
-  .text-body-small {
-    @apply text-[14px] font-normal leading-[140%] text-[#7C7E80];
-  }
-
-  .text-caption {
-    @apply text-[12px] font-normal leading-[120%] text-[#999999];
   }
 
   /* Brand Color Classes */
@@ -187,38 +124,12 @@ body {
     @apply bg-[#FF882E];
   }
 
-  .bg-brand-light {
-    @apply bg-[#EAFDF5];
-  }
-
-  .bg-brand-muted {
-    @apply bg-[#FAF4F0];
-  }
-
   .text-brand-primary {
     @apply text-[#2C5680];
   }
 
   .text-brand-secondary {
     @apply text-[#FF882E];
-  }
-
-  /* Layout Components */
-  .section-padding {
-    @apply px-4 py-16 sm:px-6 lg:px-8;
-  }
-
-  .grid-auto-fit {
-    @apply grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4;
-  }
-
-  /* Navigation Components */
-  .nav-link {
-    @apply rounded-md px-4 py-2 font-medium text-[#242628] transition-colors duration-200 hover:text-[#2C5680];
-  }
-
-  .nav-link-active {
-    @apply bg-[#EAFDF5] text-[#2C5680];
   }
 
   /* Content Components */
@@ -312,47 +223,6 @@ body {
 
 .table-container::-webkit-scrollbar-thumb:hover {
   background: #1e3a56;
-}
-
-/* Accordion styles - must be at the top level, not inside any block */
-.styledContent .accordion-header {
-  cursor: pointer;
-  display: flex;
-  padding-top: 20px;
-  padding-bottom: 20px;
-  justify-content: space-between;
-  align-items: center;
-  transition: all 0.3s ease;
-  border-bottom: 1px solid #cdced1;
-}
-
-.styledContent .accordion-header h4 {
-  color: #2c5680;
-  font-size: 1.2em;
-  margin: 0;
-}
-
-.styledContent .accordion-icon {
-  font-size: 1.5em;
-  color: #2c5680;
-  transition: transform 0.3s ease;
-}
-
-.styledContent .accordion-content {
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height 0.3s ease;
-  background: white;
-}
-
-.styledContent .accordion-content.active {
-  max-height: 200px;
-}
-
-.styledContent .accordion-content p {
-  padding: 20px;
-  margin: 0;
-  color: #374151;
 }
 
 .accordion-toggle {

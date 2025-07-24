@@ -1,5 +1,5 @@
 import { useState } from "react";
-import axios from "axios";
+// import axios from "axios";
 
 interface ContactData {
   firstName: string;
@@ -21,42 +21,47 @@ export const useContact = () => {
   const [success, setSuccess] = useState(false);
 
   const submitContactForm = async (
-    data: ContactData
+    data: ContactData,
   ): Promise<ContactResponse> => {
     setIsLoading(true);
     setError(null);
     setSuccess(false);
 
     try {
-      const response = await axios.post(
+      const res = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/api/v1/contact-us`,
         {
-          fname: data.firstName,
-          lname: data.lastName || "",
-          email: data.email,
-          phn_no: data.phone,
-          user_msg: data.message,
-        },
-        {
+          method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
-        }
+          body: JSON.stringify({
+            fname: data.firstName,
+            lname: data.lastName || "",
+            email: data.email,
+            phn_no: data.phone,
+            user_msg: data.message,
+          }),
+        },
       );
-
+      if (!res.ok) {
+        const errorData = await res.json().catch(() => ({}));
+        const errorMessage =
+          errorData.message ||
+          errorData.error ||
+          `HTTP error! status: ${res.status}`;
+        setError(errorMessage);
+        throw new Error(errorMessage);
+      }
+      const responseData = await res.json();
       setSuccess(true);
       return {
         success: true,
         message: "Contact form submitted successfully",
-        data: response.data,
+        data: responseData,
       };
     } catch (err: any) {
-      const errorMessage =
-        err.response?.data?.message ||
-        err.response?.data?.error ||
-        err.message ||
-        "Failed to submit contact form";
-
+      const errorMessage = err.message || "Failed to submit contact form";
       setError(errorMessage);
       throw new Error(errorMessage);
     } finally {
