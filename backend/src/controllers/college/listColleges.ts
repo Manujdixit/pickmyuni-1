@@ -86,6 +86,7 @@ export const getCollegeList = async (req: Request, res: Response) => {
       statename,
       coursename,
       type,
+      level,
       min_fees,
       max_fees,
       streamname,
@@ -100,7 +101,7 @@ export const getCollegeList = async (req: Request, res: Response) => {
     const whereClause: any = {};
 
     if (searchquery) {
-      whereClause.college_name = {
+      whereClause.search_names = {
         contains: String(searchquery),
         mode: "insensitive",
       };
@@ -151,22 +152,30 @@ export const getCollegeList = async (req: Request, res: Response) => {
       whereClause.type = type;
     }
 
+    if (level) {
+      whereClause.level = level;
+    }
+
+    whereClause.is_active = true;
+
     let getContentFor;
     // Set getContentFor according to priority: state > stream > course
-    if (statename) {
-      getContentFor = "state";
+    if (coursename) {
+      getContentFor = "course";
     } else if (streamname) {
       getContentFor = "stream";
-    } else if (coursename) {
-      getContentFor = "course";
+    } else if (statename) {
+      getContentFor = "state";
     } else {
       getContentFor = undefined;
     }
 
     const getContent = () => {
-      if (getContentFor === "state" && statename) {
-        return prisma.state.findFirst({
-          where: { slug: { contains: String(statename), mode: "insensitive" } },
+      if (getContentFor === "course" && coursename) {
+        return prisma.courses.findFirst({
+          where: {
+            slug: { contains: String(coursename), mode: "insensitive" },
+          },
           select: { content: true },
         });
       }
@@ -178,11 +187,9 @@ export const getCollegeList = async (req: Request, res: Response) => {
           select: { content: true },
         });
       }
-      if (getContentFor === "course" && coursename) {
-        return prisma.courses.findFirst({
-          where: {
-            slug: { contains: String(coursename), mode: "insensitive" },
-          },
+      if (getContentFor === "state" && statename) {
+        return prisma.state.findFirst({
+          where: { slug: { contains: String(statename), mode: "insensitive" } },
           select: { content: true },
         });
       }
@@ -286,7 +293,7 @@ export const getCollegeList = async (req: Request, res: Response) => {
           state: states,
           courses: courses,
           type: ["government", "private", "other"],
-          level: ["level1", "level2", "level3"],
+          level: ["level1", "level2", "level3", "other"],
           content: content?.content,
         },
       },

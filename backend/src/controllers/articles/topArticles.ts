@@ -31,17 +31,9 @@ import { prisma } from "../../lib/prisma";
 
 export const getTopArticles = async (req: Request, res: Response) => {
   try {
-    const { page = 1, limit = 10 } = req.query;
-
-    // Calculate pagination
-    const skip = (Number(page) - 1) * Number(limit);
-    const take = Number(limit);
-
     const [articles, totalArticles] = await Promise.all([
       prisma.articles.findMany({
         orderBy: { score: "desc" },
-        skip,
-        take,
         select: {
           id: true,
           title: true,
@@ -55,6 +47,7 @@ export const getTopArticles = async (req: Request, res: Response) => {
         where: {
           is_active: true,
         },
+        take: 4,
       }),
       prisma.articles.count(),
     ]);
@@ -64,12 +57,6 @@ export const getTopArticles = async (req: Request, res: Response) => {
       success: true,
       data: {
         articles,
-        pagination: {
-          currentPage: page,
-          totalPages: Math.ceil(totalArticles / Number(limit)),
-          totalItems: totalArticles,
-          itemsPerPage: Number(limit),
-        },
       },
     });
   } catch (error) {

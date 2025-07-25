@@ -39,6 +39,8 @@ export const getTopColleges = async (req: Request, res: Response) => {
       };
     }
 
+    whereClause.is_active = true;
+
     const [colleges, streams] = await Promise.all([
       prisma.colleges.findMany({
         where: whereClause,
@@ -76,7 +78,6 @@ export const getTopColleges = async (req: Request, res: Response) => {
       data: {
         colleges: colleges.map((college: any) => ({
           ...college,
-          count_collegewise_course: college._count.CollegesCourses,
           slug: tagSanatize(college.slug),
         })),
         streams: [
