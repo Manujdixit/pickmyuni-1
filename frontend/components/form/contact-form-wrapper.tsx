@@ -1,7 +1,7 @@
 "use client";
 import { useContact } from "@/hooks/useContact";
 import ContactForm from "./contact-form";
-import { ContactValidationSchema } from "../modal/contact-modal";
+import { ContactValidationSchema } from "./contact-modal";
 import { toast } from "sonner";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -44,8 +44,8 @@ export default function ContactFormWrapper() {
 
   if (success) {
     return (
-      <div className="text-center py-8">
-        <div className="text-green-600 text-lg font-semibold mb-2">
+      <div className="py-8 text-center">
+        <div className="mb-2 text-lg font-semibold text-green-600">
           ✅ Request sent successfully!
         </div>
         <p className="text-gray-600">We&apos;ll get back to you soon.</p>

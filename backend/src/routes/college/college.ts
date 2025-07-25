@@ -11,6 +11,7 @@ import { getCollegeRankingsInfo } from "../../controllers/college/ranking";
 import { getCollegeCareersInfo } from "../../controllers/college/careers";
 import { getCollegeList } from "../../controllers/college/listColleges";
 import { getCollegeById } from "../../controllers/college/getCollegeById";
+import { getCollegeBanner } from "../../controllers/college/getCollegeBanner";
 import { getAllColleges } from "../../controllers/college/getAllColleges";
 import { suggestedColleges } from "../../controllers/college/suggestColleges";
 import { relatedCourses } from "../../controllers/college/relatedCourses";
@@ -34,6 +35,7 @@ CollegeRouter.get("/ranking/:id", getCollegeRankingsInfo as any);
 CollegeRouter.get("/scholarships/:id", getCollegeScholarshipInfo as any);
 CollegeRouter.get("/placement/:id", getCollegePlacementInfo as any);
 CollegeRouter.get("/faqs/:id", getCollegefaq as any);
+CollegeRouter.get("/:id/banner", getCollegeBanner as any);
 CollegeRouter.get("/:id", getCollegeById as any);
 
 export default CollegeRouter;

@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import { BotMessageSquare } from "lucide-react";
-import ContactWrapper from "./modal/contact-wrapper";
+import ContactWrapper from "./form/contact-wrapper";
 
 export const SitePop = () => {
   const [isOpen, setIsOpen] = useState(false);

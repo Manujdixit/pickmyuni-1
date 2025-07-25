@@ -34,11 +34,7 @@ import { prisma } from "../../lib/prisma";
  */
 export const getTopCities = async (req: Request, res: Response) => {
   try {
-    const { page = 1, limit = 10 } = req.query;
-    const skip = (Number(page) - 1) * Number(limit);
-    const take = Number(limit);
-
-    const [cities, totalCities] = await Promise.all([
+    const [cities] = await Promise.all([
       prisma.city.findMany({
         orderBy: {
           score: "desc",
@@ -49,23 +45,14 @@ export const getTopCities = async (req: Request, res: Response) => {
           img1: true,
           slug: true,
         },
-        skip,
-        take,
+        take: 10,
       }),
-      prisma.city.count(),
     ]);
 
     res.json({
       success: true,
       data: {
         cities,
-        totalCities,
-        pagination: {
-          currentPage: Number(page),
-          totalPages: Math.ceil(totalCities / Number(limit)),
-          totalItems: totalCities,
-          itemsPerPage: Number(limit),
-        },
       },
     });
   } catch (error) {

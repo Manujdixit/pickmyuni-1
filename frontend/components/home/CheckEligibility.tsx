@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
-import ContactWrapper from "../modal/contact-wrapper";
+import ContactWrapper from "../form/contact-wrapper";
 
 export default function CheckEligibility() {
   const [open, setOpen] = useState(false);

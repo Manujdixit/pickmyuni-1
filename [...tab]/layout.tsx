@@ -1,9 +1,9 @@
-import React from "react";
+import React, { Suspense } from "react";
 import { notFound } from "next/navigation";
-import QuickFacts from "@/components/QuickFacts";
 import { Metadata } from "next";
 import UniLayout from "@/components/university-pages/UniLayout";
 import TabsWithUrlContainer from "@/components/university-pages/TabsWithUrlContainer";
+import QuickFactsLoader from "@/components/university-pages/QuickFactsLoader";
 
 // Generate metadata for SEO
 export async function generateMetadata({
@@ -107,12 +107,17 @@ export default async function UniversityLayout({
 
   return (
     <>
+      {/* Show banner and college info first */}
       <UniLayout college={college} slugAndId={slugAndId} />
 
       <div className="container mx-auto flex min-h-screen flex-col gap-6 py-6 lg:flex-row-reverse">
-        <QuickFacts college={college} />
+        {/* Defer QuickFacts until API resolves */}
+        <Suspense fallback={<div>Loading facts…</div>}>
+          <QuickFactsLoader id={Number(id)} />
+        </Suspense>
+
         <div className="min-w-0 flex-1">
-          <TabsWithUrlContainer slugAndId={slugAndId} />
+          <TabsWithUrlContainer id={id!} slugAndId={slugAndId} />
           {children}
         </div>
       </div>

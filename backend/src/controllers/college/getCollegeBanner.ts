@@ -3,11 +3,11 @@ import { prisma } from "../../lib/prisma";
 
 /**
  * @swagger
- * /api/v1/college/{id}:
+ * /api/v1/college/{id}/banner:
  *   get:
- *     summary: Get college by ID with complete data
+ *     summary: Get college banner URL by ID
  *     tags: [Colleges]
- *     description: Retrieve a specific college by ID with all related information
+ *     description: Retrieve a specific college's banner image URL by ID
  *     parameters:
  *       - in: path
  *         name: id
@@ -18,7 +18,20 @@ import { prisma } from "../../lib/prisma";
  *           example: 1
  *     responses:
  *       200:
- *         description: Successfully retrieved college
+ *         description: Successfully retrieved college banner URL
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                 data:
+ *                   type: object
+ *                   properties:
+ *                     bg_url:
+ *                       type: string
+ *                       format: url
  *       400:
  *         description: Invalid college ID
  *       404:
@@ -26,7 +39,7 @@ import { prisma } from "../../lib/prisma";
  *       500:
  *         description: Internal server error
  */
-export const getCollegeById = async (req: Request, res: Response) => {
+export const getCollegeBanner = async (req: Request, res: Response) => {
   try {
     const collegeId = parseInt(req.params.id);
 
@@ -40,21 +53,11 @@ export const getCollegeById = async (req: Request, res: Response) => {
     const college = await prisma.colleges.findUnique({
       where: { id: collegeId },
       select: {
-        id: true,
+        bg_url: true,
         slug: true,
         logo_url: true,
         college_name: true,
-        bg_url: true,
         location: true,
-        address: true,
-        total_students: true,
-        international_student_rate: true,
-        acceptance_rate: true,
-        _count: {
-          select: {
-            CollegesCourses: true,
-          },
-        },
       },
     });
 
@@ -70,10 +73,10 @@ export const getCollegeById = async (req: Request, res: Response) => {
       data: college,
     });
   } catch (error) {
-    console.error("Error fetching college by ID:", error);
+    console.error("Error fetching college banner by ID:", error);
     res.status(500).json({
       success: false,
-      message: "An error occurred while fetching college",
+      message: "An error occurred while fetching college banner",
       error: (error as Error).message,
     });
   }

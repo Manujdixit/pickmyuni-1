@@ -6,7 +6,7 @@ import { Clock, Plus, University } from "lucide-react";
 import { useEffect, useState, useCallback, useRef } from "react";
 import { useVirtualizer } from "@tanstack/react-virtual";
 import CourseCard from "./CourseCard";
-import UniversityBox from "./UniversityBox";
+import UniversityBox from "../listing/UniversityBox";
 import UniComapareCrad from "./UniComapareCrad";
 import { useRouter, useSearchParams } from "next/navigation";
 

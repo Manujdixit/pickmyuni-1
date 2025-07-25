@@ -88,7 +88,7 @@ export default function Footer() {
                   href="/level1-universities-in-australia"
                   className="text-sm text-gray-300 hover:text-white"
                 >
-                  Level1 Universities
+                  Level 1 Universities
                 </Link>
               </li>
               <li>
@@ -96,7 +96,7 @@ export default function Footer() {
                   href="/level2-universities-in-australia"
                   className="text-sm text-gray-300 hover:text-white"
                 >
-                  Level2 Universities
+                  Level 2 Universities
                 </Link>
               </li>
               <li>
@@ -104,7 +104,7 @@ export default function Footer() {
                   href="/level3-universities-in-australia"
                   className="text-sm text-gray-300 hover:text-white"
                 >
-                  Level3 Universities
+                  Level 3 Universities
                 </Link>
               </li>
             </ul>
@@ -140,7 +140,7 @@ export default function Footer() {
             </ul>
 
             <h4 className="mb-4 mt-6 text-lg font-bold">Social Media</h4>
-            <div className="flex justify-center space-x-4 sm:justify-start">
+            <div className="flex flex-wrap justify-center space-x-4 sm:justify-start">
               <Link
                 href="https://www.facebook.com/people/Pickmyuni/61576633748893/?mibextid=wwXIfr&rdid=55blvIqh3W7qBMYx&share_url=https://www.facebook.com/share/19hveAoxQw/?mibextid=wwXIfr"
                 className="rounded-full bg-gray-700 p-2 transition-colors hover:bg-gray-600"

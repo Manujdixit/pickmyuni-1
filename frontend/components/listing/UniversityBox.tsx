@@ -11,8 +11,8 @@ import { useOnlyCollegeIdCompare } from "@/hooks/useOnlyCollegeIdCompare";
 import { useCollegeCourseCompare } from "@/hooks/useCollegeCourseCompare";
 import { X, ChevronDown } from "lucide-react";
 
-import CollegeSearchInput from "./CollegeSearchInput";
-import CourseDialogContent from "./CourseDialogContent";
+import CollegeSearchInput from "../compare/CollegeSearchInput";
+import CourseDialogContent from "../compare/CourseDialogContent";
 import { useEffect, useState } from "react";
 
 export type UniversityBoxProps = {

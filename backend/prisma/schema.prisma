@@ -63,6 +63,8 @@ model Colleges {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@index([is_active, score(sort: Desc)])
 }
 
 enum CollegeType {
@@ -94,6 +96,8 @@ model Courses {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@index([slug])
 }
 
 model CollegesCourses {
@@ -193,6 +197,8 @@ model Articles {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@index([is_active, score(sort: Desc)])
 }
 
 enum ArticlesSilos {
@@ -258,6 +264,8 @@ model City {
   Colleges Colleges[]
   State    State?     @relation(fields: [state_id], references: [id])
   Country  Country?   @relation(fields: [country_id], references: [id])
+
+  @@index([is_active, score(sort: Desc)])
 }
 
 model State {
@@ -276,6 +284,8 @@ model State {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   City      City[]
+
+  @@index([slug])
 }
 
 model Country {
@@ -312,6 +322,8 @@ model Stream {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@index([slug])
 }
 
 model ContactUs {

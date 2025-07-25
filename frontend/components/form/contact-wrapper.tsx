@@ -1,10 +1,10 @@
 import dynamic from "next/dynamic";
 
 const ConsultationModal = dynamic(
-  () => import("./contact-modal").then((mod) => mod.ConsultationModal),
+  () => import("../form/contact-modal").then((mod) => mod.ConsultationModal),
   {
     ssr: false,
-  }
+  },
 );
 
 interface ContactWrapperProps {

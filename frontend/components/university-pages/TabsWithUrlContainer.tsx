@@ -18,11 +18,10 @@ const indexes = [
 ];
 
 interface TabsWithUrlContainerProps {
-  id: string;
   slugAndId: string;
 }
 
-function TabsWithUrlContainer({ id, slugAndId }: TabsWithUrlContainerProps) {
+function TabsWithUrlContainer({ slugAndId }: TabsWithUrlContainerProps) {
   const router = useRouter();
   const params = useParams();
   const currentTab = (params.tab as string[])?.[0] || "info";
