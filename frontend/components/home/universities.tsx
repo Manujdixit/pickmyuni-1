@@ -173,8 +173,8 @@ export default function UniversitiesSection() {
 
                         <p className="text-gray-500">Courses:</p>
                         <p className="font-medium">
-                          {uni.count_collegewise_course > 0
-                            ? uni.count_collegewise_course + " +"
+                          {uni?._count?.CollegesCourses > 0
+                            ? uni?._count?.CollegesCourses + " +"
                             : "-"}
                         </p>
                       </div>

@@ -14,18 +14,12 @@ import {
 } from "../ui/sheet";
 import { Menu } from "lucide-react";
 
-// Lazy load the modal components only when needed
-// const LeadWrapper = dynamic(() => import("../modal/lead-wrapper"), {
-//   ssr: false,
-//   loading: () => null,
-// });
-
 const ContactWrapper = dynamic(
-  () => import("@/components/modal/contact-wrapper"),
+  () => import("@/components/form/contact-wrapper"),
   {
     ssr: false,
     loading: () => null,
-  }
+  },
 );
 
 export default function NavigationHeader() {
@@ -37,7 +31,7 @@ export default function NavigationHeader() {
       <div className="container mx-auto py-4">
         <div className="flex items-center justify-between">
           <Link href="/" className="flex items-center space-x-2">
-            <div className="text-blue-800 font-bold text-xl">
+            <div className="text-xl font-bold text-blue-800">
               <Image
                 src="https://pickmyuni-bucket.s3.ap-southeast-2.amazonaws.com/static/header_logo.webp"
                 alt="Logo"
@@ -49,7 +43,7 @@ export default function NavigationHeader() {
           </Link>
           <div className="flex gap-10">
             {/* Desktop Navigation */}
-            <nav className="hidden xl:flex items-center space-x-6">
+            <nav className="hidden items-center space-x-6 xl:flex">
               <Link href="/" className="text-gray-600 hover:text-blue-800">
                 Home
               </Link>
@@ -80,7 +74,7 @@ export default function NavigationHeader() {
             </nav>
 
             {/* CTA Buttons */}
-            <div className="hidden xl:flex items-center space-x-3">
+            <div className="hidden items-center space-x-3 xl:flex">
               {/* <Button
                 onClick={() => setIsModalOpen(true)}
                 className="bg-blue-800 hover:bg-blue-900 text-white"
@@ -89,7 +83,7 @@ export default function NavigationHeader() {
               </Button> */}
               <Button
                 onClick={() => setIsConsultationModalOpen(true)}
-                className="bg-orange-500 hover:bg-orange-600 text-white"
+                className="bg-orange-500 text-white hover:bg-orange-600"
               >
                 Request a Free Consultation
               </Button>
@@ -102,14 +96,14 @@ export default function NavigationHeader() {
                   <Menu />
                 </button>
               </SheetTrigger>
-              <SheetContent side="right" className="p-0 w-64">
-                <SheetHeader className="px-6 pt-6 pb-2">
-                  <SheetTitle className="text-blue-800 text-xl">
+              <SheetContent side="right" className="w-64 p-0">
+                <SheetHeader className="px-6 pb-2 pt-6">
+                  <SheetTitle className="text-xl text-blue-800">
                     PickMyUni
                   </SheetTitle>
                 </SheetHeader>
-                <div className="flex flex-col h-full">
-                  <nav className="flex flex-col space-y-4 px-6 py-2 flex-1">
+                <div className="flex h-full flex-col">
+                  <nav className="flex flex-1 flex-col space-y-4 px-6 py-2">
                     <Link
                       href="/"
                       className="text-gray-600 hover:text-blue-800"
@@ -152,7 +146,7 @@ export default function NavigationHeader() {
                         setIsConsultationModalOpen(true);
                         setIsOpen(false);
                       }}
-                      className="bg-orange-500 hover:bg-orange-600 text-white w-full"
+                      className="w-full bg-orange-500 text-white hover:bg-orange-600"
                     >
                       Request a Free Consultation
                     </Button>

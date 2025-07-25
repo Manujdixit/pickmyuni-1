@@ -1,7 +1,6 @@
 import React from "react";
 import { notFound, redirect } from "next/navigation";
 import { Metadata } from "next";
-import { UniversityCard } from "@/components/university";
 import {
   Accordion,
   AccordionContent,
@@ -12,6 +11,7 @@ import { ChevronDown, ChevronUp, GraduationCap } from "lucide-react";
 import { getYear } from "@/utils/getYear";
 import { Button } from "@/components/ui/button";
 import styles from "../../../styles/page.module.css";
+import { UniversityCard } from "@/components/common/UniversityCard";
 
 const validTabs = [
   "info",

@@ -1,4 +1,4 @@
-import ComaprisonComponent from "@/components/university-comparison";
+import ComaprisonComponent from "@/components/compare/university-comparison";
 import { Metadata } from "next";
 import { BreadcrumbSchema } from "@/components/seo";
 import { commonBreadcrumbs } from "@/lib/breadcrumbs";

@@ -1,9 +1,9 @@
 import React from "react";
 import { notFound } from "next/navigation";
-import UniLayout from "@/components/university/UniLayout";
 import QuickFacts from "@/components/QuickFacts";
 import { Metadata } from "next";
-import TabsWithUrlContainer from "../../../../components/university/TabsWithUrlContainer";
+import UniLayout from "@/components/university-pages/UniLayout";
+import TabsWithUrlContainer from "@/components/university-pages/TabsWithUrlContainer";
 
 // Generate metadata for SEO
 export async function generateMetadata({
@@ -109,10 +109,10 @@ export default async function UniversityLayout({
     <>
       <UniLayout college={college} slugAndId={slugAndId} />
 
-      <div className="min-h-screen container mx-auto py-6 flex flex-col lg:flex-row-reverse gap-6">
+      <div className="container mx-auto flex min-h-screen flex-col gap-6 py-6 lg:flex-row-reverse">
         <QuickFacts college={college} />
-        <div className="flex-1 min-w-0">
-          <TabsWithUrlContainer id={id!} slugAndId={slugAndId} />
+        <div className="min-w-0 flex-1">
+          <TabsWithUrlContainer slugAndId={slugAndId} />
           {children}
         </div>
       </div>

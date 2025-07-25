@@ -2,7 +2,7 @@ import dynamic from "next/dynamic";
 import { notFound } from "next/navigation";
 
 const UniversityPage = dynamic(
-  () => import("@/components/university/Universitypage"),
+  () => import("@/components/listing/Universitypage"),
 );
 
 interface PageProps {

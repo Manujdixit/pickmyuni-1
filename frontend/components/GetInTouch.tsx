@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import ContactWrapper from "./modal/contact-wrapper";
+import ContactWrapper from "./form/contact-wrapper";
 
 function GetInTouch() {
   const [open, setOpen] = React.useState(false);
@@ -10,7 +10,7 @@ function GetInTouch() {
     <div className="">
       <button
         onClick={() => setOpen(true)}
-        className="mt-8 px-8 py-3 bg-white border-2 border-orange-500 text-brand-secondary font-semibold rounded-lg hover:bg-brand-secondary hover:text-white transition-colors"
+        className="text-brand-secondary hover:bg-brand-secondary mt-8 rounded-lg border-2 border-orange-500 bg-white px-8 py-3 font-semibold transition-colors hover:text-white"
       >
         Get in touch with us today and make your university transfer journey
         smooth and successful!
