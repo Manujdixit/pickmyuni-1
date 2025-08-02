@@ -35,7 +35,7 @@ export default function Footer() {
           </div>
 
           <div className="text-center sm:text-left">
-            <h4 className="mb-4 text-lg font-bold">Navigations</h4>
+            <h2 className="mb-4 text-lg font-bold">Navigations</h2>
             <ul className="space-y-2">
               <li>
                 <Link
@@ -81,7 +81,7 @@ export default function Footer() {
           </div>
 
           <div className="text-center sm:text-left">
-            <h4 className="mb-4 text-lg font-bold">University Levels</h4>
+            <h2 className="mb-4 text-lg font-bold">University Levels</h2>
             <ul className="space-y-2">
               <li>
                 <Link
@@ -111,7 +111,7 @@ export default function Footer() {
           </div>
 
           <div className="text-center sm:text-left">
-            <h4 className="mb-4 text-lg font-bold">Legals</h4>
+            <h2 className="mb-4 text-lg font-bold">Legals</h2>
             <ul className="space-y-2">
               <li>
                 <Link
@@ -139,29 +139,33 @@ export default function Footer() {
               </li>
             </ul>
 
-            <h4 className="mb-4 mt-6 text-lg font-bold">Social Media</h4>
+            <h2 className="mb-4 mt-6 text-lg font-bold">Social Media</h2>
             <div className="flex flex-wrap justify-center space-x-4 sm:justify-start">
               <Link
                 href="https://www.facebook.com/people/Pickmyuni/61576633748893/?mibextid=wwXIfr&rdid=55blvIqh3W7qBMYx&share_url=https://www.facebook.com/share/19hveAoxQw/?mibextid=wwXIfr"
                 className="rounded-full bg-gray-700 p-2 transition-colors hover:bg-gray-600"
+                aria-label="facebook"
               >
                 <FacebookIcon size={20} />
               </Link>
               <Link
                 href="https://www.instagram.com/pickmyuni/"
                 className="rounded-full bg-gray-700 p-2 transition-colors hover:bg-gray-600"
+                aria-label="instagram"
               >
                 <Instagram size={20} />
               </Link>
               <Link
                 href="https://www.linkedin.com/company/pick-my-uni/"
                 className="rounded-full bg-gray-700 p-2 transition-colors hover:bg-gray-600"
+                aria-label="linkedin"
               >
                 <LinkedinIcon size={20} />
               </Link>
               <Link
                 href="https://www.tiktok.com/@pickmyuni1"
                 className="rounded-full bg-gray-700 p-2 transition-colors hover:bg-gray-600"
+                aria-label="Tiktok"
               >
                 <Music2Icon size={20} />
               </Link>
@@ -169,6 +173,7 @@ export default function Footer() {
               <Link
                 href="https://www.youtube.com/@PickMyUni"
                 className="rounded-full bg-gray-700 p-2 transition-colors hover:bg-gray-600"
+                aria-label="Youtube"
               >
                 <Youtube size={20} />
               </Link>
