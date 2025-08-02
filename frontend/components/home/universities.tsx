@@ -127,6 +127,7 @@ export default function UniversitiesSection() {
                   Domestic
                 </Label>
                 <Switch
+                  aria-label="toggle"
                   id="preference-switch"
                   checked={preference === "international"}
                   className={
