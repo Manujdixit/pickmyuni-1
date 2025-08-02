@@ -55,6 +55,7 @@ export const getTopColleges = async (req: Request, res: Response) => {
           intake: true,
           location: true,
           score: true,
+          domestic_fees_in_aud: true,
           _count: {
             select: {
               CollegesCourses: true,
