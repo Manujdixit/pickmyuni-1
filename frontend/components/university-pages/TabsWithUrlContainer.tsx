@@ -18,13 +18,22 @@ const indexes = [
 ];
 
 interface TabsWithUrlContainerProps {
+  isparent: boolean;
   slugAndId: string;
 }
 
-function TabsWithUrlContainer({ slugAndId }: TabsWithUrlContainerProps) {
+function TabsWithUrlContainer({
+  slugAndId,
+  isparent,
+}: TabsWithUrlContainerProps) {
   const router = useRouter();
   const params = useParams();
   const currentTab = (params.tab as string[])?.[0] || "info";
+
+  // Filter out campuses tab if isparent is false
+  const availableTabs = isparent
+    ? indexes
+    : indexes.filter((tab) => tab !== "campuses");
 
   const scrollRef = React.useRef<HTMLDivElement>(null);
   const [canScrollLeft, setCanScrollLeft] = React.useState(false);
@@ -96,7 +105,7 @@ function TabsWithUrlContainer({ slugAndId }: TabsWithUrlContainerProps) {
           onScroll={checkScrollPosition}
         >
           <TabsList className="inline-flex h-auto w-auto min-w-full justify-start gap-4 p-0">
-            {indexes.map((index) => (
+            {availableTabs.map((index) => (
               <TabsTrigger
                 key={index}
                 value={index}

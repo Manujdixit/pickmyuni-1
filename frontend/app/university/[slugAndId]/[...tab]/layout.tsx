@@ -105,6 +105,12 @@ export default async function UniversityLayout({
     return null;
   }
 
+  const isParent = () => {
+    if (college.is_parent) {
+      return true;
+    } else return false;
+  };
+
   return (
     <>
       <UniLayout college={college} slugAndId={slugAndId} />
@@ -112,7 +118,7 @@ export default async function UniversityLayout({
       <div className="container mx-auto flex min-h-screen flex-col gap-6 py-6 lg:flex-row-reverse">
         <QuickFacts college={college} />
         <div className="min-w-0 flex-1">
-          <TabsWithUrlContainer slugAndId={slugAndId} />
+          <TabsWithUrlContainer isparent={isParent()} slugAndId={slugAndId} />
           {children}
         </div>
       </div>
