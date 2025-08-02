@@ -49,6 +49,8 @@ export const getCollegeById = async (req: Request, res: Response) => {
         address: true,
         total_students: true,
         international_student_rate: true,
+        parent_college_id: true,
+        is_parent: true,
         acceptance_rate: true,
         _count: {
           select: {

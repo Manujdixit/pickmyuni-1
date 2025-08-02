@@ -36,6 +36,7 @@ model Colleges {
   international_student_rate     Float?
   brochure_url                   String?
   avg_fees_in_aud                Float?
+  domestic_fees_in_aud           Float?
   search_names                   String?
   is_active                      Boolean     @default(true)
   level                          String?
@@ -43,12 +44,13 @@ model Colleges {
   intake                         String?
   min_fees_int                   Float?
   international_student_accepted Boolean     @default(false)
+  is_parent Boolean?
 
+  parent_college_id Int?
   streamId          Int  @default(1)
   cityId            Int  @default(1)
   stateId           Int  @default(1)
   countryId         Int  @default(1)
-  parent_college_id Int?
 
   primary_stream Stream  @relation(fields: [streamId], references: [id])
   city           City    @relation(fields: [cityId], references: [id])
@@ -104,6 +106,7 @@ model CollegesCourses {
   id                 Int         @id @default(autoincrement())
   name               String
   duration_in_months Int?
+  domestic_fees_in_aud Float?
   tution_fees        Float?
   hostel_fees        Float?
   one_time_fees      Float?
@@ -178,6 +181,9 @@ enum CollegewiseContentSilos {
   news
   faq
   other
+  campus
+  accommodation
+  reviews
 }
 
 model Articles {

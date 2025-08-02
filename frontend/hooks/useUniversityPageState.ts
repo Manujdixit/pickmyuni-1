@@ -1,6 +1,6 @@
 "use client";
-import { useState } from "react";
-import { useParams, useRouter } from "next/navigation";
+import { useState, useEffect } from "react";
+import { useParams, useRouter, useSearchParams } from "next/navigation";
 import { parseSlugToFilters } from "@/utils/slug";
 
 export interface LocalFilters {
@@ -18,6 +18,7 @@ export interface LocalFilters {
 export const useUniversityPageState = () => {
   const paramsRoute = useParams();
   const router = useRouter();
+  const searchParams = useSearchParams();
 
   const [localFilters, setLocalFilters] = useState<LocalFilters>({
     course: "All Courses",
@@ -35,6 +36,19 @@ export const useUniversityPageState = () => {
   const [sortBy, setSortBy] = useState("Top Rated First");
   const [isContentExpanded, setIsContentExpanded] = useState(false);
   const [showReadMore, setShowReadMore] = useState(false);
+  const [feesPreference, setFeesPreference] = useState("international");
+
+  // Initialize feesPreference from URL params
+  useEffect(() => {
+    const urlFeesPreference = searchParams.get("feesPreference");
+    if (
+      urlFeesPreference &&
+      (urlFeesPreference === "domestic" ||
+        urlFeesPreference === "international")
+    ) {
+      setFeesPreference(urlFeesPreference);
+    }
+  }, [searchParams]);
 
   // Parse initial parameters from URL
   const getInitialParams = () => {
@@ -44,6 +58,18 @@ export const useUniversityPageState = () => {
       const rawSlug = paramsRoute?.slugAndId || paramsRoute?.filterSlug || "";
       const slug = Array.isArray(rawSlug) ? rawSlug.join("-") : rawSlug;
       initialParams = parseSlugToFilters(slug);
+    }
+
+    // Add feesPreference from URL params
+    const urlFeesPreference = searchParams.get("feesPreference");
+    if (
+      urlFeesPreference &&
+      (urlFeesPreference === "domestic" ||
+        urlFeesPreference === "international")
+    ) {
+      initialParams.feesPreference = urlFeesPreference;
+    } else {
+      initialParams.feesPreference = "international"; // default
     }
 
     // Clean up initialParams to remove empty values
@@ -89,5 +115,7 @@ export const useUniversityPageState = () => {
     setShowReadMore,
     getInitialParams,
     checkReadMoreNeed,
+    feesPreference,
+    setFeesPreference,
   };
 };

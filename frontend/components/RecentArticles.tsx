@@ -53,28 +53,78 @@ function RecentArticles() {
   const checkScrollPosition = () => {
     if (scrollRef.current) {
       const { scrollLeft, scrollWidth, clientWidth } = scrollRef.current;
-      setCanScrollLeft(scrollLeft > 0);
-      setCanScrollRight(scrollLeft < scrollWidth - clientWidth - 1);
+      setCanScrollLeft(scrollLeft > 5); // Small threshold to avoid flickering
+      setCanScrollRight(scrollLeft < scrollWidth - clientWidth - 5);
     }
   };
 
   useEffect(() => {
     checkScrollPosition();
-    const handleResize = () => checkScrollPosition();
+    const handleResize = () => {
+      setTimeout(checkScrollPosition, 100); // Delay to ensure layout is updated
+    };
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
+  }, [silos]); // Add silos dependency to recheck when tabs load
+
+  // Handle touch scrolling on mobile
+  useEffect(() => {
+    const scrollContainer = scrollRef.current;
+    if (!scrollContainer) return;
+
+    let isScrolling = false;
+
+    const handleTouchStart = () => {
+      isScrolling = true;
+    };
+
+    const handleTouchEnd = () => {
+      setTimeout(() => {
+        isScrolling = false;
+        checkScrollPosition();
+      }, 100);
+    };
+
+    const handleScroll = () => {
+      if (!isScrolling) checkScrollPosition();
+    };
+
+    // Handle keyboard navigation for tabs
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "ArrowLeft") {
+        e.preventDefault();
+        scrollLeft();
+      } else if (e.key === "ArrowRight") {
+        e.preventDefault();
+        scrollRight();
+      }
+    };
+
+    scrollContainer.addEventListener("touchstart", handleTouchStart);
+    scrollContainer.addEventListener("touchend", handleTouchEnd);
+    scrollContainer.addEventListener("scroll", handleScroll);
+    scrollContainer.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      scrollContainer.removeEventListener("touchstart", handleTouchStart);
+      scrollContainer.removeEventListener("touchend", handleTouchEnd);
+      scrollContainer.removeEventListener("scroll", handleScroll);
+      scrollContainer.removeEventListener("keydown", handleKeyDown);
+    };
   }, []);
 
   const scrollLeft = () => {
     if (scrollRef.current) {
-      scrollRef.current.scrollBy({ left: -200, behavior: "smooth" });
+      const scrollAmount = window.innerWidth < 640 ? 150 : 200; // Smaller scroll on mobile
+      scrollRef.current.scrollBy({ left: -scrollAmount, behavior: "smooth" });
       setTimeout(checkScrollPosition, 300);
     }
   };
 
   const scrollRight = () => {
     if (scrollRef.current) {
-      scrollRef.current.scrollBy({ left: 200, behavior: "smooth" });
+      const scrollAmount = window.innerWidth < 640 ? 150 : 200; // Smaller scroll on mobile
+      scrollRef.current.scrollBy({ left: scrollAmount, behavior: "smooth" });
       setTimeout(checkScrollPosition, 300);
     }
   };
@@ -173,62 +223,63 @@ function RecentArticles() {
     <section className="container mx-auto flex flex-col justify-center py-4">
       {/* Tabs Section */}
       {silos && silos.length > 0 && (
-        <div className="mx-auto mb-8 max-w-[1400px] px-4">
-          <Tabs
-            value={selectedSilo}
-            onValueChange={setSelectedSilo}
-            className="w-full"
-          >
-            <div className="relative mb-6">
-              {/* Left Arrow */}
-              {canScrollLeft && (
-                <button
-                  onClick={scrollLeft}
-                  className="absolute left-0 top-1/2 z-10 -translate-y-1/2 rounded-full border bg-background/80 p-2 shadow-sm backdrop-blur-sm transition-colors hover:bg-background"
-                  aria-label="Scroll left"
-                >
-                  <ChevronLeft className="h-4 w-4" />
-                </button>
-              )}
-
-              {/* Right Arrow */}
-              {canScrollRight && (
-                <button
-                  onClick={scrollRight}
-                  className="absolute right-0 top-1/2 z-10 -translate-y-1/2 rounded-full border bg-background/80 p-2 shadow-sm backdrop-blur-sm transition-colors hover:bg-background"
-                  aria-label="Scroll right"
-                >
-                  <ChevronRight className="h-4 w-4" />
-                </button>
-              )}
-
-              {/* Scrollable Tabs Container */}
-              <div
-                ref={scrollRef}
-                className="scrollbar-hide mx-8 overflow-x-auto"
-                style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
-                onScroll={checkScrollPosition}
-              >
-                <TabsList className="inline-flex h-auto w-auto min-w-full justify-start gap-4 p-0">
-                  <TabsTrigger
-                    value="all"
-                    className="flex-shrink-0 whitespace-nowrap px-4 py-2 text-sm"
+        <div className="mb-8 w-full">
+          <div className="mx-auto max-w-[1400px] px-4">
+            <Tabs
+              value={selectedSilo}
+              onValueChange={setSelectedSilo}
+              className="w-full"
+            >
+              <div className="relative -mx-4 mb-6 sm:mx-0">
+                {/* Left Arrow - Hidden on mobile */}
+                {canScrollLeft && (
+                  <button
+                    onClick={scrollLeft}
+                    className="absolute left-2 top-1/2 z-20 hidden -translate-y-1/2 rounded-full border bg-white p-2 shadow-md transition-colors hover:bg-gray-50 sm:flex"
+                    aria-label="Scroll left"
                   >
-                    ALL
-                  </TabsTrigger>
-                  {silos.map((silo) => (
+                    <ChevronLeft className="h-4 w-4" />
+                  </button>
+                )}
+
+                {/* Right Arrow - Hidden on mobile */}
+                {canScrollRight && (
+                  <button
+                    onClick={scrollRight}
+                    className="absolute right-2 top-1/2 z-20 hidden -translate-y-1/2 rounded-full border bg-white p-2 shadow-md transition-colors hover:bg-gray-50 sm:flex"
+                    aria-label="Scroll right"
+                  >
+                    <ChevronRight className="h-4 w-4" />
+                  </button>
+                )}
+
+                {/* Scrollable Tabs Container */}
+                <div
+                  ref={scrollRef}
+                  className="hide-scrollbar touch-pan-x overflow-x-auto px-4 sm:px-8"
+                  onScroll={checkScrollPosition}
+                >
+                  <TabsList className="inline-flex h-auto w-auto min-w-max justify-start gap-1 border-b-0 bg-transparent p-0 sm:gap-4">
                     <TabsTrigger
-                      key={silo}
-                      value={silo}
-                      className="flex-shrink-0 whitespace-nowrap px-4 py-2 text-sm"
+                      value="all"
+                      className="min-w-max flex-shrink-0 whitespace-nowrap px-3 py-2 text-xs sm:px-4 sm:text-sm"
                     >
-                      {silosMap[silo] || silo}
+                      ALL
                     </TabsTrigger>
-                  ))}
-                </TabsList>
+                    {silos.map((silo) => (
+                      <TabsTrigger
+                        key={silo}
+                        value={silo}
+                        className="min-w-max flex-shrink-0 whitespace-nowrap px-3 py-2 text-xs sm:px-4 sm:text-sm"
+                      >
+                        {silosMap[silo] || silo}
+                      </TabsTrigger>
+                    ))}
+                  </TabsList>
+                </div>
               </div>
-            </div>
-          </Tabs>
+            </Tabs>
+          </div>
         </div>
       )}
 

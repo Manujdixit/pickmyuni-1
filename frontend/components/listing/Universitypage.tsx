@@ -54,6 +54,8 @@ function UniversityPage() {
     showReadMore,
     getInitialParams,
     checkReadMoreNeed,
+    feesPreference,
+    setFeesPreference,
   } = useUniversityPageState();
 
   // Get initial parameters from URL
@@ -172,6 +174,8 @@ function UniversityPage() {
             onSortChange={handleSortChangeWithState}
             loadingRef={loadingRef}
             onClearAllFilters={clearAllFilters}
+            feesPreference={feesPreference}
+            setFeesPreference={setFeesPreference}
           />
         </div>
       </div>

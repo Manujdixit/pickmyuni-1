@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-// import axios from "axios";
 
 export const useUniversities = (stream: string = "All") => {
   const [universities, setUniversities] = useState<any[]>([]);
@@ -32,7 +31,6 @@ export const useUniversities = (stream: string = "All") => {
         setLoading(false);
       }
     };
-
     fetchUniversities();
   }, [stream]);
 

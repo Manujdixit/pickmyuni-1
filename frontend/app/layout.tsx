@@ -21,7 +21,7 @@ const anton = Anton({
 });
 
 const roboto = Roboto({
-  weight: ["400"],
+  weight: ["400", "500", "600", "700", "800"],
   variable: "--font-roboto",
   subsets: ["latin"],
 });
@@ -98,14 +98,14 @@ export default function RootLayout({
           <div className="flex flex-col gap-2">
             <SitePop />
             <a
-              href="tel:+61433502082"
+              href="tel:+61413009922"
               className="rounded-full bg-blue-500 p-3 transition-colors hover:bg-blue-600"
               aria-label="call"
             >
               <PhoneCall className="text-white" />
             </a>
             <a
-              href="https://wa.me/+61433502082"
+              href="https://wa.me/+61413009922"
               target="_blank"
               rel="noopener noreferrer"
               className="rounded-full bg-green-500 p-3 transition-colors hover:bg-green-600"

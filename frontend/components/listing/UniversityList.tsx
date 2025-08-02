@@ -1,4 +1,4 @@
-import React, { Suspense, lazy } from "react";
+import React, { Suspense } from "react";
 import { UniversityCardSkeleton } from "@/components/skeleton/university-skeleton";
 import { InfiniteScrollLoader } from "@/components/ui/InfiniteScrollLoader";
 import { NoResultsMessage } from "./NoResultsMessage";
@@ -17,6 +17,8 @@ interface UniversityListProps {
   onSortChange: (sortBy: string) => void;
   loadingRef: React.RefObject<HTMLDivElement | null>;
   onClearAllFilters: () => void;
+  feesPreference: any;
+  setFeesPreference: any;
 }
 
 export const UniversityList: React.FC<UniversityListProps> = ({
@@ -28,6 +30,8 @@ export const UniversityList: React.FC<UniversityListProps> = ({
   onSortChange,
   loadingRef,
   onClearAllFilters,
+  feesPreference,
+  setFeesPreference,
 }) => {
   return (
     <div className="min-w-0 flex-1">
@@ -36,8 +40,9 @@ export const UniversityList: React.FC<UniversityListProps> = ({
         totalCount={pagination.totalItems}
         sortBy={sortBy}
         setSortBy={onSortChange}
+        feesPreference={feesPreference}
+        setFeesPreference={setFeesPreference}
       />
-
       {/* University Cards */}
       {loading && universities.length === 0 ? (
         <div className="space-y-4">
@@ -52,7 +57,10 @@ export const UniversityList: React.FC<UniversityListProps> = ({
               key={university.id || index}
               fallback={<UniversityCardSkeleton />}
             >
-              <UniversityCard university={university} />
+              <UniversityCard
+                university={university}
+                feesPreference={feesPreference}
+              />
             </Suspense>
           ))}
 

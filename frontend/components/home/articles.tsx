@@ -71,12 +71,16 @@ export default function ArticlesSection() {
                   <span className="mx-2">•</span>
                   <span>{dayjs(article.createdAt).format("MMM D, YYYY")}</span>
                 </div>
-                <h3 className="text-brand-primary mb-2 text-lg font-bold">
+                <Link
+                  href={`/student-resources/${article.slug}-${article.id}`}
+                  className="text-brand-primary mb-2 line-clamp-2 text-lg font-bold"
+                >
                   {article.title}
-                </h3>
-                <p className="mb-4 text-sm text-gray-600">
+                </Link>
+
+                {/* <p className="mb-4 text-sm text-gray-600">
                   {article.description}
-                </p>
+                </p> */}
                 <Link
                   href={`/student-resources/${article.slug}-${article.id}`}
                   className="text-brand-secondary text-sm font-medium hover:underline"

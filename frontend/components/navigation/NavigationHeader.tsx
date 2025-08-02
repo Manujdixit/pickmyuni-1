@@ -27,7 +27,7 @@ export default function NavigationHeader() {
   const [isConsultationModalOpen, setIsConsultationModalOpen] = useState(false);
 
   return (
-    <div className="bg-white shadow-sm">
+    <div className="z-50 bg-white shadow-sm">
       <div className="container mx-auto py-4">
         <div className="flex items-center justify-between">
           <Link href="/" className="flex items-center space-x-2">
@@ -96,7 +96,7 @@ export default function NavigationHeader() {
                   <Menu />
                 </button>
               </SheetTrigger>
-              <SheetContent side="right" className="w-64 p-0">
+              <SheetContent side="right" className="w-full p-0">
                 <SheetHeader className="px-6 pb-2 pt-6">
                   <SheetTitle className="text-xl text-blue-800">
                     PickMyUni
