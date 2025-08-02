@@ -105,6 +105,7 @@ export default function UniversityBox({
     >
       {canDelete && onDelete && (
         <button
+          aria-label="close"
           onClick={onDelete}
           className="absolute right-1 top-1 z-50 flex h-6 w-6 items-center justify-center text-black transition-colors hover:text-red-500"
         >

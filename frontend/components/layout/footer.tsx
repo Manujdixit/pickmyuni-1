@@ -47,7 +47,7 @@ export default function Footer() {
               </li>
               <li>
                 <Link
-                  href="/transfer-service"
+                  href="/transfer-assistance"
                   className="text-sm text-gray-300 hover:text-white"
                 >
                   Transfer Service
