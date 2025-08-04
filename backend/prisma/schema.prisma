@@ -172,7 +172,7 @@ model CollegewiseContent {
 enum CollegewiseContentSilos {
   info
   course
-  department
+  // department
   career
   ranking
   fees
@@ -184,6 +184,7 @@ enum CollegewiseContentSilos {
   campus
   accommodation
   reviews
+  facilities
 }
 
 model Articles {

@@ -88,7 +88,7 @@ const CourseDialogContent: React.FC<Props> = ({
           >
             {virtualizer.getVirtualItems().map((virtualItem) => {
               const course = filtered[virtualItem.index];
-              const isSelected = String(course.id) === selected;
+              const isSelected = String(course.id) === String(selected);
               return (
                 <div
                   key={virtualItem.key}

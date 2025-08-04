@@ -2,6 +2,7 @@
 import { useState, useEffect } from "react";
 import { useParams, useRouter, useSearchParams } from "next/navigation";
 import { parseSlugToFilters } from "@/utils/slug";
+import { needsReadMore } from "@/utils/checkReadMore";
 
 export interface LocalFilters {
   course: string;
@@ -82,22 +83,7 @@ export const useUniversityPageState = () => {
 
   // Check if content needs read more functionality
   const checkReadMoreNeed = (content?: string) => {
-    if (!content) return;
-
-    const tempDiv = document.createElement("div");
-    tempDiv.innerHTML = content;
-    tempDiv.style.position = "absolute";
-    tempDiv.style.visibility = "hidden";
-    tempDiv.style.height = "auto";
-    tempDiv.style.width = "100%";
-    tempDiv.className = "prose max-w-none leading-relaxed text-gray-700";
-
-    document.body.appendChild(tempDiv);
-    const fullHeight = tempDiv.offsetHeight;
-    document.body.removeChild(tempDiv);
-
-    // Check if content has more than 3 lines (approximately 72px at 24px line height)
-    setShowReadMore(fullHeight > 72);
+    setShowReadMore(needsReadMore(content));
   };
 
   return {

@@ -3,9 +3,9 @@ import { prisma } from "../../lib/prisma";
 
 /**
  * @swagger
- * /api/college/campuses/{id}:
+ * /api/v1/college/reviews/{id}:
  *   get:
- *     summary: Get college departments information
+ *     summary: Get college reviews information
  *     tags: [Colleges]
  *     parameters:
  *       - in: path
@@ -23,10 +23,7 @@ import { prisma } from "../../lib/prisma";
  *       500:
  *         description: Server error
  */
-export const getCollegeDepartmentsInfo = async (
-  req: Request,
-  res: Response
-) => {
+export const getCollegeReviewsInfo = async (req: Request, res: Response) => {
   const collegeId = parseInt(req.params.id);
 
   if (isNaN(collegeId)) {
@@ -37,12 +34,12 @@ export const getCollegeDepartmentsInfo = async (
   }
 
   try {
-    const [basic, department] = await Promise.all([
+    const [basic, reviews] = await Promise.all([
       prisma.colleges.findUnique({
         where: { id: collegeId },
       }),
       prisma.collegewiseContent.findFirst({
-        where: { college_id: collegeId, silos: "department" },
+        where: { college_id: collegeId, silos: "reviews" },
         orderBy: { updatedAt: "desc" },
       }),
     ]);
@@ -57,14 +54,14 @@ export const getCollegeDepartmentsInfo = async (
       success: true,
       data: {
         basic,
-        department,
+        reviews,
       },
     });
   } catch (error) {
-    console.error("Error fetching college departments info:", error);
+    console.error("Error fetching college reviews info:", error);
     res.status(500).json({
       success: false,
-      message: "An error occurred while fetching departments information",
+      message: "An error occurred while fetching reviews information",
       error: (error as Error).message,
     });
   }

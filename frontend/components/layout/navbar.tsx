@@ -7,16 +7,16 @@ export default function Navbar() {
   const scrollDirection = useScrollDirection();
 
   return (
-    <header className="sticky top-0 z-50">
+    <header className="sticky top-0 z-[100]">
       <div className="relative">
         {/* Navigation Header - stays fixed at top */}
-        <div className="relative z-50 bg-white">
+        <div className="relative z-[100] bg-white">
           <NavigationHeader />
         </div>
 
         {/* Search Bar - appears below header */}
         <div
-          className={`relative z-40 transition-transform duration-100 ease-in-out ${
+          className={`relative z-[90] transition-transform duration-100 ease-in-out ${
             scrollDirection === "down" ? "-translate-y-full" : "translate-y-0"
           }`}
         >

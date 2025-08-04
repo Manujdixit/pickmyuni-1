@@ -65,7 +65,7 @@ export default function CollegeSearchInput({
       <Input
         ref={inputRef}
         placeholder="Enter name of university"
-        className="h-10 pl-4 pr-10 text-sm"
+        className="h-12 pl-4 pr-10 text-sm"
         value={inputValue}
         onChange={handleInputChange}
         onFocus={() => {
@@ -73,6 +73,7 @@ export default function CollegeSearchInput({
             setDropdownOpen(true);
         }}
         autoComplete="off"
+        style={{ backgroundColor: "white" }}
       />
       <Search className="absolute right-3 top-3 h-4 w-4 text-gray-400" />
       {dropdownOpen &&
