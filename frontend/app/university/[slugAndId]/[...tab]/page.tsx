@@ -10,8 +10,9 @@ import {
 import { ChevronDown, ChevronUp, GraduationCap } from "lucide-react";
 import { getYear } from "@/utils/getYear";
 import { Button } from "@/components/ui/button";
-import styles from "../../../styles/page.module.css";
 import { UniversityCard } from "@/components/common/UniversityCard";
+import CampusContent from "@/components/CampusContent";
+import styles from "@/app/styles/page.module.css";
 
 const validTabs = [
   "info",
@@ -22,7 +23,12 @@ const validTabs = [
   "fees",
   "scholarships",
   "placement",
+  "news",
+  "facilities",
+  "accommodations",
+  "reviews",
   "faqs",
+  "others",
 ];
 
 // Generate metadata for each tab
@@ -58,7 +64,12 @@ export async function generateMetadata({
     fees: "Fees",
     scholarships: "Scholarships",
     placement: "Placements",
+    accommodations: "Accommodations",
+    facilities: "Facilities",
+    news: "News",
+    reviews: "Reviews",
     faqs: "FAQs",
+    others: "Others",
   };
 
   const tabTitle =
@@ -96,6 +107,11 @@ const getEndpointForTab = (tab: string, id: number): string | null => {
     scholarships: `${baseUrl}/api/v1/college/scholarships/${id}`,
     faqs: `${baseUrl}/api/v1/college/faqs/${id}`,
     placement: `${baseUrl}/api/v1/college/placement/${id}`,
+    news: `${baseUrl}/api/v1/college/news/${id}`,
+    accommodations: `${baseUrl}/api/v1/college/accommodations/${id}`,
+    reviews: `${baseUrl}/api/v1/college/reviews/${id}`,
+    facilities: `${baseUrl}/api/v1/college/facilities/${id}`,
+    others: `${baseUrl}/api/v1/college/others/${id}`,
   };
 
   return endpointMap[tab] || null;
@@ -121,6 +137,16 @@ const extractTabContent = (tab: string, data: any): any[] => {
       return data.placement ? [data.placement] : [];
     case "faqs":
       return data.faq ? [data.faq] : [];
+    case "news":
+      return data.result ? [data.result] : [];
+    case "accommodations":
+      return data.result ? [data.result] : [];
+    case "reviews":
+      return data.reviews ? [data.reviews] : [];
+    case "facilities":
+      return data.facilities ? [data.facilities] : [];
+    case "others":
+      return data.other ? [data.other] : [];
     default:
       return [];
   }
@@ -209,9 +235,13 @@ async function TabPage({
 const renderContent = (currentTab: string, info: any): any => {
   switch (currentTab) {
     case "campuses":
-      return info && info.length > 0 ? (
+      // Read More logic for campus content
+      return info ? (
         <div className="space-y-4">
-          {info.map((university: any, index: number) => (
+          {info?.campus?.content && (
+            <CampusContent content={info.campus.content} />
+          )}
+          {info?.collegeList?.map((university: any, index: number) => (
             <UniversityCard
               key={university.id || index}
               university={university}
@@ -242,19 +272,6 @@ const renderContent = (currentTab: string, info: any): any => {
               <h2 className="text-brand-primary mb-4 text-3xl font-semibold">
                 {info.college.college_name} Courses
               </h2>
-              <p className="text-lg font-normal leading-7">
-                {/* Monash University, with its 10 academic faculties, offers an
-            impressive 516 programs. These include 142 undergraduate courses,
-            174 graduate courses, and 71 double-degree options. Additionally,
-            the university provides 129 professional development courses. As the
-            third-largest provider of graduate research programs in Australia,
-            Monash supervises nearly 5,000 Higher Degree by Research (HDR)
-            students.
-            <br />
-            Monash University in Melbourne offers a diverse array of courses
-            across multiple disciplines. Here are some of the courses available: */}
-              </p>
-
               <div className="space-y-4">
                 <Accordion
                   type="multiple"

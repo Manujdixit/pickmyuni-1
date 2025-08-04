@@ -18,6 +18,8 @@ import { compareColleges } from "../../controllers/college/comparison";
 import { getCollegeOtherInfo } from "../../controllers/college/other";
 import { getCollegeFacilitiesInfo } from "../../controllers/college/facilities";
 import { getCollegeNewsInfo } from "../../controllers/college/news";
+import { getCollegeAccommodationInfo } from "../../controllers/college/accomodations";
+import { getCollegeReviewsInfo } from "../../controllers/college/reviews";
 
 const CollegeRouter = express.Router();
 
@@ -39,8 +41,8 @@ CollegeRouter.get("/placement/:id", getCollegePlacementInfo as any);
 CollegeRouter.get("/faqs/:id", getCollegefaq as any);
 CollegeRouter.get("/others/:id", getCollegeOtherInfo as any);
 CollegeRouter.get("/facilities/:id", getCollegeFacilitiesInfo as any);
-CollegeRouter.get("/reviews/:id", getCollegefaq as any);
-CollegeRouter.get("/accomodations/:id", getCollegefaq as any);
+CollegeRouter.get("/reviews/:id", getCollegeReviewsInfo as any);
+CollegeRouter.get("/accommodations/:id", getCollegeAccommodationInfo as any);
 CollegeRouter.get("/news/:id", getCollegeNewsInfo as any);
 
 CollegeRouter.get("/:id/banner", getCollegeBanner as any);

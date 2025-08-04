@@ -1,14 +1,16 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { Clock, Plus, University } from "lucide-react";
+import { Plus } from "lucide-react";
 
-import { useEffect, useState, useCallback, useRef } from "react";
-import { useVirtualizer } from "@tanstack/react-virtual";
-import CourseCard from "./CourseCard";
+import React, { useEffect, useState, useCallback, useRef } from "react";
 import UniversityBox from "../listing/UniversityBox";
-import UniComapareCrad from "./UniComapareCrad";
 import { useRouter, useSearchParams } from "next/navigation";
+import {
+  CourseComparisonTable,
+  InstitutionComparisonTable,
+} from "./ComparisonTables";
+import UniInfoCard from "./UniInfoCard";
 
 export default function UniversityComparisonForm() {
   const router = useRouter();
@@ -17,54 +19,6 @@ export default function UniversityComparisonForm() {
   const [show, setshow] = useState(false);
   const [isInitialized, setIsInitialized] = useState(false);
   const urlUpdateTimeoutRef = useRef<NodeJS.Timeout | null>(null);
-
-  // Virtualized Course List Component
-  const VirtualizedCourseList = ({ courses }: { courses: any[] }) => {
-    const parentRef = useRef<HTMLDivElement>(null);
-
-    const virtualizer = useVirtualizer({
-      count: courses.length,
-      getScrollElement: () => parentRef.current,
-      estimateSize: () => 250, // Estimated height of each CourseCard
-      overscan: 5,
-    });
-
-    return (
-      <div
-        ref={parentRef}
-        className="scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-transparent max-h-[300px] overflow-y-auto"
-        style={{ scrollbarGutter: "stable" }}
-      >
-        <div
-          style={{
-            height: `${virtualizer.getTotalSize()}px`,
-            width: "100%",
-            position: "relative",
-          }}
-        >
-          {virtualizer.getVirtualItems().map((virtualItem) => {
-            const course = courses[virtualItem.index];
-            return (
-              <div
-                key={virtualItem.key}
-                style={{
-                  position: "absolute",
-                  top: 0,
-                  left: 0,
-                  width: "100%",
-                  height: `${virtualItem.size}px`,
-                  transform: `translateY(${virtualItem.start}px)`,
-                  padding: "0 4px 16px 4px", // Add some spacing between items
-                }}
-              >
-                <CourseCard course={course} />
-              </div>
-            );
-          })}
-        </div>
-      </div>
-    );
-  };
 
   // Each university: { id: number, collegeId: string|null, collegeName: string|null }
   type University = {
@@ -129,10 +83,14 @@ export default function UniversityComparisonForm() {
         .filter((uni) => uni.collegeId && uni.courseId)
         .map(
           (uni, idx) =>
-            `college${idx + 1}=${encodeURIComponent(uni.collegeId!)}&course${idx + 1}=${encodeURIComponent(uni.courseId!)}`,
+            `college${idx + 1}=${encodeURIComponent(
+              uni.collegeId!,
+            )}&course${idx + 1}=${encodeURIComponent(uni.courseId!)}`,
         )
         .join("&");
-      const url = `/compare-universities-in-australia${params ? `?${params}` : ""}`;
+      const url = `/compare-universities-in-australia${
+        params ? `?${params}` : ""
+      }`;
       console.log("Updating URL", { url });
       router.push(url, { scroll: false });
     }, 500); // 500ms debounce
@@ -142,7 +100,16 @@ export default function UniversityComparisonForm() {
     (index: number, collegeId: string | null, collegeName: string) => {
       setUniversities((prev) =>
         prev.map((uni, i) =>
-          i === index ? { ...uni, collegeId, collegeName } : uni,
+          i === index
+            ? {
+                ...uni,
+                collegeId,
+                collegeName,
+                courseId: null, // Reset course selection
+                courseName: "",
+                data: null, // Reset data
+              }
+            : uni,
         ),
       );
     },
@@ -187,14 +154,15 @@ export default function UniversityComparisonForm() {
         const collegeId = searchParams.get(`college${i}`);
         const courseId = searchParams.get(`course${i}`);
 
-        if (collegeId || courseId) {
+        if (collegeId) {
+          // Only need collegeId to start
           hasUrlParams = true;
           initialUniversities.push({
             id: i,
-            collegeId: collegeId || null,
-            collegeName: "", // Will be populated when university data loads
+            collegeId: collegeId,
+            collegeName: "", // Will be populated
             courseId: courseId || null,
-            courseName: "", // Will be populated when university data loads
+            courseName: "", // Will be populated
             data: null,
           });
         }
@@ -216,19 +184,22 @@ export default function UniversityComparisonForm() {
         setUniversities(initialUniversities);
         setshow(true); // Show comparison when loaded from URL
 
-        // Fetch college names for URL parameters
+        // Fetch college data for URL parameters
         initialUniversities.forEach(async (uni, index) => {
           if (uni.collegeId) {
             try {
               const response = await fetch(
-                `${process.env.NEXT_PUBLIC_API_URL}/api/v1/college/compare?college_id=${uni.collegeId}&course_id=${uni.courseId}`,
+                `${
+                  process.env.NEXT_PUBLIC_API_URL
+                }/api/v1/college/compare?college_id=${
+                  uni.collegeId
+                }&course_id=${uni.courseId || ""}`,
               );
               const data = await response.json();
               if (data.success && data.data.college) {
                 const collegeName = data.data.college.college_name;
                 const courses = data.data.college?.CollegesCourses || [];
 
-                // Find stream name if streamId exists
                 let courseName = "";
                 if (uni.courseId && courses.length > 0) {
                   const course = courses.find(
@@ -237,7 +208,6 @@ export default function UniversityComparisonForm() {
                   courseName = course ? course.name : "";
                 }
 
-                // Update the university with fetched data
                 setUniversities((prev) =>
                   prev.map((u, i) =>
                     i === index
@@ -245,6 +215,7 @@ export default function UniversityComparisonForm() {
                           ...u,
                           collegeName,
                           courseName,
+                          data: data.data,
                         }
                       : u,
                   ),
@@ -259,7 +230,7 @@ export default function UniversityComparisonForm() {
 
       setIsInitialized(true);
     }
-  }, [isInitialized]); // Remove searchParams from dependencies to prevent infinite loop
+  }, [isInitialized, searchParams]);
 
   const deleteUniversity = (id: number) => {
     if (universities.length > 2) {
@@ -278,36 +249,17 @@ export default function UniversityComparisonForm() {
 
   return (
     <div className="mb-16 p-4">
-      {/* Action Buttons */}
-      <div className="mb-6 flex flex-col justify-end gap-4 sm:flex-row">
-        {universities.length < 4 && (
-          <Button
-            variant="outline"
-            className="h-12 px-6"
-            onClick={add}
-            disabled={universities.length >= 4}
-          >
-            <Plus className="mr-2 h-4 w-4" />
-            Add upto {4 - universities.length} universities
-          </Button>
-        )}
-        <Button onClick={() => setshow(true)} className="h-12 px-8">
-          Compare Now
-        </Button>
-      </div>
-
-      {/* Single scroll container for all content */}
-      <div className="overflow-x-auto">
+      <div className="overflow-x-auto pb-4">
         <div
           style={{
-            minWidth: `${universities.length * 280}px`,
+            minWidth: `${universities.length * 380}px`,
           }}
         >
-          {/* University Selection */}
+          {/* University Selection Boxes */}
           <div
-            className={`mb-6 grid gap-4`}
+            className="grid gap-4"
             style={{
-              gridTemplateColumns: `repeat(${universities.length}, minmax(280px, 1fr))`,
+              gridTemplateColumns: `repeat(${universities.length}, minmax(340px, 1fr))`,
             }}
           >
             {universities.map((uni, idx) => (
@@ -333,62 +285,50 @@ export default function UniversityComparisonForm() {
             ))}
           </div>
 
-          {/* Comparison Content */}
-          {/* Institution Info */}
-          {show && (
-            <div>
-              <div className="mb-4 rounded bg-gray-300 px-4 py-3 text-center text-lg font-bold">
-                Institution Info
-              </div>
-              <div
-                className={`mb-8 grid gap-4`}
-                style={{
-                  gridTemplateColumns: `repeat(${universities.length}, minmax(280px, 1fr))`,
-                }}
+          {/* Action Buttons */}
+          <div className="mt-6 flex flex-col justify-end gap-4 sm:flex-row">
+            {universities.length < 4 && (
+              <Button
+                className="hover:bg-brand-primary flex h-12 items-center rounded-md border-2 border-[#28507A] bg-[#F8F9FB] px-6 text-[#28507A] hover:text-white"
+                onClick={add}
+                disabled={universities.length >= 4}
               >
-                {universities.map((uni) =>
-                  uni.collegeId ? (
-                    <UniComapareCrad key={uni.id} uni={uni} />
-                  ) : (
-                    <div
-                      className="flex h-full min-h-[120px] flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 p-6 text-gray-400"
-                      key={uni.id}
-                    >
-                      <University className="mb-2 h-8 w-8 text-gray-300" />
-                      <span className="font-medium">No College available</span>
-                    </div>
-                  ),
-                )}
-              </div>
+                <Plus className="mr-2 h-6 w-6" />
+                Add Up To {4 - universities.length} More Uni
+              </Button>
+            )}
+            <Button onClick={() => setshow(true)} className="h-12 px-8">
+              Compare Now
+            </Button>
+          </div>
 
-              {/* Course Info */}
-              <div className="mb-4 rounded bg-gray-300 px-4 py-3 text-center text-lg font-bold">
-                Course Info
-              </div>
-              <div
-                className={`mb-8 grid gap-4`}
-                style={{
-                  gridTemplateColumns: `repeat(${universities.length}, minmax(280px, 1fr))`,
-                }}
-              >
-                {universities.map((uni) => {
-                  const courses = uni.data?.college?.CollegesCourses || [];
-                  return (
-                    <div key={uni.id} className="flex flex-col">
-                      {courses.length > 0 ? (
-                        <VirtualizedCourseList courses={courses} />
-                      ) : (
-                        <div className="flex h-full min-h-[120px] flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 p-6 text-gray-400">
-                          <Clock className="mb-2 h-8 w-8 text-gray-300" />
-                          <span className="font-medium">
-                            No courses available
-                          </span>
-                        </div>
-                      )}
+          {/* University Info Cards with VS separators */}
+          {show && (
+            <div className="mt-32 flex items-center gap-4">
+              {universities.map((uni, idx) => (
+                <React.Fragment key={uni.id}>
+                  <UniInfoCard
+                    university={uni}
+                    canDelete={universities.length > 2}
+                    onDelete={() => deleteUniversity(uni.id)}
+                  />
+                  {idx < universities.length - 1 && (
+                    <div className="flex items-center justify-center">
+                      <span className="bg-brand-primary flex h-10 w-10 items-center justify-center rounded-full border border-[#E0E0E0] text-base font-bold text-white shadow">
+                        VS
+                      </span>
                     </div>
-                  );
-                })}
-              </div>
+                  )}
+                </React.Fragment>
+              ))}
+            </div>
+          )}
+
+          {/* Comparison Content */}
+          {show && (
+            <div className="mt-8">
+              <CourseComparisonTable universities={universities} />
+              <InstitutionComparisonTable universities={universities} />
             </div>
           )}
         </div>

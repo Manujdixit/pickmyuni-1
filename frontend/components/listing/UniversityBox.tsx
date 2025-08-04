@@ -58,9 +58,11 @@ export default function UniversityBox({
   // Get the selected course name for display
   const getSelectedCourseName = () => {
     if (selectedCourseName) return selectedCourseName;
-    if (selectedCourseLocal && courses.length > 0) {
+
+    const courseIdToCheck = selectedCourseLocal || selectedCourseId;
+    if (courseIdToCheck && courses.length > 0) {
       const courseObj = courses.find(
-        (c: any) => String(c.id) === selectedCourseLocal,
+        (c: any) => String(c.id) === String(courseIdToCheck),
       );
       return courseObj?.name || courseObj?.course_name || "";
     }
@@ -90,20 +92,27 @@ export default function UniversityBox({
   }, [college]);
 
   useEffect(() => {
-    // Reset stream when university changes, but preserve if selectedStreamId is provided
+    // Sync local course selection with prop
+    if (selectedCourseId !== selectedCourseLocal) {
+      setSelectedCourseLocal(selectedCourseId || null);
+    }
+  }, [selectedCourseId]);
+
+  useEffect(() => {
+    // Reset course when university changes, but preserve if selectedCourseId is provided
     if (!selectedCourseId) {
       setSelectedCourseLocal(null);
       if (setSelectedCourse) {
         setSelectedCourse(null, "");
       }
     }
-  }, [selectedCollegeId, courses]); // Remove setSelectedStream from dependencies
+  }, [selectedCollegeId]); // Only depend on selectedCollegeId, not courses
   return (
     <div
-      className={`relative space-y-4 rounded bg-white p-4 shadow-md hover:shadow-lg`}
+      className={`relative px-1`}
       style={{ paddingTop: canDelete && onDelete ? "1.5rem" : "1rem" }}
     >
-      {canDelete && onDelete && (
+      {/* {canDelete && onDelete && (
         <button
           aria-label="close"
           onClick={onDelete}
@@ -111,7 +120,7 @@ export default function UniversityBox({
         >
           <X className="h-3 w-3" />
         </button>
-      )}
+      )} */}
       <CollegeSearchInput
         value={selectedCollegeName || ""}
         onChange={(name: string, collegeId?: string) => {
@@ -124,11 +133,13 @@ export default function UniversityBox({
             variant="outline"
             className="h-12 w-full justify-between text-left font-normal"
             disabled={loading || (!courses.length && !!selectedCollegeId)}
+            style={{ backgroundColor: "white" }}
           >
-            <span>
+            <span className="line-clamp-1">
               {loading
                 ? "Loading courses..."
-                : selectedCourseLocal && getSelectedCourseName()
+                : (selectedCourseLocal || selectedCourseId) &&
+                    getSelectedCourseName()
                   ? getSelectedCourseName()
                   : !courses.length && selectedCollegeId
                     ? "N/A"
@@ -144,7 +155,7 @@ export default function UniversityBox({
           <CourseDialogContent
             courses={courses}
             onSelect={handleCourseChange}
-            selected={selectedCourseLocal}
+            selected={selectedCourseLocal || selectedCourseId || null}
             onClose={() => setIsDialogOpen(false)}
           />
         </DialogContent>

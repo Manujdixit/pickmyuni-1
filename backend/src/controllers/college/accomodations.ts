@@ -3,9 +3,9 @@ import { prisma } from "../../lib/prisma";
 
 /**
  * @swagger
- * /api/v1/college/accomodations/{id}:
+ * /api/v1/college/accommodations/{id}:
  *   get:
- *     summary: Get college accomodations information
+ *     summary: Get college accommodations information
  *     tags: [Colleges]
  *     parameters:
  *       - in: path
@@ -23,7 +23,7 @@ import { prisma } from "../../lib/prisma";
  *       500:
  *         description: Server error
  */
-export const getCollegeAccomodationInfo = async (
+export const getCollegeAccommodationInfo = async (
   req: Request,
   res: Response
 ) => {
@@ -61,10 +61,10 @@ export const getCollegeAccomodationInfo = async (
       },
     });
   } catch (error) {
-    console.error("Error fetching college accomodation info:", error);
+    console.error("Error fetching college accommodation info:", error);
     res.status(500).json({
       success: false,
-      message: "An error occurred while fetching accomodation information",
+      message: "An error occurred while fetching accommodation information",
       error: (error as Error).message,
     });
   }
