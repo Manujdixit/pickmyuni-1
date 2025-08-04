@@ -34,23 +34,29 @@ export const suggestedColleges = async (req: Request, res: Response) => {
   }
 
   try {
-    const colleges = await prisma.colleges.findMany({
-      where: { parent_college_id: parent_college_id },
-      select: {
-        id: true,
-        slug: true,
-        logo_url: true,
-        college_name: true,
-        location: true,
-        rating: true,
-        score: true,
-        brochure_url: true,
-        avg_fees_in_aud: true,
-        city: { select: { name: true } },
-        state: { select: { name: true } },
-        CollegesCourses: { select: { id: true } },
-      },
-    });
+    const [colleges, campus] = await Promise.all([
+      prisma.colleges.findMany({
+        where: { parent_college_id: parent_college_id },
+        select: {
+          id: true,
+          slug: true,
+          logo_url: true,
+          college_name: true,
+          location: true,
+          rating: true,
+          score: true,
+          brochure_url: true,
+          avg_fees_in_aud: true,
+          city: { select: { name: true } },
+          state: { select: { name: true } },
+          CollegesCourses: { select: { id: true } },
+        },
+      }),
+      prisma.collegewiseContent.findFirst({
+        where: { college_id: parent_college_id, silos: "campus" },
+        orderBy: { updatedAt: "desc" },
+      }),
+    ]);
 
     // Transform data to include course_count and flatten city/state names
     const collegeList = colleges.map((college) => ({
@@ -70,7 +76,7 @@ export const suggestedColleges = async (req: Request, res: Response) => {
 
     res.status(200).json({
       success: true,
-      data: collegeList,
+      data: { collegeList, campus },
     });
   } catch (error) {
     console.error("Error fetching suggested colleges:", error);
