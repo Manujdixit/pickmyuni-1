@@ -35,70 +35,119 @@ export const compareColleges = async (req: Request, res: Response) => {
   try {
     const { college_id, course_id } = req.query;
 
-    if (!college_id && !course_id) {
+    // Input validation
+    if (!college_id) {
       return res.status(400).json({
         success: false,
-        message: "Please provide college_id or course_id",
+        message: "college_id is required",
       });
     }
 
-    if (college_id && !course_id) {
-      // Return the college and its distinct courses (not CollegesCourses)
-      const collegeWithCourses = await prisma.colleges.findUnique({
-        where: {
-          id: Number(college_id),
-        },
-        include: {
-          CollegesCourses: true,
-        },
-      });
-      if (!collegeWithCourses) {
-        return res.status(404).json({
-          success: false,
-          message: "College not found",
-        });
-      }
+    const collegeIdNum = Number(college_id);
+    const courseIdNum = course_id ? Number(course_id) : null;
 
-      // // Remove CollegesCourses from college object
-      // const { CollegesCourses, ...college } = collegeWithCourses;
-      res.status(200).json({
-        success: true,
-        data: {
-          college: collegeWithCourses,
-        },
+    // Validate numeric inputs
+    if (isNaN(collegeIdNum) || (course_id && isNaN(courseIdNum!))) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid college_id or course_id format",
       });
     }
 
-    if (college_id && course_id) {
-      const college = await prisma.colleges.findUnique({
+    let college, totalCoursesCount;
+
+    if (courseIdNum) {
+      // Case 1: Specific course requested - need separate queries for efficiency
+      const [collegeData, coursesCount] = await Promise.all([
+        prisma.colleges.findUnique({
+          where: {
+            id: collegeIdNum,
+            is_active: true,
+          },
+          include: {
+            CollegesCourses: {
+              where: {
+                is_active: true,
+                id: courseIdNum,
+              },
+              select: {
+                id: true,
+                name: true,
+                level: true,
+                tution_fees: true,
+                domestic_fees_in_aud: true,
+                duration_in_months: true,
+                one_time_fees: true,
+                hostel_fees: true,
+              },
+            },
+          },
+        }),
+        prisma.collegesCourses.count({
+          where: {
+            college_id: collegeIdNum,
+            is_active: true,
+          },
+        }),
+      ]);
+
+      college = collegeData;
+      totalCoursesCount = coursesCount;
+    } else {
+      // Case 2: All courses requested - single query is more efficient
+      college = await prisma.colleges.findUnique({
         where: {
-          id: Number(college_id),
+          id: collegeIdNum,
+          is_active: true,
         },
         include: {
           CollegesCourses: {
             where: {
-              id: Number(course_id),
+              is_active: true,
+            },
+            select: {
+              id: true,
+              name: true,
             },
           },
         },
       });
 
-      if (!college) {
-        return res.status(404).json({
-          success: false,
-          message: "College not found",
-        });
-      }
+      totalCoursesCount = college?.CollegesCourses.length || 0;
+    }
 
-      return res.status(200).json({
-        success: true,
-        data: {
-          college: college,
-        },
+    if (!college) {
+      return res.status(404).json({
+        success: false,
+        message: "College not found or inactive",
       });
     }
+
+    // If specific course_id was provided but course not found
+    if (courseIdNum && college.CollegesCourses.length === 0) {
+      return res.status(404).json({
+        success: false,
+        message: "Course not found for this college or inactive",
+      });
+    }
+
+    // Add total courses count to response
+    const response = {
+      ...college,
+      coursesCount: totalCoursesCount,
+    };
+
+    return res.status(200).json({
+      success: true,
+      data: {
+        college: response,
+      },
+    });
   } catch (error) {
     console.error("Error fetching college:", error);
-    res.status(500).json({ error: "Internal Server Error" });
+    res.status(500).json({
+      success: false,
+      error: "Internal Server Error",
+    });
   }
 };

@@ -8,6 +8,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { capitalFirst } from "@/utils/capitalFirst";
 import { LucideBookOpenText, LucideUniversity } from "lucide-react";
 
 type University = {
@@ -40,56 +41,64 @@ const CourseComparisonTable = ({ universities }: ComparisonTableProps) => {
     },
     {
       label: "Level",
-      getValue: (course: any) => course?.level || "-",
+      getValue: (course: any) =>
+        capitalFirst(course?.level?.split("_").join(" ")) || "-",
     },
-    { label: "Score", getValue: (course: any) => course?.score || "-" },
+    // { label: "Score", getValue: (course: any) => course?.score || "-" },
     {
-      label: "Duration (Months)",
+      label: "Duration (Weeks)",
       getValue: (course: any) =>
         course?.duration_in_months
-          ? `${course?.duration_in_months} Months`
+          ? `${course?.duration_in_months} Weeks`
           : "-",
     },
     {
-      label: "Tuition Fees",
+      label: "Tuition Fees (International)",
       getValue: (course: any) =>
         course?.tution_fees
           ? `AUD ${Number(course?.tution_fees).toLocaleString()}`
           : "-",
     },
     {
-      label: "Hostel Fees",
+      label: "Tuition Fees (Domestic)",
+      getValue: (course: any) =>
+        course?.domestic_fees_in_aud
+          ? `AUD ${Number(course?.domestic_fees_in_aud).toLocaleString()}`
+          : "-",
+    },
+    {
+      label: "Non-tuition Fees",
       getValue: (course: any) =>
         course?.hostel_fees
           ? `AUD ${Number(course?.hostel_fees).toLocaleString()}`
           : "-",
     },
     {
-      label: "One Time Fees",
+      label: "Estimated Total Fees",
       getValue: (course: any) =>
         course?.one_time_fees
           ? `AUD ${Number(course.one_time_fees).toLocaleString()}`
           : "-",
     },
-    {
-      label: "Other Fees",
-      getValue: (course: any) =>
-        course?.other_fees
-          ? `AUD ${Number(course?.other_fees).toLocaleString()}`
-          : "-",
-    },
+    // {
+    //   label: "Other Fees",
+    //   getValue: (course: any) =>
+    //     course?.other_fees
+    //       ? `AUD ${Number(course?.other_fees).toLocaleString()}`
+    //       : "-",
+    // },
   ];
 
-  const calculateTotalCost = (course: any) => {
-    if (course) {
-      const tuition = Number(course.tution_fees) || 0;
-      const hostel = Number(course.hostel_fees) || 0;
-      const oneTime = Number(course.one_time_fees) || 0;
-      const other = Number(course.other_fees) || 0;
-      return tuition + hostel + oneTime + other;
-    }
-    return 0;
-  };
+  // const calculateTotalCost = (course: any) => {
+  //   if (course) {
+  //     const tuition = Number(course.tution_fees) || 0;
+  //     const hostel = Number(course.hostel_fees) || 0;
+  //     const oneTime = Number(course.one_time_fees) || 0;
+  //     const other = Number(course.other_fees) || 0;
+  //     return tuition + hostel + oneTime + other;
+  //   }
+  //   return 0;
+  // };
 
   return (
     <div>
@@ -136,23 +145,6 @@ const CourseComparisonTable = ({ universities }: ComparisonTableProps) => {
               })}
             </TableRow>
           ))}
-          <TableRow className="font-bold">
-            <TableCell className="border-x-2 border-white bg-yellow-100 font-semibold">
-              Total Cost of Picked Universities
-            </TableCell>
-            {universities.map((uni) => {
-              const course = getCourseForUni(uni);
-              const totalCost = calculateTotalCost(course);
-              return (
-                <TableCell
-                  key={uni.id}
-                  className="border-x-2 border-white bg-yellow-100 text-center"
-                >
-                  {totalCost > 0 ? `AUD ${totalCost.toLocaleString()}` : "-"}
-                </TableCell>
-              );
-            })}
-          </TableRow>
         </TableBody>
       </Table>
     </div>
@@ -167,17 +159,25 @@ const InstitutionComparisonTable = ({ universities }: ComparisonTableProps) => {
     },
     {
       label: "Type of Institution",
-      getValue: (uni: University) => uni.data?.college?.type || "-",
+      getValue: (uni: University) => {
+        let type = uni.data?.college?.type || "-";
+        if (
+          typeof type === "string" &&
+          type.toLowerCase().includes("government")
+        ) {
+          type = type.replace(/government/gi, "Public");
+        }
+        return type;
+      },
     },
     {
       label: "Total Courses",
-      getValue: (uni: University) =>
-        uni.data?.college?.total_course_count || "-",
+      getValue: (uni: University) => uni.data?.college?.coursesCount || "-",
     },
-    {
-      label: "Score",
-      getValue: (uni: University) => uni.data?.college?.score || "-",
-    },
+    // {
+    //   label: "Score",
+    //   getValue: (uni: University) => uni.data?.college?.score || "-",
+    // },
     {
       label: "Total Students",
       getValue: (uni: University) =>
