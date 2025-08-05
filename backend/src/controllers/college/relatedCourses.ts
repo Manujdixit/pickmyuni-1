@@ -34,7 +34,7 @@ export const relatedCourses = async (req: Request, res: Response) => {
   }
 
   try {
-    const [relatedCourses, basicCollegeInfo] = await Promise.all([
+    const [relatedCourses, basicCollegeInfo, content] = await Promise.all([
       prisma.collegesCourses.findMany({
         where: {
           college_id: collegeId,
@@ -59,6 +59,13 @@ export const relatedCourses = async (req: Request, res: Response) => {
           college_name: true,
         },
       }),
+      prisma.collegewiseContent.findFirst({
+        where: {
+          college_id: collegeId,
+          silos: "course",
+        },
+        orderBy: { updatedAt: "desc" },
+      }),
     ]);
     if (!basicCollegeInfo) {
       return res.status(404).json({
@@ -72,6 +79,7 @@ export const relatedCourses = async (req: Request, res: Response) => {
       data: {
         college: basicCollegeInfo,
         relatedCourses,
+        content,
       },
     });
   } catch (error) {

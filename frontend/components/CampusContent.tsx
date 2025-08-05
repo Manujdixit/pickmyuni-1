@@ -1,6 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import { needsReadMore } from "@/utils/checkReadMore";
+import styles from "@/app/styles/page.module.css";
 
 interface CampusContentProps {
   content?: string;
@@ -15,12 +16,7 @@ const CampusContent: React.FC<CampusContentProps> = ({ content }) => {
   return (
     <>
       <div
-        className={`styledContent prose prose-lg max-w-none`}
-        style={
-          !isExpanded && showReadMore
-            ? { maxHeight: "72px", overflow: "hidden", position: "relative" }
-            : undefined
-        }
+        className={`styledContent ${styles.styledContent} prose prose-lg max-w-none ${!isExpanded && showReadMore ? "line-clamp-5" : ""}`}
         dangerouslySetInnerHTML={{ __html: content }}
       />
       {showReadMore && !isExpanded && (
