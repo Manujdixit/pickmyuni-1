@@ -1,5 +1,7 @@
+import { tagSanatize } from "@/utils/tagsanatize";
 import { Delete } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 import React from "react";
 
 function calculateTotalFees(course: any): number {
@@ -21,9 +23,9 @@ const UniInfoCard: React.FC<any> = ({
     <div className="relative flex h-full min-w-[320px] max-w-[340px] flex-col items-center justify-between rounded-2xl border-none bg-white pt-8 shadow">
       {/* Logo in circle above card */}
       <div className="absolute -top-20 left-1/2 z-10 flex -translate-x-1/2 items-center justify-center">
-        <div className="flex h-36 w-36 items-center justify-center rounded-full border border-gray-100 bg-white shadow-lg">
+        <div className="flex h-32 w-32 items-center justify-center rounded-full border border-gray-100 bg-white shadow-lg">
           {university?.data?.college?.logo_url ? (
-            <div className="relative h-32 w-32 overflow-hidden rounded-full">
+            <div className="relative h-28 w-28 overflow-hidden rounded-full">
               <Image
                 src={
                   "https://pickmyuni-bucket.s3.ap-southeast-2.amazonaws.com/collegelogo/" +
@@ -40,10 +42,19 @@ const UniInfoCard: React.FC<any> = ({
         </div>
       </div>
       {/* Card content */}
-      <div className="mb-2 mt-12 flex flex-col items-center px-4">
-        <h2 className="text-brand-primary mb-2 line-clamp-2 text-center text-xl font-bold leading-tight">
-          {university?.data?.college?.college_name}
-        </h2>
+      <div className="mb-6 mt-7 flex flex-col items-center px-4">
+        <Link
+          href={`/university/${tagSanatize(university?.data?.college?.slug)}-${
+            university?.data?.college?.id
+          }/info`}
+        >
+          <h2 className="text-brand-primary line-clamp-1 text-center text-xl font-bold leading-tight">
+            {university?.data?.college?.college_name}
+          </h2>
+          <h2 className="line-clamp-1 text-center font-semibold leading-tight text-gray-600">
+            {university?.data?.college?.location}
+          </h2>
+        </Link>
       </div>
       <div className="mb-2 flex w-full flex-row justify-between gap-2 px-4">
         <div className="flex flex-col">

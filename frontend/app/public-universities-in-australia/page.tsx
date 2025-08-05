@@ -1,174 +1,107 @@
+"use client";
 import {
   Accordion,
   AccordionItem,
   AccordionTrigger,
   AccordionContent,
 } from "@/components/ui/radix-accordion";
-import { url } from "inspector";
-import { HelpCircle } from "lucide-react";
 import Image from "next/image";
+import { useTopCollegesByType } from "@/hooks/useTopCollegesByType";
+import type { College } from "@/hooks/useTopCollegesByType";
+import Link from "next/link";
 
 const sec1CardData = [
   {
-    title: "Globally Recognized Degrees",
+    title: "Affordable Tuition Fees",
     description:
-      "Graduating from a Level 1 university enhances your career prospects, as degrees from these institutions are recognized and respected worldwide. Employers and industries value graduates from these universities due to their academic rigor and industry-focused learning approach.",
+      "Compared to private institutions, public universities in Australia offer lower tuition fees, making education more accessible for international students.",
     url: "https://pickmyuni-bucket.s3.ap-southeast-2.amazonaws.com/static/globally-recognized-degrees-icon.webp",
+  },
+  {
+    title: "Government-Funded Scholarships",
+    description:
+      "Many public universities provide scholarships and financial aid to international students, reducing the financial burden.",
+    url: "https://pickmyuni-bucket.s3.ap-southeast-2.amazonaws.com/static/high-quality-education-icon.webp",
+  },
+  {
+    title: "Wide Range of Courses",
+    description:
+      "From engineering to arts, business, and healthcare, Australian public universities offer diverse courses tailored to global industry demands.",
+    url: "https://pickmyuni-bucket.s3.ap-southeast-2.amazonaws.com/static/advanced-research-opportunities-icon.webp",
   },
   {
     title: "High-Quality Education",
     description:
-      "These universities maintain high academic standards, ensuring that students receive a top-notch education. With cutting-edge curriculum designs, well-structured programs, and expert faculty members, Level 1 universities provide students with a strong academic foundation.",
-    url: "https://pickmyuni-bucket.s3.ap-southeast-2.amazonaws.com/static/high-quality-education-icon.webp",
-  },
-  {
-    title: "Advanced Research Opportunities",
-    description:
-      "Australia’s top-tier universities are known for their extensive research initiatives. Students can engage in innovative research projects, work with industry leaders, and contribute to groundbreaking discoveries.",
-    url: "https://pickmyuni-bucket.s3.ap-southeast-2.amazonaws.com/static/advanced-research-opportunities-icon.webp",
-  },
-  {
-    title: "Excellent Campus Facilities",
-    description:
-      "From modern libraries to advanced laboratories, Assessment Level 1 universities provide state-of-the-art infrastructure to support students’ academic and extracurricular pursuits. These institutions focus on creating a conducive learning environment for both local and international students.",
+      "These universities adhere to strict educational standards, ensuring students receive top-notch learning experiences.",
     url: "https://pickmyuni-bucket.s3.ap-southeast-2.amazonaws.com/static/excellent-campus-facilities-icon.webp",
   },
   {
-    title: "Enhanced Career Opportunities",
+    title: "Strong Industry Connections",
     description:
-      "Graduating from a top-ranked university increases your chances of securing employment with leading multinational companies. Many of these universities have strong ties with industries, offering internships, placements, and networking opportunities for students.",
+      "Many public universities collaborate with industries, offering internships and job placements to enhance students' employability.",
     url: "https://pickmyuni-bucket.s3.ap-southeast-2.amazonaws.com/static/enhanced-career-opportunities-icon.webp",
   },
   {
-    title: "Scholarships and Financial Assistance",
+    title: "Multicultural Environment",
     description:
-      "Many Level 1 universities in Australia offer scholarships, grants, and financial aid to deserving international students. These scholarships help ease the financial burden and make quality education more accessible.",
+      "With students from all over the world, public universities in Australia offer a diverse and inclusive learning environment.",
     url: "https://pickmyuni-bucket.s3.ap-southeast-2.amazonaws.com/static/scholarships-and-financial-assistance-icon.webp",
   },
-];
-
-const sec2CardData = [
   {
-    title: "The University of Melbourne",
-    description: `<ul>
-  <li>The University of Melbourne is among the top level 1 universities in Melbourne.</li>
-  <li>Ranked among the top universities globally.</li>
-  <li>Known for its research excellence and diverse student body.</li>
-  <li>Offers a wide range of undergraduate and postgraduate programs.</li>
-  <li>Best level 1 university in Melbourne.</li>
-</ul>
-`,
-    url: "https://pickmyuni-bucket.s3.ap-southeast-2.amazonaws.com/static/the-university-of-melbourne-1.webp",
+    title: "Advanced Research Facilities",
+    description:
+      "Many of these universities are leaders in research, contributing to groundbreaking innovations in various fields.",
+    url: "https://pickmyuni-bucket.s3.ap-southeast-2.amazonaws.com/static/scholarships-and-financial-assistance-icon.webp",
   },
   {
-    title: "The Australian National University (ANU)",
-    description: `<ul>
-  <li>Located in Canberra, ANU is Australia’s premier research institution.</li>
-  <li>Strong focus on science, humanities, and international relations.</li>
-  <li>Highly ranked globally for its academic programs and faculty.</li>
-</ul>
-`,
-    url: "https://pickmyuni-bucket.s3.ap-southeast-2.amazonaws.com/static/the-australian-national-university-anu-2.webp",
-  },
-  {
-    title: "The University of Sydney",
-    description: `<ul>
-  <li>One of Australia’s oldest and most prestigious universities.</li>
-  <li>Strong reputation in business, law, medicine, and engineering.</li>
-  <li>Provides world-class facilities and industry connections.</li>
-</ul>
-`,
-    url: "https://pickmyuni-bucket.s3.ap-southeast-2.amazonaws.com/static/the-university-of-sydney-3.webp",
-  },
-  {
-    title: "The University of Queensland (UQ)",
-    description: `<ul>
-  <li>Renowned for research in biotechnology, environmental sciences, and medicine.</li>
-  <li>Offers excellent scholarships and career opportunities.</li>
-  <li>Home to some of the best research centers in Australia.</li>
-  <li>Known as one of the top-notch level 1 universities in Sydney.</li>
-</ul>
-`,
-    url: "https://pickmyuni-bucket.s3.ap-southeast-2.amazonaws.com/static/the-university-of-queensland-uq-4.webp",
-  },
-  {
-    title: "Monash University",
-    description: `<ul>
-  <li>A member of the Group of Eight, known for its innovative teaching methods.</li>
-  <li>Strong industry partnerships with leading global firms.</li>
-  <li>Extensive international student support and exchange programs.</li>
-</ul>
-`,
-    url: "https://pickmyuni-bucket.s3.ap-southeast-2.amazonaws.com/static/monash-university-5.webp",
-  },
-  {
-    title: "The University of New South Wales (UNSW Sydney)",
-    description: `<ul>
-  <li>Specializes in engineering, technology, and business disciplines.</li>
-  <li>High employability rate for graduates.</li>
-  <li>Strong focus on entrepreneurship and innovation.</li>
-</ul>
-`,
-    url: "https://pickmyuni-bucket.s3.ap-southeast-2.amazonaws.com/static/the-university-of-new-south-wales-unsw-sydney-6.webp",
-  },
-  {
-    title: "The University of Western Australia (UWA)",
-    description: `<ul>
-  <li>Research-driven university known for excellence in the sciences and humanities.</li>
-  <li>Located in Perth, offering a beautiful campus and a high quality of life.</li>
-  <li>Provides various student support programs and scholarships.</li>
-</ul>
-`,
-    url: "https://pickmyuni-bucket.s3.ap-southeast-2.amazonaws.com/static/the-university-of-western-australia-uwa-7.webp",
-  },
-  {
-    title: "The University of Adelaide",
-    description: `<ul>
-  <li>One of the oldest universities in Australia with a rich academic heritage.</li>
-  <li>Known for agricultural sciences, health, and engineering programs.</li>
-  <li>Offers extensive research facilities and industry collaborations.</li>
-  <li>Popular Assessment level 1 universities in Australia for international students.</li>
-</ul>
-`,
-    url: "https://pickmyuni-bucket.s3.ap-southeast-2.amazonaws.com/static/the-university-of-adelaide-8.webp",
+    title: "Global Networking Opportunities",
+    description:
+      "Students at public universities have access to international exchange programs and collaborations with top institutions worldwide.",
+    url: "https://pickmyuni-bucket.s3.ap-southeast-2.amazonaws.com/static/scholarships-and-financial-assistance-icon.webp",
   },
 ];
 
 const sec3CardData = [
   {
-    title: "University Rankings",
+    title: "1. Choose a University and Course",
     description:
-      "Check global rankings such as QS World University Rankings and Times Higher Education Rankings to identify the top universities in Australia.",
+      "Research and select a public university and program that aligns with your career goals.",
     url: "https://pickmyuni-bucket.s3.ap-southeast-2.amazonaws.com/static/university_rankings_icon.webp",
   },
   {
-    title: "Accreditation & Reputation",
+    title: "2. Check Entry Requirements",
     description:
-      "Ensure the university is accredited by Australian educational authorities and has a strong academic reputation.",
+      "Ensure you meet the academic and English proficiency requirements.",
     url: "https://pickmyuni-bucket.s3.ap-southeast-2.amazonaws.com/static/accreditation-Reputation-icon.webp",
   },
   {
-    title: "Course Offerings",
+    title: "3. Prepare Documents",
     description:
-      "Select a university that offers programs aligning with your career goals and interests.",
+      "Gather necessary documents like academic transcripts, English test scores, SOP, and reference letters.",
     url: "https://pickmyuni-bucket.s3.ap-southeast-2.amazonaws.com/static/course-offerings-icon.webp",
   },
   {
-    title: "Industry Partnerships",
+    title: "4. Apply Online",
     description:
-      "Look for universities with strong industry collaborations and internship opportunities.",
+      "Submit applications through the university’s official portal or via a registered education agent.",
     url: "https://pickmyuni-bucket.s3.ap-southeast-2.amazonaws.com/static/industry-partnerships-icon.webp",
   },
   {
-    title: "Alumni Success",
+    title: "5. Await Offer Letter",
     description:
-      "Research the achievements of alumni and their career paths post-graduation.",
+      " If accepted, you will receive a Confirmation of Enrolment (CoE), which is necessary for a student visa application.",
     url: "https://pickmyuni-bucket.s3.ap-southeast-2.amazonaws.com/static/alumni-success-icon.webp",
   },
   {
-    title: "Student Reviews & Experience",
+    title: "6. Apply for a Student Visa",
     description:
-      "Connect with current students or alumni to understand their experience at the university.",
+      "Lodge your visa application with the Department of Home Affairs.",
+    url: "https://pickmyuni-bucket.s3.ap-southeast-2.amazonaws.com/static/student-reviews-experience-icon.webp",
+  },
+  {
+    title: "7. Plan for Arrival",
+    description:
+      "Arrange accommodation, insurance, and financial support before moving to Australia.",
     url: "https://pickmyuni-bucket.s3.ap-southeast-2.amazonaws.com/static/student-reviews-experience-icon.webp",
   },
 ];
@@ -279,30 +212,30 @@ const sec1Cards = (data: any, fullHeight = false) => {
   );
 };
 
-const sec2Cards = (data: any, idx: number) => {
+const sec2Cards = (data: College, idx: number) => {
   return (
-    <div className="space-y-2">
-      <div className="relative mb-2 h-48 w-full">
-        <Image
-          src={
-            data.url ||
-            "https://pickmyuni-bucket.s3.ap-southeast-2.amazonaws.com/static/pr_path1.webp"
-          }
-          alt={data.title}
-          fill
-          className="rounded object-cover"
-          sizes="(max-width: 768px) 100vw, 33vw"
-        />
-      </div>
-      <div className="">
-        <p className="text-brand-primary p-4 text-2xl font-semibold">
-          {idx + 1}. {data.title}
-        </p>
-        <div
-          className="p-4 text-base font-normal [&_li]:mb-1 [&_ul]:list-disc [&_ul]:pl-6"
-          dangerouslySetInnerHTML={{ __html: data.description }}
-        />
-      </div>
+    <div className="group relative h-72 w-full overflow-hidden rounded-lg">
+      <Link href={`/university/${data?.slug}-${data?.id}/info`}>
+        <div className="relative h-full w-full">
+          <Image
+            src={
+              data?.bg_url
+                ? `https://pickmyuni-bucket.s3.ap-southeast-2.amazonaws.com/collegebanner/${data?.bg_url}`
+                : "/transfer.svg"
+            }
+            alt={data.college_name}
+            fill
+            className="cursor-pointer object-cover transition-transform duration-300 group-hover:scale-105 group-hover:brightness-90"
+          />
+          {/* Overlay covers the complete image */}
+          <div className="absolute inset-0 z-10 bg-gradient-to-t from-black/40 to-transparent transition-all duration-300 group-hover:bg-black/30" />
+        </div>
+        <div className="absolute bottom-0 z-20 w-full p-4">
+          <h3 className="line-clamp-1 text-xl font-semibold text-white group-hover:line-clamp-2">
+            {data.college_name}
+          </h3>
+        </div>
+      </Link>
     </div>
   );
 };
@@ -324,6 +257,8 @@ const sec3Cards = (data: any) => {
 };
 
 export default function PrivacyPage() {
+  const { colleges, loading, error } = useTopCollegesByType("government");
+
   return (
     <div className="min-h-screen bg-white text-[#242628]">
       {/* Hero Section */}
@@ -339,7 +274,7 @@ export default function PrivacyPage() {
         <div className="absolute inset-0 flex items-end">
           <div className="container mx-auto pb-8">
             <h1 className="text-3xl font-bold text-white md:text-4xl lg:text-5xl">
-              Level 1 Universities in Australia​
+              Public Universities in Australia
             </h1>
           </div>
         </div>
@@ -349,28 +284,25 @@ export default function PrivacyPage() {
       <div className="container mx-auto space-y-20 py-12 lg:py-16">
         {/* Header Section */}
         <p className="text-lg font-normal">
-          Australia is renowned for its world-class education system, attracting
-          thousands of international students each year. With globally
-          recognized universities, state-of-the-art research facilities, and a
-          strong emphasis on academic excellence, Australia has become a top
-          destination for higher education. Among these institutions, Assessment
-          Level 1 universities in Australia hold a prestigious position,
-          offering high-quality education, excellent faculty, and superior
-          infrastructure. If you are an international student aiming for a
-          top-tier education in Australia, choosing a Level 1 university can be
-          the best decision for your academic and professional growth.
+          Australia is home to some of the world's best higher education
+          institutions, offering exceptional academic opportunities to students
+          worldwide. For international students looking to pursue higher
+          education, public universities in Australia stand out for their
+          quality education, affordability, and global recognition.
         </p>
 
         <section className="flex flex-col justify-center">
           <h2 className="text-brand-primary mb-4 text-center text-4xl font-semibold">
-            Why Choose Level 1 Universities in{" "}
-            <span className="text-brand-secondary">Australia 2025?</span>
+            Why Choose Public Universities in{" "}
+            <span className="text-brand-secondary">Australia</span>
           </h2>
           <p className="mb-2 text-center">
-            Level 1 universities in Australia are the most reputable and highly
-            ranked institutions in the country. These universities provide
-            exceptional benefits to students, making them the preferred choice
-            for those seeking excellence in higher education.
+            Public universities are government-funded institutions that provide
+            high-quality education and research facilities at subsidized tuition
+            rates. These universities are recognized globally for their academic
+            excellence and strong industry connections. Studying at a public
+            university in Australia ensures students receive an internationally
+            accredited degree that enhances their career prospects.
           </p>
           <div className="mt-8 grid gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-3">
             {sec1CardData.map((data, idx) => (
@@ -385,25 +317,36 @@ export default function PrivacyPage() {
         </section>
 
         <section className="flex flex-col justify-center">
-          <h2 className="text-brand-primary mb-4 text-center text-4xl font-semibold">
-            List of Level 1 Universities in{" "}
-            <span className="text-brand-secondary">Australia</span>
+          <h2 className="text-brand-primary mb-4 text-center text-4xl font-semibold lg:text-start">
+            Top Public Universities Australia for{" "}
+            <span className="text-brand-secondary">International Students</span>
           </h2>
-          <p className="mb-2 text-center">
+          <p className="mb-2 text-center lg:text-start">
             Below is a list of some of the most prestigious Level 1 universities
             in Australia, known for their academic excellence and outstanding
             research contributions:
           </p>
           <div className="mt-8 grid gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-3">
-            {sec2CardData.map((data, idx) => (
-              <div
-                key={idx}
-                className="flex h-full flex-col items-center bg-[#F6F6F7] shadow hover:shadow-md"
-              >
-                {sec2Cards(data, idx)}
-              </div>
-            ))}
+            {loading ? (
+              <p>Loading...</p>
+            ) : error ? (
+              <p className="text-red-500">{error}</p>
+            ) : (
+              colleges.map((data: College, idx: number) => (
+                <div
+                  key={data.id}
+                  className="flex h-full flex-col items-center bg-[#F6F6F7] shadow hover:shadow-md"
+                >
+                  {sec2Cards(data, idx)}
+                </div>
+              ))
+            )}
           </div>
+          <p className="mt-8 text-center md:text-start">
+            These institutions are known for their academic excellence, research
+            contributions, and student support services, making them top choices
+            for international students.
+          </p>
         </section>
       </div>
       <section>

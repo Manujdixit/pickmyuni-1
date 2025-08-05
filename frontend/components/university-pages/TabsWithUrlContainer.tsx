@@ -7,7 +7,6 @@ import { useRouter, useParams } from "next/navigation";
 
 const indexes = [
   "info",
-  "news",
   "courses",
   "campuses",
   "ranking",
@@ -19,7 +18,8 @@ const indexes = [
   "accommodations",
   "faqs",
   "reviews",
-  "others",
+  "news",
+  "more",
 ];
 
 interface TabsWithUrlContainerProps {

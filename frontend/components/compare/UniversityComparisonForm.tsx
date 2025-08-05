@@ -248,7 +248,7 @@ export default function UniversityComparisonForm() {
   };
 
   return (
-    <div className="mb-16 p-4">
+    <div className="mb-16">
       <div className="overflow-x-auto pb-4">
         <div
           style={{

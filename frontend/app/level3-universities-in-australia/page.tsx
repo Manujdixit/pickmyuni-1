@@ -12,36 +12,43 @@ const sec1CardData = [
     title: "Affordable Tuition Fees",
     description:
       "Compared to Level 1 and Level 2 Universities, Level 3 Universities often have lower tuition fees, making them a budget-friendly option for international students.",
+    url: "https://pickmyuni-bucket.s3.ap-southeast-2.amazonaws.com/static/affordable_tuition_fees_icon.webp",
   },
   {
     title: "Diverse Course Options",
     description:
       "These universities offer a wide range of undergraduate, postgraduate, and vocational courses that cater to various academic interests and career aspirations.",
+    url: "https://pickmyuni-bucket.s3.ap-southeast-2.amazonaws.com/static/diverse_course_options_icon.webp",
   },
   {
     title: "Industry-Relevant Programs",
     description:
       "Many Level 3 Universities have strong ties with industries, ensuring that their curriculum aligns with market needs, increasing employability.",
+    url: "https://pickmyuni-bucket.s3.ap-southeast-2.amazonaws.com/static/industry_relevant_programs_icon.webp",
   },
   {
     title: "Flexible Admission Requirements",
     description:
       "Level 3 Universities have more flexible entry requirements, making it easier for international students to gain admission.",
+    url: "https://pickmyuni-bucket.s3.ap-southeast-2.amazonaws.com/static/flexible_admission_requirements_icon.webp",
   },
   {
     title: "Multicultural Environment",
     description:
       "With a diverse student population, these universities offer an inclusive and supportive learning environment.",
+    url: "https://pickmyuni-bucket.s3.ap-southeast-2.amazonaws.com/static/multicultural_environment_icon.webp",
   },
   {
     title: "Pathways to Higher Education",
     description:
       "Many Level 3 Universities offer pathway programs that enable students to transfer to higher-ranked institutions in the future.",
+    url: "https://pickmyuni-bucket.s3.ap-southeast-2.amazonaws.com/static/pathways_to_higher_education_icon.webp",
   },
   {
     title: "Work Opportunities",
     description:
       "International students in Australia can work part-time while studying, and Level 3 Universities provide career guidance and job support services.",
+    url: "https://pickmyuni-bucket.s3.ap-southeast-2.amazonaws.com/static/work_opportunities_icon.webp",
   },
 ];
 
@@ -52,6 +59,7 @@ const sec2CardData = [
 <li><strong>Overview:</strong> Federation University offers a range of undergraduate and postgraduate programs with a focus on hands-on learning.</li>
 <li><strong>Popular Courses:</strong> Business, Engineering, IT, Nursing, and Education.</li>
 <li><strong>Why Choose?</strong> Affordable tuition fees, strong industry partnerships, and regional campus benefits.</li></ul>`,
+    url: "https://pickmyuni-bucket.s3.ap-southeast-2.amazonaws.com/static/federation_university_australia_fua.webp",
   },
   {
     title: "Charles Darwin University (CDU)",
@@ -59,6 +67,7 @@ const sec2CardData = [
 <li><strong>Overview:</strong> CDU is known for its research-based programs and innovative learning methodologies.</li>
 <li><strong>Popular Courses:</strong> Environmental Science, Indigenous Knowledge, Business, and Nursing.</li>
 <li><strong>Why Choose?</strong> Flexible learning options and a focus on regional and Indigenous education. Also best level 3 universities in Australia for international students.</li></ul>`,
+    url: "https://pickmyuni-bucket.s3.ap-southeast-2.amazonaws.com/static/charles_darwin_university_cdu.webp",
   },
   {
     title: "University of Southern Queensland (USQ)",
@@ -66,6 +75,7 @@ const sec2CardData = [
 <li><strong>Overview:</strong> USQ provides student-focused learning and career-ready programs.</li>
 <li><strong>Popular Courses:</strong> Aviation, Psychology, Engineering, and Agriculture.</li>
 <li><strong>Why Choose?</strong> Strong online education programs and industry-relevant curriculum.</li></ul>`,
+    url: "https://pickmyuni-bucket.s3.ap-southeast-2.amazonaws.com/static/university_of_southern_queensland_usq.webp",
   },
   {
     title: "Central Queensland University (CQU)",
@@ -73,6 +83,7 @@ const sec2CardData = [
 <li><strong>Overview:</strong> CQU has a reputation for providing industry-focused courses with practical training.</li>
 <li><strong>Popular Courses:</strong> Allied Health, IT, Business, and Social Work.</li>
 <li><strong>Why Choose?</strong> High graduate employability rates and affordable tuition.</li></ul>`,
+    url: "https://pickmyuni-bucket.s3.ap-southeast-2.amazonaws.com/static/central_queensland_university_cqu.webp",
   },
   {
     title: "Southern Cross University (SCU)",
@@ -80,6 +91,7 @@ const sec2CardData = [
 <li><strong>Overview:</strong> SCU offers flexible study options, including online and hybrid programs.</li>
 <li><strong>Popular Courses:</strong> Marine Science, Arts, Business, and Tourism.</li>
 <li><strong>Why Choose?</strong> Emphasis on research excellence and regional campus accessibility.</li></ul>`,
+    url: "https://pickmyuni-bucket.s3.ap-southeast-2.amazonaws.com/static/southern_cross_university_scu.webp",
   },
   {
     title: "Victoria University (VU)",
@@ -87,6 +99,7 @@ const sec2CardData = [
 <li><strong>Overview:</strong> VU follows a block model of education, ensuring focused learning.</li>
 <li><strong>Popular Courses:</strong> Sports Science, Hospitality, Business, and IT.</li>
 <li><strong>Why Choose?</strong> Strong industry connections and work-integrated learning opportunities.</li></ul>`,
+    url: "https://pickmyuni-bucket.s3.ap-southeast-2.amazonaws.com/static/victoria_university_vu.webp",
   },
 ];
 
@@ -95,26 +108,31 @@ const sec3CardData = [
     title: "Research Online",
     description:
       "Visit university websites and check their course offerings, tuition fees, and entry requirements. You can also refer to the list of level 3 universities in Australia shared above.",
+    url: "https://pickmyuni-bucket.s3.ap-southeast-2.amazonaws.com/static/research_online_icon.webp",
   },
   {
     title: "Check University Rankings",
     description:
       "While Level 3 Universities may not be in the top global rankings, they still maintain good academic standards and industry recognition.",
+    url: "https://pickmyuni-bucket.s3.ap-southeast-2.amazonaws.com/static/check_university_rankings_icon.webp",
   },
   {
     title: "Read Student Reviews",
     description:
       "Check online forums, social media pages, and student testimonials to understand the experiences of past and current students.",
+    url: "https://pickmyuni-bucket.s3.ap-southeast-2.amazonaws.com/static/read_student_reviews_icon.webp",
   },
   {
     title: "Consult Education Agents",
     description:
       "Many education consultants specialize in Australian universities and can guide you in choosing the right institution.",
+    url: "https://pickmyuni-bucket.s3.ap-southeast-2.amazonaws.com/static/consult_education_agent_icon.webp",
   },
   {
-    title: "Use FindMyUni",
+    title: "Use PickMyUni",
     description:
-      "FindMyUni is an Australian-based platform dedicated to helping international students choose the right course and college based on their needs and aspirations.",
+      "PickMyUni is an Australian-based platform dedicated to helping international students choose the right course and college based on their needs and aspirations.",
+    url: "https://pickmyuni-bucket.s3.ap-southeast-2.amazonaws.com/static/use_PMU_icon.webp",
   },
 ];
 
@@ -156,9 +174,13 @@ const sec1Cards = (data: any, fullHeight = false) => {
     <div
       className={`flex w-full flex-col items-center space-y-2 bg-[#F6F6F7] p-4 shadow hover:shadow-md sm:items-start ${fullHeight ? "h-full" : ""}`}
     >
-      <span>
-        <HelpCircle className="text-brand-secondary h-20 w-20" />
-      </span>
+      <Image
+        src={data.url}
+        alt={data.title}
+        width={80}
+        height={80}
+        className="size-20"
+      />
       <p className="text-brand-primary text-center text-xl font-semibold sm:text-start">
         {data.title}
       </p>
@@ -175,7 +197,7 @@ const sec2Cards = (data: any, idx: number) => {
       <div className="relative mb-2 h-48 w-full">
         <Image
           src={
-            data.image ||
+            data.url ||
             "https://pickmyuni-bucket.s3.ap-southeast-2.amazonaws.com/static/pr_path1.webp"
           }
           alt={data.title}
@@ -200,9 +222,13 @@ const sec2Cards = (data: any, idx: number) => {
 const sec3Cards = (data: any) => {
   return (
     <div className="flex flex-col items-center space-y-2 sm:items-start">
-      <span>
-        <HelpCircle className="text-brand-secondary h-20 w-20" />
-      </span>
+      <Image
+        src={data.url}
+        alt={data.title}
+        width={100}
+        height={100}
+        className="size-20"
+      />
       <p className="text-brand-primary text-center text-xl font-semibold sm:text-start">
         {data.title}
       </p>

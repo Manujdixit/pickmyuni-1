@@ -45,6 +45,7 @@ model Colleges {
   min_fees_int                   Float?
   international_student_accepted Boolean     @default(false)
   is_parent Boolean?
+  rank Int?
 
   parent_college_id Int?
   streamId          Int  @default(1)
