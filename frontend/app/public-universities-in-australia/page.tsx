@@ -9,6 +9,8 @@ import Image from "next/image";
 import { useTopCollegesByType } from "@/hooks/useTopCollegesByType";
 import type { College } from "@/hooks/useTopCollegesByType";
 import Link from "next/link";
+import { Skeleton } from "@/components/ui/skeleton";
+import UniversityComparisonTable from "@/components/UniversityComparisonTable";
 
 const sec1CardData = [
   {
@@ -316,66 +318,95 @@ export default function PrivacyPage() {
           </div>
         </section>
 
-        <section className="flex flex-col justify-center">
-          <h2 className="text-brand-primary mb-4 text-center text-4xl font-semibold lg:text-start">
-            Top Public Universities Australia for{" "}
-            <span className="text-brand-secondary">International Students</span>
-          </h2>
-          <p className="mb-2 text-center lg:text-start">
-            Below is a list of some of the most prestigious Level 1 universities
-            in Australia, known for their academic excellence and outstanding
-            research contributions:
-          </p>
-          <div className="mt-8 grid gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-3">
-            {loading ? (
-              <p>Loading...</p>
-            ) : error ? (
-              <p className="text-red-500">{error}</p>
-            ) : (
-              colleges.map((data: College, idx: number) => (
-                <div
-                  key={data.id}
-                  className="flex h-full flex-col items-center bg-[#F6F6F7] shadow hover:shadow-md"
-                >
-                  {sec2Cards(data, idx)}
-                </div>
-              ))
-            )}
-          </div>
-          <p className="mt-8 text-center md:text-start">
-            These institutions are known for their academic excellence, research
-            contributions, and student support services, making them top choices
-            for international students.
-          </p>
-        </section>
+        {!error && (
+          <section className="flex flex-col justify-center">
+            <h2 className="text-brand-primary mb-4 text-center text-4xl font-semibold lg:text-start">
+              Top Public Universities Australia for{" "}
+              <span className="text-brand-secondary">
+                International Students
+              </span>
+            </h2>
+            <p className="mb-2 text-center lg:text-start">
+              Below is a list of some of the most prestigious Level 1
+              universities in Australia, known for their academic excellence and
+              outstanding research contributions:
+            </p>
+            <div className="mt-8 grid gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-3">
+              {loading
+                ? Array.from({ length: 10 }).map((_, idx) => (
+                    <Skeleton key={idx} className="h-72 w-full rounded-lg" />
+                  ))
+                : colleges.map((data: College, idx: number) => (
+                    <div
+                      key={data.id}
+                      className="flex h-full flex-col items-center bg-[#F6F6F7] shadow hover:shadow-md"
+                    >
+                      {sec2Cards(data, idx)}
+                    </div>
+                  ))}
+            </div>
+            <p className="mt-8 text-center md:text-start">
+              These institutions are known for their academic excellence,
+              research contributions, and student support services, making them
+              top choices for international students.
+            </p>
+          </section>
+        )}
       </div>
       <section>
+        <div className="bg-[#F6F6F7] py-24">
+          <div className="container mx-auto flex flex-col justify-center">
+            <h2 className="text-brand-primary mb-4 text-center text-4xl font-semibold">
+              Private vs. Public{" "}
+              <span className="text-brand-secondary"> Universities</span>
+            </h2>
+            <p className="text-center">
+              One of the major concerns for students is deciding between public
+              colleges and universities and private institutions. While both
+              offer quality education, there are key differences:
+            </p>
+            {/* table here */}
+            <UniversityComparisonTable />
+          </div>
+        </div>
+      </section>
+
+      <section>
         <div className="bg-brand-primary py-24">
-          <div className="container flex flex-col items-center gap-8 lg:flex-row">
+          <div className="container flex flex-col items-center gap-8 text-white lg:flex-row">
             <div className="flex-1">
               <h2 className="text-h1 leading-tight text-white">
-                Cheap Level 1 universities{" "}
-                <span className="text-brand-secondary">in Australia</span>
+                Admission Requirements for Public{" "}
+                <span className="text-brand-secondary">
+                  Universities in Australia
+                </span>
               </h2>
+              <p>
+                International students who wish to study at a public university
+                in Australia must meet specific admission criteria, which
+                typically include:
+              </p>
               <ul className="my-4 list-inside list-disc space-y-1 text-white">
                 <li>
-                  Among Assessment Level 1 universities, some offer relatively
-                  affordable tuition fees for international students.
+                  <strong>Academic Qualifications:</strong> A recognized high
+                  school diploma or equivalent.
                 </li>
                 <li>
-                  For instance, the University of the Sunshine Coast (USC) is
-                  known for its competitive fee structure while maintaining
-                  quality education standards.
+                  <strong>English Language Proficiency:</strong> IELTS, TOEFL,
+                  or PTE scores meeting university requirements.
                 </li>
                 <li>
-                  Additionally, institutions like the University of Canberra
-                  (UC) and Australian Catholic University (ACU) offer programs
-                  that are cost-effective compared to other AL1 universities.
+                  <strong>Student Visa:</strong> A valid Australian student visa
+                  (subclass 500).
                 </li>
                 <li>
-                  Prospective students are encouraged to research specific
-                  programs and associated costs to identify the best fit for
-                  their academic and financial needs.
+                  <strong>Financial Proof:</strong> Evidence of sufficient funds
+                  to cover tuition and living expenses.
+                </li>
+                <li>
+                  <strong>Additional Requirements:</strong> Some courses may
+                  require work experience, portfolios, or additional entrance
+                  tests.
                 </li>
               </ul>
             </div>
@@ -398,29 +429,25 @@ export default function PrivacyPage() {
         <div className="bg-brand-secondary py-24">
           <div className="container mx-auto flex flex-col justify-center">
             <h2 className="mb-4 text-center text-4xl font-semibold text-white">
-              Why Choose Level 1 Universities in <span>Australia 2025?</span>
+              How to Apply to Public Universities in Australia
             </h2>
-            <p className="mb-2 text-center text-white">
-              Level 1 universities in Australia are the most reputable and
-              highly ranked institutions in the country. These universities
-              provide exceptional benefits to students, making them the
-              preferred choice for those seeking excellence in higher education.
-            </p>
             <div className="mt-8 grid gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-3">
               {sec3CardData.map((data, idx) => (
                 <div
                   key={idx}
-                  className="flex h-full flex-col items-center rounded-2xl bg-white p-4 shadow hover:shadow-md"
+                  className={`flex h-full flex-col items-center rounded-2xl bg-white p-4 shadow hover:shadow-md ${
+                    idx === 6 ? "md:col-start-1 md:mx-auto lg:col-start-2" : ""
+                  }`}
                 >
                   {sec3Cards(data)}
                 </div>
               ))}
             </div>
-          </div>{" "}
+          </div>
         </div>
       </section>
       <div className="container mx-auto space-y-20 py-12 lg:py-16">
-        <section className="py-13 flex flex-col items-center justify-center bg-[#FAF4F0] p-8 text-center">
+        {/* <section className="py-13 flex flex-col items-center justify-center bg-[#FAF4F0] p-8 text-center">
           <h2 className="text-brand-primary mb-4 max-w-[800px] text-center text-4xl font-semibold">
             How FindMyUni Helps International Students to get into{" "}
             <span className="text-brand-secondary">Level 1 Universities</span>
@@ -488,6 +515,23 @@ export default function PrivacyPage() {
               />
             </div>
           </div>
+        </section> */}
+        <section className="flex flex-col justify-center">
+          <h2 className="text-brand-primary mb-4 text-center text-4xl font-semibold lg:text-start">
+            Final <span className="text-brand-secondary">Thoughts</span>
+          </h2>
+          <p className="mb-2 text-center lg:text-start">
+            For international students seeking high-quality education, global
+            recognition, and affordability, public universities in Australia are
+            the best choice. These universities provide excellent academic
+            resources, research opportunities, and career support to help
+            students achieve their professional goals.
+          </p>
+          <p>
+            If you’re considering studying in Australia, explore the diverse
+            range of courses and institutions available at public universities
+            and take the first step towards a successful academic journey!
+          </p>
         </section>
         <section className="container flex flex-col items-center gap-8">
           <h2 className="text-brand-primary text-center text-h1 leading-tight">
