@@ -20,6 +20,7 @@ import { getCollegeFacilitiesInfo } from "../../controllers/college/facilities";
 import { getCollegeNewsInfo } from "../../controllers/college/news";
 import { getCollegeAccommodationInfo } from "../../controllers/college/accomodations";
 import { getCollegeReviewsInfo } from "../../controllers/college/reviews";
+import { getTopCollegesByType } from "../../controllers/college/topCollegeByType";
 
 const CollegeRouter = express.Router();
 
@@ -27,6 +28,7 @@ CollegeRouter.get("/", getAllColleges as any);
 CollegeRouter.get("/list", getCollegeList as any);
 CollegeRouter.get("/top", getTopColleges as any);
 CollegeRouter.get("/compare", compareColleges as any);
+CollegeRouter.get("/top-type", getTopCollegesByType as any);
 CollegeRouter.get("/suggest/:id", suggestedColleges as any);
 
 CollegeRouter.get("/info/:id", collegeInfo as any);
