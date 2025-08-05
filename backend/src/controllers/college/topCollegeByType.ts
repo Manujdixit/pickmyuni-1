@@ -31,7 +31,6 @@ export const getTopCollegesByType = async (req: Request, res: Response) => {
     if (type) {
       whereClause.type = {
         equals: String(type),
-        mode: "insensitive",
       };
     }
 
