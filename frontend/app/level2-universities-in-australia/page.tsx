@@ -12,26 +12,31 @@ const sec1CardData = [
     title: "Affordable Tuition Fees",
     description:
       "Level 2 universities often have lower tuition fees compared to Level 1 universities, making them a budget-friendly option for students. This is particularly beneficial for international students who are looking for quality education at an affordable cost.",
+    icon: "https://pickmyuni-bucket.s3.ap-southeast-2.amazonaws.com/static/affordable_tuition_fees_icon.webp",
   },
   {
     title: "Practical and Industry-Focused Learning",
     description:
       "Many Level 2 universities in Australia 2025 focus on hands-on learning, internships, and industry placements. These universities emphasize skill-based education, ensuring students graduate with practical knowledge that aligns with industry demands.",
+    icon: "https://pickmyuni-bucket.s3.ap-southeast-2.amazonaws.com/static/practical_and_industry-focused_learning_icon.webp",
   },
   {
     title: "Smaller Class Sizes and Personalized Learning",
     description:
       "Unlike larger universities, many Level 2 institutions provide a more personalized approach to learning, with smaller class sizes that allow students to have better interactions with professors and peers.",
+    icon: "https://pickmyuni-bucket.s3.ap-southeast-2.amazonaws.com/static/smaller_class_sizes_and_personalized_learning_icon.webp",
   },
   {
     title: "Strong Employment Outcomes",
     description:
       "Graduates from Level 2 universities have excellent job prospects due to the practical nature of their courses. Many institutions have tie-ups with local businesses and industries, increasing job placement opportunities.",
+    icon: "https://pickmyuni-bucket.s3.ap-southeast-2.amazonaws.com/static/strong_employment_outcomes_icon.webp",
   },
   {
     title: "Diverse Student Community",
     description:
       "Many Level 2 universities attract students from around the world, creating a vibrant multicultural environment where students can build global networks and gain international exposure.",
+    icon: "https://pickmyuni-bucket.s3.ap-southeast-2.amazonaws.com/static/diverse_student_community_icon.webp",
   },
 ];
 
@@ -39,38 +44,47 @@ const sec2CardData = [
   {
     title: "Victoria University (VU)",
     description: `Located in Melbourne, Victoria University is known for its strong industry connections and emphasis on practical learning. VU offers a unique block model of learning, where students study one subject at a time, ensuring better retention and understanding. The university is particularly renowned for its business, health sciences, and engineering programs and is also known as one of the best assessment level 2 universities in Australia.`,
+    icon: "https://pickmyuni-bucket.s3.ap-southeast-2.amazonaws.com/static/victoria_university_vu.webp",
   },
   {
     title: "Western Sydney University (WSU)",
     description: `WSU is one of the fastest-growing universities in Australia, offering a diverse range of courses across multiple campuses. The university is known for its strong focus on innovation, research, and industry partnerships. Programs in nursing, IT, and business are highly sought after at WSU.`,
+    icon: "https://pickmyuni-bucket.s3.ap-southeast-2.amazonaws.com/static/western_sydney_university_wsu.webp",
   },
   {
     title: "Charles Sturt University (CSU)",
     description: `Charles Sturt University is recognized for its excellent online learning programs and practical courses in agriculture, environmental science, and policing. It has strong links with industries and provides hands-on training to prepare students for real-world challenges.`,
+    icon: "https://pickmyuni-bucket.s3.ap-southeast-2.amazonaws.com/static/charles_sturt_university_csu.webp",
   },
   {
     title: "Edith Cowan University (ECU)",
     description: `Located in Western Australia, ECU is known for its student-centered approach, modern facilities, and research-driven programs. It excels in areas such as cybersecurity, nursing, and media studies.`,
+    icon: "https://pickmyuni-bucket.s3.ap-southeast-2.amazonaws.com/static/edith_cowan_university_ecu.webp",
   },
   {
     title: "University of Southern Queensland (USQ)",
     description: `USQ offers flexible study options, including online courses, making it an excellent choice for students who require a balance between studies and work. It is well-known for programs in aviation, engineering, and education.`,
+    icon: "https://pickmyuni-bucket.s3.ap-southeast-2.amazonaws.com/static/university_of_southern_queensland_usq.webp",
   },
   {
     title: "Federation University Australia",
     description: `Federation University provides a personalized learning experience with small class sizes and strong student support. It is highly recognized for its programs in information technology, nursing, and business.`,
+    icon: "https://pickmyuni-bucket.s3.ap-southeast-2.amazonaws.com/static/federation_university_australia_fua.webp",
   },
   {
     title: "CQUniversity (CQU)",
     description: `With multiple campuses across Australia, CQU offers programs that focus on hands-on training and industry placements. It is popular for engineering, health sciences, and hospitality management courses.`,
+    icon: "https://pickmyuni-bucket.s3.ap-southeast-2.amazonaws.com/static/cqUniversity_cqu.webp",
   },
   {
     title: "Southern Cross University (SCU)",
     description: `SCU provides excellent student support services and research-led teaching in fields such as marine science, environmental sustainability, and social work.`,
+    icon: "https://pickmyuni-bucket.s3.ap-southeast-2.amazonaws.com/static/southern_cross_university_scu.webp",
   },
   {
     title: "Griffith University",
     description: `Griffith University is one of the popular level 2 universities in Australia for international students. Located in Queensland (QLD), Griffith University is best known for its UG, PG, PhD courses.`,
+    icon: "https://pickmyuni-bucket.s3.ap-southeast-2.amazonaws.com/static/mask_group-6.webp",
   },
 ];
 
@@ -79,31 +93,37 @@ const sec3CardData = [
     title: "Check Course Offerings",
     description:
       "Look for universities that offer the courses you are interested in, ensuring they align with your career aspirations.",
+    icon: "https://pickmyuni-bucket.s3.ap-southeast-2.amazonaws.com/static/check_course_offerings_icon.webp",
   },
   {
     title: "Accreditation and Recognition",
     description:
       "Ensure the university is recognized by Australian education authorities and meets the necessary accreditation standards.",
+    icon: "https://pickmyuni-bucket.s3.ap-southeast-2.amazonaws.com/static/accreditation_and_recognition_icon.webp",
   },
   {
     title: "Industry Connections and Internships",
     description:
       "Research universities that offer internships, placements, and real-world learning experiences.",
+    icon: "https://pickmyuni-bucket.s3.ap-southeast-2.amazonaws.com/static/industry_connections_and_internships_icon.webp",
   },
   {
     title: "Student Reviews and Alumni Success",
     description:
       "Read student reviews, check graduate employment rates, and connect with alumni to gain insights into the university experience.",
+    icon: "https://pickmyuni-bucket.s3.ap-southeast-2.amazonaws.com/static/student_reviews_and_alumni_success_icon.webp",
   },
   {
     title: "Scholarship Opportunities",
     description:
       "Many Level 2 universities offer scholarships and financial aid for international students, reducing the financial burden.",
+    icon: "https://pickmyuni-bucket.s3.ap-southeast-2.amazonaws.com/static/scholarship_opportunities_icon.webp",
   },
   {
     title: "Support Services for International Students",
     description:
       "Look for universities that offer dedicated support services such as academic assistance, career guidance, and mental health resources.",
+    icon: "https://pickmyuni-bucket.s3.ap-southeast-2.amazonaws.com/static/support_services_for_international_students_icon.webp",
   },
 ];
 
@@ -179,11 +199,15 @@ const accordionData = [
 const sec1Cards = (data: any, fullHeight = false) => {
   return (
     <div
-      className={`flex w-full flex-col items-center space-y-2 bg-[#F6F6F7] p-4 shadow hover:shadow-md ${fullHeight ? "h-full" : ""}`}
+      className={`flex w-full flex-col items-center space-y-2 bg-[#F6F6F7] p-4 shadow hover:shadow-md sm:items-start ${fullHeight ? "h-full" : ""}`}
     >
-      <span>
-        <HelpCircle className="text-brand-secondary h-20 w-20" />
-      </span>
+      <Image
+        src={data.icon}
+        alt={data.title}
+        width={80}
+        height={80}
+        className="size-20"
+      />
       <p className="text-brand-primary text-xl font-semibold">{data.title}</p>
       <p className="text-base font-normal">{data.description}</p>
     </div>
@@ -196,7 +220,7 @@ const sec2Cards = (data: any, idx: number) => {
       <div className="relative mb-2 h-48 w-full">
         <Image
           src={
-            data.image ||
+            data.icon ||
             "https://pickmyuni-bucket.s3.ap-southeast-2.amazonaws.com/static/pr_path1.webp"
           }
           alt={data.title}
@@ -221,9 +245,13 @@ const sec2Cards = (data: any, idx: number) => {
 const sec3Cards = (data: any) => {
   return (
     <div className="space-y-2">
-      <span>
-        <HelpCircle className="text-brand-secondary h-20 w-20" />
-      </span>
+      <Image
+        src={data.icon}
+        alt={data.title}
+        width={100}
+        height={100}
+        className="size-20"
+      />
       <p className="text-brand-primary text-xl font-semibold">{data.title}</p>
       <p className="text-base font-normal">{data.description}</p>
     </div>

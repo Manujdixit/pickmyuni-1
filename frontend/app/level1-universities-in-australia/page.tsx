@@ -310,15 +310,13 @@ const sec2Cards = (data: any, idx: number) => {
 const sec3Cards = (data: any) => {
   return (
     <div className="space-y-2">
-      <span>
-        <Image
-          src={data.url}
-          alt={data.title}
-          width={100}
-          height={100}
-          className="size-20"
-        />
-      </span>
+      <Image
+        src={data.url}
+        alt={data.title}
+        width={100}
+        height={100}
+        className="size-20"
+      />
       <p className="text-brand-primary text-xl font-semibold">{data.title}</p>
       <p className="text-base font-normal">{data.description}</p>
     </div>
