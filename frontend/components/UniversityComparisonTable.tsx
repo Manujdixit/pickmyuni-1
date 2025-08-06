@@ -7,7 +7,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
-const universityComparisonData = [
+const publicData = [
   {
     feature: "Tuition Fees",
     public: "More affordable",
@@ -50,7 +50,42 @@ const universityComparisonData = [
   },
 ];
 
-export default function UniversityComparisonTable() {
+const privateData = [
+  {
+    feature: "Class Size",
+    private: "Smaller, more personalized",
+    public: "Larger, less individual attention",
+  },
+  {
+    feature: "Admission Process",
+    private: "More flexible",
+    public: "Competitive",
+  },
+  {
+    feature: "Industry Links",
+    private: "Strong,hands-on training",
+    public: "Research-oriented",
+  },
+  {
+    feature: "Tuition Fees",
+    private: "Higher but with scholarships available",
+    public: "Lower due to government funding",
+  },
+  {
+    feature: "Course Options",
+    private: "Specialized and career-focused",
+    public: "Broader range of degrees",
+  },
+];
+
+export default function UniversityComparisonTable({
+  uniType,
+}: {
+  uniType: string;
+}) {
+  const universityComparisonData =
+    uniType === "public" ? publicData : privateData;
+
   return (
     <Table className="mt-8 w-full border-collapse">
       <TableHeader>
@@ -59,10 +94,14 @@ export default function UniversityComparisonTable() {
             Feature
           </TableHead>
           <TableHead className="border-2 border-white bg-orange-500 px-6 py-3 text-center text-lg text-white">
-            Public Universities
+            {uniType === "public"
+              ? "Public Universities"
+              : "Private Universities"}
           </TableHead>
           <TableHead className="border-2 border-white bg-blue-900 px-6 py-3 text-center text-lg text-white">
-            Private Universities
+            {uniType === "private"
+              ? "Public Universities"
+              : "Private Universities"}
           </TableHead>
         </TableRow>
       </TableHeader>

@@ -203,7 +203,16 @@ export default function UniversitiesSection() {
                       <div className="grid grid-cols-[100px_1fr] gap-1">
                         <p className="text-gray-500">Type:</p>
                         <p className="font-medium">
-                          {capitalFirst(uni.type) || "-"}
+                          {(() => {
+                            let type = uni.type || "-";
+                            if (
+                              typeof type === "string" &&
+                              type.toLowerCase().includes("government")
+                            ) {
+                              type = type.replace(/government/gi, "Public");
+                            }
+                            return capitalFirst(type);
+                          })()}
                         </p>
 
                         <p className="text-gray-500">Intakes:</p>

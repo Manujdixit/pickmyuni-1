@@ -3,7 +3,7 @@ import { prisma } from "../../lib/prisma";
 
 /**
  * @swagger
- * /api/v1/college/other/{id}:
+ * /api/v1/college/others/{id}:
  *   get:
  *     summary: Get college other information
  *     tags: [Colleges]
