@@ -108,94 +108,6 @@ const sec3CardData = [
   },
 ];
 
-const accordionData = [
-  {
-    trigger: "Is Torrens University Level 1 or 2?",
-    content:
-      "Torrens University Australia is classified as an Assessment Level 2 (AL2) institution. This means that while it maintains quality education standards, international students may need to provide additional documentation, such as evidence of financial capacity and English language proficiency, during the visa application process.",
-  },
-  {
-    trigger: "Is Victoria University Level 1 or 2?",
-    content:
-      "Victoria University is designated as an Assessment Level 2 (AL2) university. As with other AL2 institutions, prospective international students should be prepared to submit comprehensive documentation to support their visa applications.",
-  },
-  {
-    trigger: "What is the top Level 1 university in Australia?",
-    content:
-      "Among Assessment Level 1 (AL1) universities, the University of Melbourne stands out as a premier institution. It consistently ranks highly in global university rankings and offers a wide array of programs renowned for their academic excellence.",
-  },
-  {
-    trigger: "Is RMIT University Level 1 or 2?",
-    content:
-      "RMIT University is classified as an Assessment Level 1 (AL1) institution. This classification facilitates a more streamlined visa application process for international students, reflecting the university's low immigration risk profile.",
-  },
-  {
-    trigger: "What does level 1 university mean?",
-    content:
-      "A Level 1 university, in the Australian context, refers to an institution categorized under Assessment Level 1 (AL1) by the Department of Home Affairs. This designation indicates a low immigration risk, allowing for a simplified and expedited student visa application process.",
-  },
-  {
-    trigger: "Is ACU a Level 1 university in Australia?",
-    content:
-      "The Australian Catholic University (ACU) holds an Assessment Level 2 (AL2) classification. Consequently, international applicants may need to provide additional evidence, such as proof of financial capacity and English language proficiency, when applying for a student visa.",
-  },
-  {
-    trigger: "Is UTS a Level 1 or 2 university?",
-    content:
-      "The University of Technology Sydney (UTS) is designated as an Assessment Level 1 (AL1) institution. This status reflects a low immigration risk and offers a more straightforward visa application process for international students.",
-  },
-  {
-    trigger: "Is the University of New England Level 1 or 2?",
-    content:
-      "The University of New England is classified as an Assessment Level 2 (AL2) university. Prospective international students should be prepared to meet additional requirements during the visa application process.",
-  },
-  {
-    trigger: "Is Western Sydney University Level 1 or 2?",
-    content:
-      "Western Sydney University holds an Assessment Level 2 (AL2) classification. This means that international applicants may need to provide more comprehensive documentation to support their visa applications.",
-  },
-  {
-    trigger: "Is Charles Sturt University Level 1 or 2?",
-    content:
-      "Charles Sturt University is designated as an Assessment Level 2 (AL2) institution. International students applying to this university should be aware of the additional requirements associated with this classification.",
-  },
-  {
-    trigger: "Is Curtin University Level 1 or 2?",
-    content:
-      "Curtin University is classified as an Assessment Level 1 (AL1) university. This status facilitates a more streamlined visa application process for international students, reflecting the university's low immigration risk profile.",
-  },
-  {
-    trigger: "Is Federation University Level 1?",
-    content:
-      "Federation University Australia is designated as an Assessment Level 2 (AL2) institution. Consequently, international applicants may need to provide additional evidence, such as proof of financial capacity and English language proficiency, when applying for a student visa.",
-  },
-  {
-    trigger: "Is Victoria University Level 1?",
-    content:
-      "Victoria University is designated as an Assessment Level 2 (AL2) university. Prospective international students should be prepared to meet additional requirements during the visa application process.",
-  },
-  {
-    trigger: "Is La Trobe University Level 1 or 2?",
-    content:
-      "La Trobe University holds an Assessment Level 2 (AL2) classification. This means that international applicants may need to provide more comprehensive documentation to support their visa applications.",
-  },
-  {
-    trigger: "What are Australia's Assessment Level 1 universities?",
-    content: `Assessment Level 1 (AL1) universities in Australia are considered low-risk institutions, offering streamlined visa processes for international students. Some of these universities include:\n
-          <ul>
-          <li>University of Melbourne</li>
-          <li>University of Sydney</li>
-          <li>University of New South Wales (UNSW)</li>
-          <li>Australian National University (ANU)</li>
-          <li>Monash University</li>
-          <li>University of Queensland (UQ)</li>
-          <li>University of Western Australia (UWA)</li>
-          <li>RMIT University</li>
-          </ul>\n
-          These institutions are recognized for their academic excellence and low immigration risk profiles.`,
-  },
-];
-
 const sec1Cards = (data: any, fullHeight = false) => {
   return (
     <div
@@ -257,6 +169,45 @@ const sec3Cards = (data: any) => {
     </div>
   );
 };
+
+const accordionData = [
+  {
+    trigger: "What does public university mean in Australia?",
+    content:
+      "A public university in Australia is an institution primarily funded by the government, offering a wide range of undergraduate and postgraduate programs. These universities follow national education policies and focus on research, academic excellence, and accessibility.",
+  },
+  {
+    trigger: "What is the best public university in Australia?",
+    content:
+      "The top-ranked public university in Australia varies based on global rankings, but The University of Melbourne is often regarded as the best due to its strong research output, high employability rates, and global reputation.",
+  },
+  {
+    trigger: "Are there any public universities in Australia?",
+    content:
+      "Yes, Australia has 37 public universities, which dominate the higher education sector. These institutions are government-funded and provide quality education across various disciplines.",
+  },
+  {
+    trigger: "Are public universities free in Australia?",
+    content:
+      "Public universities are not entirely free, but Australian citizens and permanent residents can access HECS-HELP, a government loan scheme that allows students to defer tuition fees and repay them later through their income.",
+  },
+  {
+    trigger: "Which is better, private or public university?",
+    content:
+      "Public universities are generally preferred due to their strong reputation, research facilities, and lower tuition fees compared to private institutions. However, private universities may offer smaller class sizes and specialized programs that cater to specific needs.",
+  },
+  {
+    trigger:
+      "What is the difference between an open university and a public university?",
+    content:
+      "An open university offers flexible, online, or distance learning without strict entry requirements, making education more accessible. A public university, on the other hand, operates traditionally with campus-based learning, competitive admissions, and a broader academic structure.",
+  },
+  {
+    trigger: "Is UNSW public or private?",
+    content:
+      "The University of New South Wales (UNSW) is a public university funded by the Australian government, recognized globally for its research, innovation, and high academic standards.",
+  },
+];
 
 export default function PrivacyPage() {
   const { colleges, loading, error } = useTopCollegesByType("government");
@@ -366,7 +317,7 @@ export default function PrivacyPage() {
               offer quality education, there are key differences:
             </p>
             {/* table here */}
-            <UniversityComparisonTable />
+            <UniversityComparisonTable uniType="public" />
           </div>
         </div>
       </section>
@@ -446,77 +397,60 @@ export default function PrivacyPage() {
           </div>
         </div>
       </section>
-      <div className="container mx-auto space-y-20 py-12 lg:py-16">
-        {/* <section className="py-13 flex flex-col items-center justify-center bg-[#FAF4F0] p-8 text-center">
-          <h2 className="text-brand-primary mb-4 max-w-[800px] text-center text-4xl font-semibold">
-            How FindMyUni Helps International Students to get into{" "}
-            <span className="text-brand-secondary">Level 1 Universities</span>
-          </h2>
-          <p className="mx-auto max-w-[1000px] text-center">
-            FindMyUni is an Australian-based platform dedicated to assisting
-            international students in selecting the right course and university.
-            We understand that choosing the right institution can be
-            challenging, especially for students moving to a new country. That’s
-            where we come in!
+      <div className="container mx-auto space-y-24 py-12 lg:py-16">
+        <section className="">
+          <div className="flex flex-col items-center">
+            <h2 className="text-brand-primary mb-4 text-center text-4xl font-semibold lg:text-start">
+              Popular Courses Offered by Public Universities{" "}
+              <span className="text-brand-secondary">in Australia</span>
+            </h2>
+            <p className="mb-2 text-center lg:text-start">
+              International students can choose from a wide range of popular
+              courses at public universities, including:
+            </p>
+          </div>
+          <ul className="my-4 list-inside list-disc space-y-1">
+            <li>Business & Management</li>
+            <li>Engineering & Technology</li>
+            <li>Medicine & Healthcare</li>
+            <li>Information Technology & Computer Science</li>
+            <li>Law & Legal Studies</li>
+            <li>Environmental Science</li>
+            <li>Media & Communication</li>
+            <li>Hospitality & Tourism</li>
+          </ul>
+        </section>
+        <section className="">
+          <div className="flex flex-col items-center">
+            <h2 className="text-brand-primary mb-4 text-center text-4xl font-semibold lg:text-start">
+              Cost of Studying at Public Universities{" "}
+              <span className="text-brand-secondary">in Australia</span>
+            </h2>
+            <p className="mb-2 text-center lg:text-start">
+              The cost of studying in public universities in Australia varies
+              based on the university and course. On average:
+            </p>
+          </div>
+          <ul className="my-4 list-inside list-disc space-y-1">
+            <li>
+              <strong>Undergraduate Courses:</strong> AUD 20,000 – AUD 45,000
+              per year
+            </li>
+            <li>
+              <strong>Postgraduate Courses:</strong> AUD 22,000 – AUD 50,000 per
+              year
+            </li>
+            <li>
+              <strong>Doctoral Degrees:</strong> AUD 18,000 – AUD 42,000 per
+              year
+            </li>
+          </ul>
+          <p>
+            Living expenses, including accommodation, transport, and daily
+            costs, typically range between AUD 20,000 – AUD 25,000 per year.
           </p>
         </section>
-        <section className="container flex flex-col items-center gap-8 lg:flex-row-reverse">
-          <div className="flex-1">
-            <h2 className="text-brand-primary text-center text-h1 leading-tight md:text-start">
-              Why Choose{" "}
-              <span className="text-brand-secondary">{"FindMyUni?"}</span>
-            </h2>
-            <ul className="my-4 list-inside list-disc space-y-1 pl-4">
-              <li>
-                <span className="font-bold">
-                  Comparisons of Level 1 universities:
-                </span>{" "}
-                We provide detailed comparisons of Level 1 universities based on
-                courses, rankings, tuition fees, and student reviews.
-              </li>
-              <li>
-                <span className="font-bold">Personalized Guidance:</span> Our
-                expert consultants offer one-on-one counseling to help students
-                make informed decisions.
-              </li>
-              <li>
-                <span className="font-bold">Application Assistance:</span> We
-                assist students with university applications, ensuring all
-                requirements are met for a smooth admission process.
-              </li>
-              <li>
-                <span className="font-bold">Scholarship Support:</span>{" "}
-                FindMyUni helps students explore and apply for scholarships
-                available at top Australian universities.
-              </li>
-              <li>
-                <span className="font-bold">
-                  Visa and Immigration Assistance:
-                </span>{" "}
-                Our team provides guidance on visa applications and ensures
-                students meet all necessary requirements.
-              </li>
-              <li>
-                <span className="font-bold">Internships & Career Support:</span>{" "}
-                We connect students with internship opportunities to gain
-                real-world experience and enhance employability.
-              </li>
-            </ul>
-          </div>
-
-          <div className="lg:w-1/3">
-            <div className="relative">
-              <Image
-                src="https://pickmyuni-bucket.s3.ap-southeast-2.amazonaws.com/static/why_choose_findmyuni.webp"
-                alt="Graduate student celebrating"
-                width={400}
-                height={500}
-                className="w-full rounded-lg"
-              />
-            </div>
-          </div>
-        </section> */}
-        <section className="flex flex-col justify-center">
+        <section className="flex flex-col items-center justify-center">
           <h2 className="text-brand-primary mb-4 text-center text-4xl font-semibold lg:text-start">
             Final <span className="text-brand-secondary">Thoughts</span>
           </h2>
@@ -542,7 +476,7 @@ export default function PrivacyPage() {
             <Accordion type="single" collapsible className="w-full">
               {accordionData.map((item, idx) => (
                 <AccordionItem key={idx} value={idx.toString()}>
-                  <AccordionTrigger className="text-brand-primary text-xl font-semibold">
+                  <AccordionTrigger className="text-brand-primary text-start text-xl font-semibold">
                     {item.trigger}
                   </AccordionTrigger>
                   <AccordionContent>

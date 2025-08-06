@@ -148,7 +148,7 @@ export default async function PrPath({
             />
           )}
         </div>
-        <div className="bg-brand-primary py-24">
+        <div className="bg-brand-primary border-b py-24">
           <div className="container flex flex-col items-center gap-8 lg:flex-row-reverse">
             <div className="flex-1">
               <h2 className="text-h1 leading-tight text-white">

@@ -34,7 +34,7 @@ export const getCollegeFacilitiesInfo = async (req: Request, res: Response) => {
   }
 
   try {
-    const [basic, facilites] = await Promise.all([
+    const [basic, facilities] = await Promise.all([
       prisma.colleges.findUnique({
         where: { id: collegeId },
       }),
@@ -54,7 +54,7 @@ export const getCollegeFacilitiesInfo = async (req: Request, res: Response) => {
       success: true,
       data: {
         basic,
-        facilites,
+        facilities,
       },
     });
   } catch (error) {

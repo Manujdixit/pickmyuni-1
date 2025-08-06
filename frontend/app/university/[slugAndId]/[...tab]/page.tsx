@@ -416,7 +416,7 @@ const extractTabContent = (tab: string, data: any): any[] => {
       return data.reviews ? [data.reviews] : [];
     case "facilities":
       return data.facilities ? [data.facilities] : [];
-    case "others":
+    case "more":
       return data.other ? [data.other] : [];
     default:
       return [];
@@ -538,105 +538,112 @@ const renderContent = (currentTab: string, info: any): any => {
 
       return (
         <div className="space-y-4">
-          {info?.content?.content && (
-            <CampusContent content={info.content.content} />
-          )}
-          {info.relatedCourses.length ? (
-            <div>
-              <h2 className="text-brand-primary mb-4 text-3xl font-semibold">
-                {info.college.college_name} Courses
-              </h2>
-              <div className="space-y-4">
-                <Accordion type="multiple" className="w-full space-y-2">
-                  {categoryList.map(
-                    ([category, courses]: any, index: number) => (
-                      <AccordionItem
-                        className="border-t-2 p-4 first-of-type:border-t-0"
-                        key={index}
-                        value={category}
-                      >
-                        <AccordionTrigger asChild>
-                          <button className="group flex w-full items-center justify-between">
-                            <span className="text-brand-primary text-lg font-medium">
-                              <span className="flex items-center gap-4">
-                                <GraduationCap fill="currentColor" />
-                                {category.charAt(0).toUpperCase() +
-                                  category.slice(1)}{" "}
-                                Courses ({courses.length})
-                              </span>
-                            </span>
-                            <span className="ml-2 mr-2 h-4 w-4">
-                              <ChevronDown className="block transition-transform duration-200 group-data-[state=open]:hidden" />
-                              <ChevronUp className="hidden transition-transform duration-200 group-data-[state=open]:block" />
-                            </span>
-                          </button>
-                        </AccordionTrigger>
-                        <AccordionContent>
-                          <div className="mt-4 grid gap-4">
-                            <Accordion
-                              type="single"
-                              className="w-full space-y-4"
-                              collapsible
-                            >
-                              {courses.map((course: any, index: number) => (
-                                <AccordionItem
-                                  className="rounded-lg bg-[#F6F6F7] p-4 shadow-sm transition-shadow duration-200 hover:shadow-md"
-                                  key={index}
-                                  value={course.name}
+          {info.content ? (
+            <div className="">
+              {info?.content?.content && (
+                <CampusContent content={info.content.content} />
+              )}
+              {info.relatedCourses.length ? (
+                <div>
+                  <h2 className="text-brand-primary mb-4 text-3xl font-semibold">
+                    {info.college.college_name} Courses
+                  </h2>
+                  <div className="space-y-4">
+                    <Accordion type="multiple" className="w-full space-y-2">
+                      {categoryList.map(
+                        ([category, courses]: any, index: number) => (
+                          <AccordionItem
+                            className="border-t-2 p-4 first-of-type:border-t-0"
+                            key={index}
+                            value={category}
+                          >
+                            <AccordionTrigger asChild>
+                              <button className="group flex w-full items-center justify-between">
+                                <span className="text-brand-primary text-lg font-medium">
+                                  <span className="flex items-center gap-4">
+                                    <GraduationCap fill="currentColor" />
+                                    {category.charAt(0).toUpperCase() +
+                                      category.slice(1)}{" "}
+                                    Courses ({courses.length})
+                                  </span>
+                                </span>
+                                <span className="ml-2 mr-2 h-4 w-4">
+                                  <ChevronDown className="block transition-transform duration-200 group-data-[state=open]:hidden" />
+                                  <ChevronUp className="hidden transition-transform duration-200 group-data-[state=open]:block" />
+                                </span>
+                              </button>
+                            </AccordionTrigger>
+                            <AccordionContent>
+                              <div className="mt-4 grid gap-4">
+                                <Accordion
+                                  type="single"
+                                  className="w-full space-y-4"
+                                  collapsible
                                 >
-                                  <AccordionTrigger asChild>
-                                    <button className="group flex w-full items-center justify-between">
-                                      <span className="text-brand-primary text-start text-lg font-medium">
-                                        {course.name} fees details for {getYear}
-                                      </span>
-                                      <Button
-                                        variant={"outline"}
-                                        className="text-brand-primary transition-colors hover:text-blue-900"
-                                      >
-                                        <span className="hidden sm:block">
-                                          More Details
-                                        </span>
-                                        <ChevronDown className="block transition-transform duration-200 group-data-[state=open]:hidden" />
-                                        <ChevronUp className="hidden transition-transform duration-200 group-data-[state=open]:block" />
-                                      </Button>
-                                    </button>
-                                  </AccordionTrigger>
-                                  <AccordionContent>
-                                    <div className="mt-2 grid gap-4">
-                                      <CourseCard course={course} />
-                                    </div>
-                                  </AccordionContent>
-                                  <div className="mt-4 flex justify-between rounded-md bg-white">
-                                    <div className="hidden p-2 sm:flex">
-                                      Total fees for all subjects including
-                                      taxes
-                                    </div>
-                                    <div className="p-2 sm:hidden">
-                                      Total Fees
-                                    </div>
-                                    <div className="bg-brand-secondary fee-badge flex min-w-28 items-center justify-end rounded-r-md pr-2 font-bold text-white sm:min-w-40">
-                                      AUD{" "}
-                                      {(
-                                        course.tution_fees +
-                                        course.hostel_fees +
-                                        course.other_fees
-                                      ).toLocaleString()}{" "}
-                                    </div>
-                                  </div>
-                                </AccordionItem>
-                              ))}
-                            </Accordion>
-                          </div>
-                        </AccordionContent>
-                      </AccordionItem>
-                    ),
-                  )}
-                </Accordion>
-              </div>
+                                  {courses.map((course: any, index: number) => (
+                                    <AccordionItem
+                                      className="rounded-lg bg-[#F6F6F7] p-4 shadow-sm transition-shadow duration-200 hover:shadow-md"
+                                      key={index}
+                                      value={course.name}
+                                    >
+                                      <AccordionTrigger asChild>
+                                        <button className="group flex w-full items-center justify-between">
+                                          <span className="text-brand-primary text-start text-lg font-medium">
+                                            {course.name} fees details for{" "}
+                                            {getYear}
+                                          </span>
+                                          <Button
+                                            variant={"outline"}
+                                            className="text-brand-primary transition-colors hover:text-blue-900"
+                                          >
+                                            <span className="hidden sm:block">
+                                              More Details
+                                            </span>
+                                            <ChevronDown className="block transition-transform duration-200 group-data-[state=open]:hidden" />
+                                            <ChevronUp className="hidden transition-transform duration-200 group-data-[state=open]:block" />
+                                          </Button>
+                                        </button>
+                                      </AccordionTrigger>
+                                      <AccordionContent>
+                                        <div className="mt-2 grid gap-4">
+                                          <CourseCard course={course} />
+                                        </div>
+                                      </AccordionContent>
+                                      <div className="mt-4 flex justify-between rounded-md bg-white">
+                                        <div className="hidden p-2 sm:flex">
+                                          Total fees for all subjects including
+                                          taxes
+                                        </div>
+                                        <div className="p-2 sm:hidden">
+                                          Total Fees
+                                        </div>
+                                        <div className="bg-brand-secondary fee-badge flex min-w-28 items-center justify-end rounded-r-md pr-2 font-bold text-white sm:min-w-40">
+                                          AUD{" "}
+                                          {(
+                                            course.tution_fees +
+                                            course.hostel_fees +
+                                            course.other_fees
+                                          ).toLocaleString()}{" "}
+                                        </div>
+                                      </div>
+                                    </AccordionItem>
+                                  ))}
+                                </Accordion>
+                              </div>
+                            </AccordionContent>
+                          </AccordionItem>
+                        ),
+                      )}
+                    </Accordion>
+                  </div>
+                </div>
+              ) : (
+                <></>
+              )}
             </div>
           ) : (
-            <p className="bg-gray-50 p-4 text-gray-500">
-              No {currentTab} information found for this university
+            <p className="text-brand-primary bg-gray-100 p-4 text-center italic">
+              No content Found. Please check back later.
             </p>
           )}
         </div>

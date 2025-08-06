@@ -57,39 +57,39 @@ export const getCityById = async (req: Request, res: Response) => {
     }
 
     // Find all universities in the city
-    const universities = await prisma.colleges.findMany({
-      where: {
-        cityId: cityId,
-      },
-      include: {
-        primary_stream: true,
-        city: true,
-        state: true,
-        country: true,
-        CollegesCourses: {
-          include: {
-            course: true,
-            stream: true,
-          },
-        },
-      },
-      orderBy: [
-        {
-          score: "desc",
-        },
-        {
-          rating: "desc",
-        },
-      ],
-    });
+    // const universities = await prisma.colleges.findMany({
+    //   where: {
+    //     cityId: cityId,
+    //   },
+    //   include: {
+    //     primary_stream: true,
+    //     city: true,
+    //     state: true,
+    //     country: true,
+    //     CollegesCourses: {
+    //       include: {
+    //         course: true,
+    //         stream: true,
+    //       },
+    //     },
+    //   },
+    //   orderBy: [
+    //     {
+    //       score: "desc",
+    //     },
+    //     {
+    //       rating: "desc",
+    //     },
+    //   ],
+    // });
 
     // Return universities data
     res.json({
       success: true,
       data: {
         city,
-        universities,
-        total_universities: universities.length,
+        // universities,
+        // total_universities: universities.length,
       },
     });
   } catch (error) {
