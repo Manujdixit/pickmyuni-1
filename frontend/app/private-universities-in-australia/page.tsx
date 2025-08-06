@@ -285,79 +285,42 @@ export default function PrivacyPage() {
             </p>
           </section>
         )}
-
-        {/* <section className="flex flex-col justify-center">
+      </div>
+      <section className="container mx-auto my-12 flex flex-col">
+        <div className="flex flex-col items-center">
           <h2 className="text-brand-primary mb-4 text-center text-4xl font-semibold lg:text-start">
-            Private Universities in{" "}
-            <span className="text-brand-secondary">Sydney</span>
+            Private Universities{" "}
+            <span className="text-brand-secondary">in Sydney</span>
           </h2>
           <p className="mb-2 text-center lg:text-start">
             Sydney is home to some of the best private universities in
             Australia, offering a vibrant student life and access to global job
             markets. Popular private universities in Sydney include:
           </p>
-          <div className="mt-8 grid gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-3">
-            {colleges.map((data: College, idx: number) => (
-              <div
-                key={data.id}
-                className="flex h-full flex-col items-center bg-[#F6F6F7] shadow hover:shadow-md"
-              >
-                {sec2Cards(data, idx)}
-              </div>
-            ))}
-          </div>
-        </section> */}
-      </div>
-      <section className="container mx-auto my-12 flex flex-col">
-        <div className="flex flex-col items-center">
-          <h2 className="text-brand-primary mb-4 text-center text-4xl font-semibold lg:text-start">
-            Popular Courses Offered by Public Universities{" "}
-            <span className="text-brand-secondary">in Australia</span>
-          </h2>
-          <p className="mb-2 text-center lg:text-start">
-            International students can choose from a wide range of popular
-            courses at public universities, including:
-          </p>
         </div>
         <ul className="my-4 list-inside list-disc space-y-1">
-          <li>Business & Management</li>
-          <li>Engineering & Technology</li>
-          <li>Medicine & Healthcare</li>
-          <li>Information Technology & Computer Science</li>
-          <li>Law & Legal Studies</li>
-          <li>Environmental Science</li>
-          <li>Media & Communication</li>
-          <li>Hospitality & Tourism</li>
+          <li>International College of Management, Sydney (ICMS) </li>
+          <li>Torrens University (Sydney Campus) </li>
+          <li>Sydney Film School (Specialized Private Institution)</li>
         </ul>
       </section>
       <section className="container mx-auto my-24 flex flex-col">
         <div className="flex flex-col items-center">
           <h2 className="text-brand-primary mb-4 text-center text-4xl font-semibold lg:text-start">
-            Cost of Studying at Public Universities{" "}
-            <span className="text-brand-secondary">in Australia</span>
+            Private Universities in{" "}
+            <span className="text-brand-secondary">in Melbourne</span>
           </h2>
           <p className="mb-2 text-center lg:text-start">
-            The cost of studying in public universities in Australia varies
-            based on the university and course. On average:
+            Melbourne, known for its cultural diversity and academic excellence,
+            also hosts several renowned private universities in Melbourne, such
+            as:
           </p>
         </div>
         <ul className="my-4 list-inside list-disc space-y-1">
-          <li>
-            <strong>Undergraduate Courses:</strong> AUD 20,000 – AUD 45,000 per
-            year
-          </li>
-          <li>
-            <strong>Postgraduate Courses:</strong> AUD 22,000 – AUD 50,000 per
-            year
-          </li>
-          <li>
-            <strong>Doctoral Degrees:</strong> AUD 18,000 – AUD 42,000 per year
-          </li>
+          <li>Torrens University (Melbourne Campus)</li>
+          <li>Photography Studies College (PSC)</li>
+          <li>Melbourne Institute of Technology (MIT)</li>
         </ul>
-        <p>
-          Living expenses, including accommodation, transport, and daily costs,
-          typically range between AUD 20,000 – AUD 25,000 per year.
-        </p>
       </section>
       <section>
         <div className="bg-[#F6F6F7] py-24">
