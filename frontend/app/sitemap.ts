@@ -13,7 +13,7 @@ type ApiResponse = {
 async function fetchWithRetry(
   url: string,
   retries = 2,
-  timeout = 5000,
+  timeout = 20000,
 ): Promise<ApiResponse | null> {
   for (let attempt = 0; attempt <= retries; attempt++) {
     try {
@@ -123,6 +123,36 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: "yearly",
       priority: 0.3,
     },
+    {
+      url: `${baseUrl}/public-universities-in-australia`,
+      lastModified: new Date(),
+      changeFrequency: "weekly",
+      priority: 0.8,
+    },
+    {
+      url: `${baseUrl}/private-universities-in-australia`,
+      lastModified: new Date(),
+      changeFrequency: "weekly",
+      priority: 0.8,
+    },
+    {
+      url: `${baseUrl}/level1-universities-in-australia`,
+      lastModified: new Date(),
+      changeFrequency: "weekly",
+      priority: 0.8,
+    },
+    {
+      url: `${baseUrl}/level2-universities-in-australia`,
+      lastModified: new Date(),
+      changeFrequency: "weekly",
+      priority: 0.8,
+    },
+    {
+      url: `${baseUrl}/level3-universities-in-australia`,
+      lastModified: new Date(),
+      changeFrequency: "weekly",
+      priority: 0.8,
+    },
   ];
 
   // Skip dynamic routes if API URL is not configured
@@ -171,12 +201,17 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       "info",
       "courses",
       "campuses",
-      "careers",
       "ranking",
+      "careers",
       "fees",
       "scholarships",
       "placement",
+      "facilities",
+      "accommodations",
       "faqs",
+      "reviews",
+      "news",
+      "more",
     ];
 
     collegeRoutes = collegeData.value.data.flatMap((college) =>

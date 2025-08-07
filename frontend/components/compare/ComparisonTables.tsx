@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/table";
 import { capitalFirst } from "@/utils/capitalFirst";
 import { LucideBookOpenText, LucideUniversity } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
 
 type University = {
   id: number;
@@ -25,6 +26,10 @@ interface ComparisonTableProps {
 }
 
 const CourseComparisonTable = ({ universities }: ComparisonTableProps) => {
+  // const [widthCourseCol1, setWidthCourseCol1] = useState(null);
+  // const [widthCourseCol2, setWidthCourseCol2] = useState(null);
+  // const [widthCourseCol3, setWidthCourseCol3] = useState(null);
+
   const getCourseForUni = (uni: University) => {
     if (!uni.data || !uni.data.college || !uni.courseId) return null;
     return (
@@ -80,25 +85,7 @@ const CourseComparisonTable = ({ universities }: ComparisonTableProps) => {
           ? `AUD ${Number(course.one_time_fees).toLocaleString()}`
           : "-",
     },
-    // {
-    //   label: "Other Fees",
-    //   getValue: (course: any) =>
-    //     course?.other_fees
-    //       ? `AUD ${Number(course?.other_fees).toLocaleString()}`
-    //       : "-",
-    // },
   ];
-
-  // const calculateTotalCost = (course: any) => {
-  //   if (course) {
-  //     const tuition = Number(course.tution_fees) || 0;
-  //     const hostel = Number(course.hostel_fees) || 0;
-  //     const oneTime = Number(course.one_time_fees) || 0;
-  //     const other = Number(course.other_fees) || 0;
-  //     return tuition + hostel + oneTime + other;
-  //   }
-  //   return 0;
-  // };
 
   return (
     <div>
@@ -137,7 +124,7 @@ const CourseComparisonTable = ({ universities }: ComparisonTableProps) => {
                 return (
                   <TableCell
                     key={uni.id}
-                    className="border-x-2 border-white text-center"
+                    className={`border-x-2 border-white text-center`}
                   >
                     {uni.collegeId ? row.getValue(course) : "-"}
                   </TableCell>
@@ -152,6 +139,32 @@ const CourseComparisonTable = ({ universities }: ComparisonTableProps) => {
 };
 
 const InstitutionComparisonTable = ({ universities }: ComparisonTableProps) => {
+  // const [widthInstituteCol1, setWidthInstituteCol1] = useState<number>(0);
+  // const [widthInstituteCol2, setWidthInstituteCol2] = useState(0);
+  // const [widthInstituteCol3, setWidthInstituteCol3] = useState(0);
+  // const [widthInstituteCol4, setWidthInstituteCol4] = useState(0);
+  // const [widthInstituteCol5, setWidthInstituteCol5] = useState(0);
+
+  // let instituteDivWIdths=[]
+
+  // useEffect(() => {
+  //   if (instituteDiv1.current) {
+  //     setWidthInstituteCol1(instituteDiv1.current.offsetWidth);
+  //   }
+  //   if (instituteDiv2.current) {
+  //     setWidthInstituteCol2(instituteDiv2.current.offsetWidth);
+  //   }
+  //   if (instituteDiv3.current) {
+  //     setWidthInstituteCol3(instituteDiv3.current.offsetWidth);
+  //   }
+  //   if (instituteDiv4.current) {
+  //     setWidthInstituteCol4(instituteDiv4.current.offsetWidth);
+  //   }
+  //   if (instituteDiv5.current) {
+  //     setWidthInstituteCol5(instituteDiv5.current.offsetWidth);
+  //   }
+  // }, [universities]);
+
   const institutionInfoRows = [
     {
       label: "Established",
@@ -174,10 +187,6 @@ const InstitutionComparisonTable = ({ universities }: ComparisonTableProps) => {
       label: "Total Courses",
       getValue: (uni: University) => uni.data?.college?.coursesCount || "-",
     },
-    // {
-    //   label: "Score",
-    //   getValue: (uni: University) => uni.data?.college?.score || "-",
-    // },
     {
       label: "Total Students",
       getValue: (uni: University) =>
@@ -203,11 +212,6 @@ const InstitutionComparisonTable = ({ universities }: ComparisonTableProps) => {
       label: "Intake Period",
       getValue: (uni: University) => uni.data?.college?.intake || "-",
     },
-    {
-      label: "PR Pathway",
-      getValue: (uni: University) =>
-        uni.data?.college?.pr_pathway ? "Yes" : "-",
-    },
   ];
 
   return (
@@ -218,13 +222,17 @@ const InstitutionComparisonTable = ({ universities }: ComparisonTableProps) => {
       <Table>
         <TableHeader>
           <TableRow className="bg-brand-primary hover:bg-blue-900">
-            <TableHead className="border-x-2 border-white text-white">
+            <TableHead
+              // ref={instituteDiv1}
+              className="border-x-2 border-white text-white"
+            >
               Subject
             </TableHead>
             {universities.map((uni) => (
               <TableHead
                 key={uni.id}
                 className="border-x-2 border-white text-center text-white"
+                // ref={ins}
               >
                 {uni.collegeName || "Select University"}
               </TableHead>

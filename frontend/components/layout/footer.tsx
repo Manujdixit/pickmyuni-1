@@ -81,8 +81,24 @@ export default function Footer() {
           </div>
 
           <div className="text-center sm:text-left">
-            <h2 className="mb-4 text-lg font-bold">University Levels</h2>
+            <h2 className="mb-4 text-lg font-bold">Universities</h2>
             <ul className="space-y-2">
+              <li>
+                <Link
+                  href="/public-universities-in-australia"
+                  className="text-sm text-gray-300 hover:text-white"
+                >
+                  Public Universities
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/private-universities-in-australia"
+                  className="text-sm text-gray-300 hover:text-white"
+                >
+                  Private Universities
+                </Link>
+              </li>
               <li>
                 <Link
                   href="/level1-universities-in-australia"
