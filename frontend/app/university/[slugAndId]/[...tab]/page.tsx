@@ -468,13 +468,13 @@ async function TabPage({
   params: Promise<{ slugAndId: string; tab: string[] }>;
 }) {
   const { slugAndId, tab } = await params;
-  let tabParam = tab?.[0] || "info";
+  const tabParam = tab?.[0] || "info";
   // Normalize: treat any tab starting with 'course-' as 'courses'
   const currentTab = tabParam.startsWith("course-") ? "courses" : tabParam;
 
   // Catch-all for courses-... routes
   if (currentTab && currentTab.startsWith("courses-")) {
-    return <CollegeCourses tab={tab} slugAndId={slugAndId} />;
+    return <CollegeCourses tab={tab} />;
   }
 
   if (!validTabs.includes(currentTab)) {

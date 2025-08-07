@@ -32,7 +32,7 @@ function TabsWithUrlContainer({
 }: TabsWithUrlContainerProps) {
   const router = useRouter();
   const params = useParams();
-  let tabParam = (params.tab as string[])?.[0] || "info";
+  const tabParam = (params.tab as string[])?.[0] || "info";
   const currentTab = tabParam.startsWith("courses") ? "courses" : tabParam;
 
   // Filter out campuses tab if isparent is false
