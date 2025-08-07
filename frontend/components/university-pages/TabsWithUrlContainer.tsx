@@ -13,7 +13,6 @@ const indexes = [
   "careers",
   "fees",
   "scholarships",
-  "placement",
   "facilities",
   "accommodations",
   "faqs",
@@ -33,12 +32,16 @@ function TabsWithUrlContainer({
 }: TabsWithUrlContainerProps) {
   const router = useRouter();
   const params = useParams();
-  const currentTab = (params.tab as string[])?.[0] || "info";
+  const tabParam = (params.tab as string[])?.[0] || "info";
+  const currentTab = tabParam.startsWith("courses") ? "courses" : tabParam;
 
   // Filter out campuses tab if isparent is false
   const availableTabs = isparent
     ? indexes
-    : indexes.filter((tab) => tab !== "campuses");
+    : indexes.filter(
+        (tab) =>
+          tab !== "campuses" && tab !== "ranking" && tab !== "scholarships",
+      );
 
   const scrollRef = React.useRef<HTMLDivElement>(null);
   const [canScrollLeft, setCanScrollLeft] = React.useState(false);

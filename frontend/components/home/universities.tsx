@@ -18,6 +18,7 @@ import { Skeleton } from "../ui/skeleton";
 export default function UniversitiesSection() {
   const [activeCategory, setActiveCategory] = useState("All");
   const [preference, setPreference] = useState("international");
+  const [stream, setStream] = useState(null);
   const { universities, streams, loading, error } =
     useUniversities(activeCategory);
 
@@ -51,6 +52,17 @@ export default function UniversitiesSection() {
     if (scrollRef.current) {
       scrollRef.current.scrollBy({ left: 200, behavior: "smooth" });
       setTimeout(checkScrollPosition, 300);
+    }
+  };
+
+  const handleCategoryClick = (category: any) => {
+    console.log({ category });
+
+    setActiveCategory(category.name);
+    if (category.name === "All") {
+      setStream(null);
+    } else {
+      setStream(category.slug);
     }
   };
 
@@ -108,7 +120,7 @@ export default function UniversitiesSection() {
                         ? "bg-brand-secondary text-white"
                         : "bg-white text-gray-600 hover:bg-gray-100",
                     )}
-                    onClick={() => setActiveCategory(category.name)}
+                    onClick={() => handleCategoryClick(category)}
                   >
                     {category.name}
                   </button>
@@ -242,7 +254,13 @@ export default function UniversitiesSection() {
         </div>
 
         <div className="mt-8 flex justify-center">
-          <Link href="/top-universities-in-australia">
+          <Link
+            href={
+              stream
+                ? `/universities-stream-${stream}`
+                : "/top-universities-in-australia"
+            }
+          >
             <Button>View All Universities</Button>
           </Link>
         </div>

@@ -14,6 +14,9 @@ import { Button } from "@/components/ui/button";
 import { UniversityCard } from "@/components/common/UniversityCard";
 import CampusContent from "@/components/CampusContent";
 import styles from "@/app/styles/page.module.css";
+import Link from "next/link";
+import CollegeCourses from "@/components/university-pages/CollegeCourses";
+import slug from "slug";
 
 const validTabs = [
   "info",
@@ -23,7 +26,6 @@ const validTabs = [
   "ranking",
   "fees",
   "scholarships",
-  "placement",
   "news",
   "facilities",
   "accommodations",
@@ -334,7 +336,6 @@ export async function generateMetadata({
     ranking: "Rankings",
     fees: "Fees",
     scholarships: "Scholarships",
-    placement: "Placements",
     accommodations: "Accommodations",
     facilities: "Facilities",
     news: "News",
@@ -377,7 +378,6 @@ const getEndpointForTab = (tab: string, id: number): string | null => {
     fees: `${baseUrl}/api/v1/college/fees/${id}`,
     scholarships: `${baseUrl}/api/v1/college/scholarships/${id}`,
     faqs: `${baseUrl}/api/v1/college/faqs/${id}`,
-    placement: `${baseUrl}/api/v1/college/placement/${id}`,
     news: `${baseUrl}/api/v1/college/news/${id}`,
     accommodations: `${baseUrl}/api/v1/college/accommodations/${id}`,
     reviews: `${baseUrl}/api/v1/college/reviews/${id}`,
@@ -404,8 +404,6 @@ const extractTabContent = (tab: string, data: any): any[] => {
       return data.fees ? [data.fees] : [];
     case "scholarships":
       return data.scholarship ? [data.scholarship] : [];
-    case "placement":
-      return data.placement ? [data.placement] : [];
     case "faqs":
       return data.faq ? [data.faq] : [];
     case "news":
@@ -470,7 +468,14 @@ async function TabPage({
   params: Promise<{ slugAndId: string; tab: string[] }>;
 }) {
   const { slugAndId, tab } = await params;
-  const currentTab = tab?.[0] || "info";
+  const tabParam = tab?.[0] || "info";
+  // Normalize: treat any tab starting with 'course-' as 'courses'
+  const currentTab = tabParam.startsWith("course-") ? "courses" : tabParam;
+
+  // Catch-all for courses-... routes
+  if (currentTab && currentTab.startsWith("courses-")) {
+    return <CollegeCourses tab={tab} />;
+  }
 
   if (!validTabs.includes(currentTab)) {
     redirect(`/university/${slugAndId}/info`);
@@ -499,11 +504,17 @@ async function TabPage({
   }
 
   return (
-    <div className="p-2 sm:p-4 lg:p-6">{renderContent(currentTab, info)}</div>
+    <div className="p-2 sm:p-4 lg:p-6">
+      {renderContent(currentTab, info, slugAndId)}
+    </div>
   );
 }
 
-const renderContent = (currentTab: string, info: any): any => {
+const renderContent = (
+  currentTab: string,
+  info: any,
+  slugAndId: string,
+): any => {
   switch (currentTab) {
     case "campuses":
       // Read More logic for campus content
@@ -563,7 +574,9 @@ const renderContent = (currentTab: string, info: any): any => {
                                   <span className="flex items-center gap-4">
                                     <GraduationCap fill="currentColor" />
                                     {category.charAt(0).toUpperCase() +
-                                      category.slice(1)}{" "}
+                                      category
+                                        .slice(1)
+                                        .replaceAll("_", " ")}{" "}
                                     Courses ({courses.length})
                                   </span>
                                 </span>
@@ -587,11 +600,15 @@ const renderContent = (currentTab: string, info: any): any => {
                                       value={course.name}
                                     >
                                       <AccordionTrigger asChild>
-                                        <button className="group flex w-full items-center justify-between">
-                                          <span className="text-brand-primary text-start text-lg font-medium">
-                                            {course.name} fees details for{" "}
-                                            {getYear}
-                                          </span>
+                                        <div className="group flex w-full items-center justify-between">
+                                          <Link
+                                            href={`/university/${slugAndId}/courses-${slug(course.name)}-${course.id}`}
+                                          >
+                                            <span className="text-brand-primary text-start text-lg font-medium">
+                                              {course.name} fees details for{" "}
+                                              {getYear}
+                                            </span>
+                                          </Link>
                                           <Button
                                             variant={"outline"}
                                             className="text-brand-primary transition-colors hover:text-blue-900"
@@ -602,7 +619,7 @@ const renderContent = (currentTab: string, info: any): any => {
                                             <ChevronDown className="block transition-transform duration-200 group-data-[state=open]:hidden" />
                                             <ChevronUp className="hidden transition-transform duration-200 group-data-[state=open]:block" />
                                           </Button>
-                                        </button>
+                                        </div>
                                       </AccordionTrigger>
                                       <AccordionContent>
                                         <div className="mt-2 grid gap-4">

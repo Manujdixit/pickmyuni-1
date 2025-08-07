@@ -29,7 +29,7 @@ const CampusContent: React.FC<CampusContentProps> = ({ content }) => {
       )}
       {showReadMore && isExpanded && (
         <button
-          className="mt-2 text-sm text-blue-600 underline"
+          className="mb-10 mt-2 text-sm text-blue-600 underline"
           onClick={() => setIsExpanded(false)}
         >
           Show Less

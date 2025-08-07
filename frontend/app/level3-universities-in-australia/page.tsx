@@ -411,7 +411,7 @@ export default function PrivacyPage() {
         </section>
         <section className="container flex flex-col items-center gap-8">
           <h2 className="text-brand-primary text-center text-h1 leading-tight">
-            FAQs on Level 2 Universities
+            FAQs on Level 3 Universities
             <span className="text-brand-secondary"> in Australia</span>
           </h2>
           <div className="mx-auto w-full max-w-4xl">

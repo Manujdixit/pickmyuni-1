@@ -69,7 +69,7 @@ export const getTopColleges = async (req: Request, res: Response) => {
       }),
       prisma.stream.findMany({
         where: { Colleges: { some: {} } },
-        select: { id: true, name: true },
+        select: { id: true, name: true, slug: true },
         orderBy: { score: "desc" },
       }),
     ]);
@@ -86,6 +86,7 @@ export const getTopColleges = async (req: Request, res: Response) => {
           ...streams.map((stream: any) => ({
             id: stream.id,
             name: stream.name,
+            slug: tagSanatize(stream.slug),
           })),
         ],
       },

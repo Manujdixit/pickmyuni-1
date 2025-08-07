@@ -16,7 +16,7 @@ export default function Navbar() {
 
         {/* Search Bar - appears below header */}
         <div
-          className={`relative z-[90] transition-transform duration-100 ease-in-out ${
+          className={`relative transition-transform duration-100 ease-in-out ${
             scrollDirection === "down" ? "-translate-y-full" : "translate-y-0"
           }`}
         >
