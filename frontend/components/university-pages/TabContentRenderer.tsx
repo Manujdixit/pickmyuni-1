@@ -8,10 +8,8 @@ const CoursesContent = dynamic(() =>
   ),
 );
 
-const CampusesContent = dynamic(() =>
-  import("@/components/university-pages/CampusesContent").then(
-    (mod) => mod.CampusesContent,
-  ),
+const CampusesContent = dynamic(
+  () => import("@/components/university-pages/CampusesContent"),
 );
 
 const DefaultContent = dynamic(() =>
@@ -31,7 +29,7 @@ export const TabContentRenderer: React.FC<TabContentRendererProps> = ({
 }) => {
   switch (currentTab) {
     case "campuses":
-      return <CampusesContent data={data} />;
+      return <CampusesContent info={data} />;
     case "courses":
       return <CoursesContent data={data} />;
     default:
