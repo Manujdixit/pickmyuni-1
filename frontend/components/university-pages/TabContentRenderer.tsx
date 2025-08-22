@@ -9,7 +9,7 @@ const CoursesContent = dynamic(() =>
 );
 
 const CampusesContent = dynamic(
-  () => import("@/components/university-pages/CampusesContent"),
+  () => import("@/components/university-pages/campuses/CampusesContent"),
 );
 
 const DefaultContent = dynamic(() =>

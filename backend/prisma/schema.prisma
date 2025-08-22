@@ -116,6 +116,8 @@ model CollegesCourses {
   is_active          Boolean     @default(true)
   level              CourseLevel
   content            String?
+  domestic_non_tution_fees Float?
+  domestic_total_fees Float?
 
   college_id Int
   course_id  Int
