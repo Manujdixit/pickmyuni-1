@@ -4,7 +4,6 @@ import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import dynamic from "next/dynamic";
 import {
   Sheet,
   SheetContent,
@@ -14,17 +13,18 @@ import {
 } from "../ui/sheet";
 import { Menu } from "lucide-react";
 
-const ContactWrapper = dynamic(
-  () => import("@/components/form/contact-wrapper"),
-  {
-    ssr: false,
-    loading: () => null,
-  },
-);
-
 export default function NavigationHeader() {
   const [isOpen, setIsOpen] = useState(false);
-  const [isConsultationModalOpen, setIsConsultationModalOpen] = useState(false);
+
+  const handleConsultationClick = () => {
+    // Trigger the SitePopup bot button click
+    const botButton = document.querySelector(
+      '[aria-label="chat with ai"]',
+    ) as HTMLButtonElement;
+    if (botButton) {
+      botButton.click();
+    }
+  };
 
   return (
     <div className="z-50 bg-white shadow-sm">
@@ -82,7 +82,7 @@ export default function NavigationHeader() {
                 Apply Now
               </Button> */}
               <Button
-                onClick={() => setIsConsultationModalOpen(true)}
+                onClick={handleConsultationClick}
                 className="bg-orange-500 text-white hover:bg-orange-600"
               >
                 Request a Free Consultation
@@ -143,7 +143,7 @@ export default function NavigationHeader() {
                   <div className="px-6 pb-6">
                     <Button
                       onClick={() => {
-                        setIsConsultationModalOpen(true);
+                        handleConsultationClick();
                         setIsOpen(false);
                       }}
                       className="w-full bg-orange-500 text-white hover:bg-orange-600"
@@ -162,12 +162,6 @@ export default function NavigationHeader() {
       {/* {isModalOpen && (
         <LeadWrapper open={isModalOpen} onOpenChange={setIsModalOpen} />
       )} */}
-      {isConsultationModalOpen && (
-        <ContactWrapper
-          open={isConsultationModalOpen}
-          onOpenChange={setIsConsultationModalOpen}
-        />
-      )}
     </div>
   );
 }

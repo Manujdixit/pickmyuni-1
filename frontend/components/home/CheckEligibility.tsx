@@ -1,11 +1,18 @@
 "use client";
-import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
-import ContactWrapper from "../form/contact-wrapper";
 
 export default function CheckEligibility() {
-  const [open, setOpen] = useState(false);
+  const handleBookNowClick = () => {
+    // Trigger the SitePopup bot button click
+    const botButton = document.querySelector(
+      '[aria-label="chat with ai"]',
+    ) as HTMLButtonElement;
+    if (botButton) {
+      botButton.click();
+    }
+  };
+
   return (
     <div className="mb-16 mt-24 flex flex-col items-center justify-between rounded-lg bg-[#FAF4F0] p-8 md:flex-row">
       <div>
@@ -14,7 +21,7 @@ export default function CheckEligibility() {
         </h3>
       </div>
       <div className="mt-4 flex max-h-10 gap-24 sm:items-center sm:gap-0 md:mt-0">
-        <Button variant={"secondary"} size={"lg"} onClick={() => setOpen(true)}>
+        <Button variant={"secondary"} size={"lg"} onClick={handleBookNowClick}>
           Book Now
         </Button>
         <Image
@@ -26,7 +33,6 @@ export default function CheckEligibility() {
           className="ml-4 h-24 w-24 md:flex md:h-28 md:w-28 lg:h-44 lg:w-44"
           loading="lazy"
         />
-        <ContactWrapper open={open} onOpenChange={setOpen} />
       </div>
     </div>
   );

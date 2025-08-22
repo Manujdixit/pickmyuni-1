@@ -44,6 +44,7 @@ export const globalSearch = async (req: Request, res: Response) => {
             { location: { contains: q, mode: "insensitive" } },
             { search_names: { contains: q, mode: "insensitive" } },
           ],
+          AND: [{ is_active: true }],
         },
         select: {
           id: true,
@@ -61,6 +62,7 @@ export const globalSearch = async (req: Request, res: Response) => {
       prisma.courses.findMany({
         where: {
           course_name: { contains: q, mode: "insensitive" },
+          is_active: true,
         },
         select: {
           id: true,
@@ -79,6 +81,7 @@ export const globalSearch = async (req: Request, res: Response) => {
             { title: { contains: q, mode: "insensitive" } },
             { content: { contains: q, mode: "insensitive" } },
           ],
+          AND: [{ is_active: true }],
         },
         select: {
           id: true,

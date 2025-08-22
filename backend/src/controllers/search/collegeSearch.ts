@@ -44,6 +44,7 @@ export const collegeSearch = async (req: Request, res: Response) => {
             { location: { contains: q, mode: "insensitive" } },
             { search_names: { contains: q, mode: "insensitive" } },
           ],
+          AND: [{ is_active: true }],
         },
         select: {
           id: true,

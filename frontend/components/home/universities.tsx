@@ -202,11 +202,11 @@ export default function UniversitiesSection() {
                       </div>
                       <div className="bg-orange-400 p-2 font-medium text-white">
                         {preference === "domestic"
-                          ? uni.domestic_fees_in_aud
-                            ? `AUD ${uni.domestic_fees_in_aud.toLocaleString()}/year`
+                          ? uni.min_tution_fee_domestic
+                            ? `AUD ${uni.min_tution_fee_domestic.toLocaleString()}/year`
                             : "AUD -/year"
-                          : uni.avg_fees_in_aud
-                            ? `AUD ${uni.avg_fees_in_aud.toLocaleString()}/year`
+                          : uni.min_tution_fee_int
+                            ? `AUD ${uni.min_tution_fee_int.toLocaleString()}/year`
                             : "AUD -/year"}
                       </div>
                     </div>
@@ -234,8 +234,8 @@ export default function UniversitiesSection() {
 
                         <p className="text-gray-500">Courses:</p>
                         <p className="font-medium">
-                          {uni?._count?.CollegesCourses > 0
-                            ? uni?._count?.CollegesCourses + " +"
+                          {uni?.coursesCount > 0
+                            ? uni?.coursesCount + " +"
                             : "-"}
                         </p>
                       </div>

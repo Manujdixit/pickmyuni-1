@@ -12,7 +12,7 @@ export default function SearchBar() {
   const [searchQuery, setSearchQuery] = useState("");
   const [showDropdown, setShowDropdown] = useState(false);
   const [debounceTimer, setDebounceTimer] = useState<NodeJS.Timeout | null>(
-    null
+    null,
   );
   const router = useRouter();
   const searchRef = useRef<HTMLDivElement>(null);
@@ -68,7 +68,7 @@ export default function SearchBar() {
 
   const handleResultClick = (
     type: "college" | "course" | "article",
-    item: College | Course | Article
+    item: College | Course | Article,
   ) => {
     if (type === "college") {
       const college = item as College;
@@ -93,10 +93,10 @@ export default function SearchBar() {
     <div className="bg-brand-primary py-4">
       <div className="container mx-auto">
         <div className="relative" ref={searchRef}>
-          <div className="relative flex items-center bg-white rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+          <div className="relative flex items-center rounded-md bg-white focus:outline-none focus:ring-2 focus:ring-blue-500">
             <button
               aria-label="filter"
-              className="absolute left-4 text-gray-400 z-10 cursor-default"
+              className="absolute left-4 z-10 cursor-default text-gray-400"
             >
               <Filter
                 size={20}
@@ -113,7 +113,7 @@ export default function SearchBar() {
                 searchQuery.trim().length > 2 && setShowDropdown(true)
               }
               placeholder="Search for Universities, Courses and More"
-              className="pl-14 pr-4 py-2 min-h-[50px] w-full rounded-md bg-white border-blue-600 text-black placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="min-h-[50px] w-full rounded-md border-blue-600 bg-white py-2 pl-14 pr-4 text-black placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
             {/* <Button
               className="ml-2 bg-blue-600 hover:bg-blue-700 text-white"

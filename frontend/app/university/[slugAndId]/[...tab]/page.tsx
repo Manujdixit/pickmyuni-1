@@ -1,6 +1,7 @@
 import React from "react";
 import { notFound, redirect } from "next/navigation";
 import { Metadata } from "next";
+import Head from "next/head";
 import {
   Accordion,
   AccordionContent,
@@ -13,6 +14,7 @@ import { getYear } from "@/utils/getYear";
 import { Button } from "@/components/ui/button";
 import { UniversityCard } from "@/components/common/UniversityCard";
 import CampusContent from "@/components/CampusContent";
+import CampusesContent from "@/components/university-pages/CampusesContent";
 import styles from "@/app/styles/page.module.css";
 import Link from "next/link";
 import CollegeCourses from "@/components/university-pages/CollegeCourses";
@@ -366,6 +368,29 @@ export async function generateMetadata({
   };
 }
 
+// Generate FAQ JSON-LD structured data
+const generateFAQJsonLd = (
+  faqItems: Array<{ question: string; answer: string }>,
+  universityName: string,
+) => {
+  const faqSchema = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    name: `${universityName} Frequently Asked Questions`,
+    description: `Find answers to common questions about ${universityName}`,
+    mainEntity: faqItems.map((faq, index) => ({
+      "@type": "Question",
+      name: faq.question,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: cleanHtmlContent(faq.answer),
+      },
+    })),
+  };
+
+  return JSON.stringify(faqSchema);
+};
+
 const getEndpointForTab = (tab: string, id: number): string | null => {
   const baseUrl = process.env.API_URL || process.env.NEXT_PUBLIC_API_URL;
 
@@ -503,10 +528,66 @@ async function TabPage({
     );
   }
 
+  // Generate FAQ JSON-LD for the faqs tab
+  let faqJsonLd = null;
+  if (currentTab === "faqs" && info.length > 0) {
+    const universityName = slugAndId
+      .split("-")
+      .slice(0, -1)
+      .join(" ")
+      .replace(/-/g, " ")
+      .replace(/\b\w/g, (l) => l.toUpperCase());
+
+    // Extract all FAQ items from the content
+    const allFaqItems: Array<{ question: string; answer: string }> = [];
+
+    info.forEach((item: any) => {
+      if (item?.content) {
+        const faqItems = parseFAQContentServer(item.content);
+        const uniqueFaqItems = faqItems
+          .filter((faqItem, index, self) => {
+            return (
+              index ===
+              self.findIndex(
+                (t) =>
+                  t.question.toLowerCase() === faqItem.question.toLowerCase(),
+              )
+            );
+          })
+          .filter((faqItem) => {
+            return (
+              faqItem.question.length > 10 &&
+              faqItem.answer.length > 10 &&
+              faqItem.question !== faqItem.answer &&
+              !faqItem.question.includes("&nbsp;") &&
+              !faqItem.answer.includes("&nbsp;")
+            );
+          });
+        allFaqItems.push(...uniqueFaqItems);
+      }
+    });
+
+    if (allFaqItems.length > 0) {
+      faqJsonLd = generateFAQJsonLd(allFaqItems, universityName);
+    }
+  }
+
   return (
-    <div className="p-2 sm:p-4 lg:p-6">
-      {renderContent(currentTab, info, slugAndId)}
-    </div>
+    <>
+      {faqJsonLd && (
+        <Head>
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{
+              __html: faqJsonLd,
+            }}
+          />
+        </Head>
+      )}
+      <div className="p-2 sm:p-4 lg:p-6">
+        {renderContent(currentTab, info, slugAndId)}
+      </div>
+    </>
   );
 }
 
@@ -517,22 +598,7 @@ const renderContent = (
 ): any => {
   switch (currentTab) {
     case "campuses":
-      // Read More logic for campus content
-      return info ? (
-        <div className="space-y-4">
-          {info?.campus?.content && (
-            <CampusContent content={info.campus.content} />
-          )}
-          {info?.collegeList?.map((university: any, index: number) => (
-            <UniversityCard
-              key={university.id || index}
-              university={university}
-            />
-          ))}
-        </div>
-      ) : (
-        <p>Nothing to show.</p>
-      );
+      return <CampusesContent info={info} />;
 
     case "courses":
       const categories = new Map<string, any>();

@@ -49,16 +49,18 @@ export const getTopColleges = async (req: Request, res: Response) => {
           logo_url: true,
           college_name: true,
           slug: true,
-          avg_fees_in_aud: true,
+          // avg_fees_in_aud: true,
           level: true,
           type: true,
           intake: true,
           location: true,
           score: true,
-          domestic_fees_in_aud: true,
-          _count: {
+          // domestic_fees_in_aud: true,
+          CollegesCourses: {
+            where: { is_active: true },
             select: {
-              CollegesCourses: true,
+              domestic_fees_in_aud: true,
+              tution_fees: true,
             },
           },
         },
@@ -77,10 +79,32 @@ export const getTopColleges = async (req: Request, res: Response) => {
     res.status(200).json({
       success: true,
       data: {
-        colleges: colleges.map((college: any) => ({
-          ...college,
-          slug: tagSanatize(college.slug),
-        })),
+        colleges: colleges.map((college) => {
+          const coursesCount = college.CollegesCourses.length;
+          // Calculate minimum tuition fees
+          const domesticFees = college.CollegesCourses.map(
+            (course: any) => course.domestic_fees_in_aud
+          ).filter((fee: any) => fee !== null && fee !== undefined);
+          const internationalFees = college.CollegesCourses.map(
+            (course: any) => course.tution_fees
+          ).filter((fee: any) => fee !== null && fee !== undefined);
+
+          const min_tution_fee_domestic =
+            domesticFees.length > 0 ? Math.min(...domesticFees) : null;
+          const min_tution_fee_int =
+            internationalFees.length > 0
+              ? Math.min(...internationalFees)
+              : null;
+
+          const { CollegesCourses, ...collegeWithoutCourses } = college;
+          return {
+            ...collegeWithoutCourses,
+            slug: tagSanatize(college.slug),
+            coursesCount,
+            min_tution_fee_domestic,
+            min_tution_fee_int,
+          };
+        }),
         streams: [
           { id: 0, name: "All" },
           ...streams.map((stream: any) => ({
