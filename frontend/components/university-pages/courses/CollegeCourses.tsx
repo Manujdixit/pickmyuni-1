@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import styles from "@/app/styles/page.module.css";
 import { LucideAlertCircle } from "lucide-react";
+import { Metadata } from "next";
 import {
   Table,
   TableBody,
@@ -8,7 +9,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "../ui/table";
+} from "../../ui/table";
 import { capitalFirst } from "@/utils/capitalFirst";
 
 async function getCourseData(id: number) {
@@ -59,17 +60,32 @@ const CourseComparisonTable = ({ course }: any) => {
           : "-",
     },
     {
-      label: "Non-tuition Fees",
+      label: "Non-tuition Fees (International)",
       getValue: (course: any) =>
         course?.hostel_fees
           ? `AUD ${Number(course?.hostel_fees).toLocaleString()}`
           : "-",
     },
     {
-      label: "Estimated Total Fees",
+      label: "Non-tuition Fees (Domestic)",
+      getValue: (course: any) =>
+        course?.domestic_non_tution_fees
+          ? `AUD ${Number(course?.domestic_non_tution_fees).toLocaleString()}`
+          : "-",
+    },
+    {
+      label: "Estimated Total Fees (International)",
       getValue: (course: any) =>
         course?.one_time_fees
           ? `AUD ${Number(course?.one_time_fees).toLocaleString()}`
+          : "-",
+    },
+
+    {
+      label: "Estimated Total Fees (Domestic)",
+      getValue: (course: any) =>
+        course?.domestic_total_fees
+          ? `AUD ${Number(course?.domestic_total_fees).toLocaleString()}`
           : "-",
     },
   ];
@@ -112,6 +128,39 @@ const CourseComparisonTable = ({ course }: any) => {
     </div>
   );
 };
+
+export async function generateMetadata({
+  tab,
+}: {
+  tab: string[];
+}): Promise<Metadata> {
+  const idStr = tab[0]?.split("-").pop();
+  const courseId = idStr ? Number(idStr) : NaN;
+
+  if (isNaN(courseId)) {
+    return {
+      title: "Course Not Found | PickMyUni",
+      description: "The requested course could not be found.",
+    };
+  }
+
+  const { course } = await getCourseData(courseId);
+
+  if (!course) {
+    return {
+      title: "Course Not Found | PickMyUni",
+      description: "The requested course could not be found.",
+    };
+  }
+
+  const courseName = course?.name || "Course";
+  const universityName = course?.college?.name || "University";
+
+  return {
+    title: `${courseName} at ${universityName} | Course Info, Reviews & Transfers – PickMyUni`,
+    description: `Explore the ${courseName} at ${universityName} — course details, duration, career outcomes, and student reviews. Thinking of switching? PickMyUni can help you transfer or compare similar courses.`,
+  };
+}
 
 const CollegeCourses = async ({ tab }: { tab: string[] }) => {
   const idStr = tab[0]?.split("-").pop();

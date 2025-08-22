@@ -1,5 +1,3 @@
-import { TabType } from "./constants";
-
 export interface TabDataResponse {
   info: any[];
   error: string | null;

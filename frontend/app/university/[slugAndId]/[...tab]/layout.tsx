@@ -4,14 +4,19 @@ import QuickFacts from "@/components/QuickFacts";
 import { Metadata } from "next";
 import UniLayout from "@/components/university-pages/UniLayout";
 import TabsWithUrlContainer from "@/components/university-pages/TabsWithUrlContainer";
+import { getDynamicMetadata } from "@/components/university-pages/constants";
 
 // Generate metadata for SEO
 export async function generateMetadata({
   params,
 }: {
-  params: Promise<{ slugAndId: string }>;
+  params: Promise<{ slugAndId: string; tab: string[] }>;
 }): Promise<Metadata> {
-  const { slugAndId } = await params;
+  const { slugAndId, tab } = await params;
+  const tabParam = tab?.[0] || "info";
+  const currentTab = tabParam.startsWith("course-") ? "courses" : tabParam;
+
+  // Handle regular university tab routes
   const id = slugAndId.split("-").pop();
 
   if (!id || isNaN(Number(id))) {
@@ -30,21 +35,110 @@ export async function generateMetadata({
     };
   }
 
+  const universityName =
+    college.college_name ||
+    college.name ||
+    slugAndId
+      .split("-")
+      .slice(0, -1)
+      .join(" ")
+      .replace(/-/g, " ")
+      .replace(/\b\w/g, (l) => l.toUpperCase());
+
+  // Handle course-specific routes
+  if (currentTab && currentTab.startsWith("courses-")) {
+    const idStr = tabParam.split("-").pop();
+    const courseId = idStr ? Number(idStr) : NaN;
+
+    if (isNaN(courseId)) {
+      return {
+        title: "Course Not Found | PickMyUni",
+        description: "The requested course could not be found.",
+      };
+    }
+
+    try {
+      const baseUrl = process.env.NEXT_PUBLIC_API_URL;
+      const response = await fetch(
+        `${baseUrl}/api/v1/courses/single?id=${courseId}`,
+      );
+
+      if (response.ok) {
+        const data = await response.json();
+        const course = data.data;
+        const courseName = course?.name || "Course";
+
+        return {
+          title: `${courseName} at ${universityName} | Course Info, Reviews & Transfers – PickMyUni`,
+          description: `Explore the ${courseName} at ${universityName} — course details, duration, career outcomes, and student reviews. Thinking of switching? PickMyUni can help you transfer or compare similar courses.`,
+          openGraph: {
+            title: `${courseName} at ${universityName} | Course Info, Reviews & Transfers – PickMyUni`,
+            description: `Explore the ${courseName} at ${universityName} — course details, duration, career outcomes, and student reviews. Thinking of switching? PickMyUni can help you transfer or compare similar courses.`,
+            url: `https://pickmyuni.com/university/${slugAndId}/${tabParam}`,
+            siteName: "PickMyUni",
+            images: [
+              {
+                url:
+                  "https://pickmyuni-bucket.s3.ap-southeast-2.amazonaws.com/collegelogo/" +
+                    course?.college?.logo_url ||
+                  "https://pickmyuni-bucket.s3.ap-southeast-2.amazonaws.com/collegebanner/" +
+                    course?.college?.bg_url,
+                width: 1200,
+                height: 630,
+                alt: `${universityName} logo`,
+              },
+            ],
+            locale: "en_AU",
+            type: "website",
+          },
+          twitter: {
+            card: "summary_large_image",
+            title: `${courseName} at ${universityName} | Course Info, Reviews & Transfers – PickMyUni`,
+            description: `Explore the ${courseName} at ${universityName} — course details, duration, career outcomes, and student reviews. Thinking of switching? PickMyUni can help you transfer or compare similar courses.`,
+            images: [
+              "https://pickmyuni-bucket.s3.ap-southeast-2.amazonaws.com/collegelogo/" +
+                course?.college?.logo_url ||
+                "https://pickmyuni-bucket.s3.ap-southeast-2.amazonaws.com/collegebanner/" +
+                  course?.college?.bg_url,
+            ],
+          },
+        };
+      }
+    } catch (error) {
+      console.error("Error fetching course metadata:", error);
+    }
+
+    return {
+      title: "Course Not Found | PickMyUni",
+      description: "The requested course could not be found.",
+    };
+  }
+
+  // Use dynamic metadata for specific tabs
+
+  const dynamicMeta = getDynamicMetadata(
+    currentTab,
+    universityName,
+    slugAndId,
+    currentTab,
+    college,
+  );
+
   return {
-    title: `${college.college_name} - PickMyUni`,
-    description:
-      college.description ||
-      `Learn more about ${college.college_name}, one of Australia's leading universities.`,
+    title: dynamicMeta.title,
+    description: dynamicMeta.description,
     openGraph: {
-      title: `${college.college_name} - PickMyUni`,
-      description:
-        college.description ||
-        `Learn more about ${college.name}, one of Australia's leading universities.`,
-      url: `https://pickmyuni.com/university/${slugAndId}`,
+      title: dynamicMeta.title,
+      description: dynamicMeta.description,
+      url: `https://pickmyuni.com/university/${slugAndId}/${currentTab}`,
       siteName: "PickMyUni",
       images: [
         {
-          url: college.logo_url || college.bg_url,
+          url:
+            "https://pickmyuni-bucket.s3.ap-southeast-2.amazonaws.com/collegelogo/" +
+              college.logo_url ||
+            "https://pickmyuni-bucket.s3.ap-southeast-2.amazonaws.com/collegebanner/" +
+              college.bg_url,
           width: 1200,
           height: 630,
           alt: `${college.college_name} logo`,
@@ -55,11 +149,14 @@ export async function generateMetadata({
     },
     twitter: {
       card: "summary_large_image",
-      title: `${college.college_name} - PickMyUni`,
-      description:
-        college.description ||
-        `Learn more about ${college.name}, one of Australia's leading universities.`,
-      images: [college.logo_url || college.bg_url],
+      title: dynamicMeta.title,
+      description: dynamicMeta.description,
+      images: [
+        "https://pickmyuni-bucket.s3.ap-southeast-2.amazonaws.com/collegelogo/" +
+          college.logo_url ||
+          "https://pickmyuni-bucket.s3.ap-southeast-2.amazonaws.com/collegebanner/" +
+            college.bg_url,
+      ],
     },
   };
 }

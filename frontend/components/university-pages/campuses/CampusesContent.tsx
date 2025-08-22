@@ -20,6 +20,9 @@ export default function CampusesContent({ info }: CampusesContentProps) {
 
   return (
     <div className="space-y-4">
+      {/* Campus Content */}
+      {info?.campus?.content && <CampusContent content={info.campus.content} />}
+
       {/* Toggle */}
       <div className="flex justify-center">
         <Badge className="bg-gray-100 p-1">
@@ -46,9 +49,6 @@ export default function CampusesContent({ info }: CampusesContentProps) {
           </div>
         </Badge>
       </div>
-
-      {/* Campus Content */}
-      {info?.campus?.content && <CampusContent content={info.campus.content} />}
 
       {/* University Cards */}
       {info?.collegeList?.map((university: any, index: number) => (
