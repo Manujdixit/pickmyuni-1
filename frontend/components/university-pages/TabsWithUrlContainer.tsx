@@ -37,7 +37,7 @@ function TabsWithUrlContainer({
 
   // Filter out campuses tab if isparent is false
   const availableTabs = isparent
-    ? indexes
+    ? indexes.filter((tab) => tab !== "facilities" && tab !== "accommodations")
     : indexes.filter(
         (tab) =>
           tab !== "campuses" && tab !== "ranking" && tab !== "scholarships",
