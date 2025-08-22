@@ -3,11 +3,11 @@ import { Roboto, Anton, Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/layout/navbar";
 import Footer from "@/components/layout/footer";
-import { Toaster } from "@/components/ui/sonner";
 import { OrganizationSchema } from "@/components/seo";
 import Script from "next/script";
 import { PhoneCall } from "lucide-react";
 import dynamic from "next/dynamic";
+import { Toaster } from "@/components/ui/sonner";
 
 const SitePop = dynamic(() =>
   import("@/components/SitePopup").then((mod) => mod.SitePop),
@@ -91,7 +91,7 @@ export default function RootLayout({
         className={`${roboto.variable} ${anton.variable} flex min-h-screen flex-col font-sans antialiased`}
       >
         <Navbar />
-        <div className="fixed bottom-4 right-4 z-20 flex flex-col items-end gap-2">
+        <div className="fixed bottom-4 right-4 z-[110] flex flex-col items-end gap-2">
           {/* <div className="bg-white text-xs text-black p-2 rounded-md">
             Get connected with us
           </div> */}
@@ -124,7 +124,7 @@ export default function RootLayout({
           </div>
         </div>
         <main className="flex-grow">{children}</main>
-        <Toaster />
+        <Toaster position="bottom-left" />
         <Footer />
         <Script
           strategy="lazyOnload"

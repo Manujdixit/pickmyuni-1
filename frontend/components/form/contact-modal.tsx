@@ -8,15 +8,19 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { useContact } from "@/hooks/useContact";
-import { toast } from "sonner";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import ContactForm from "@/components/form/contact-form";
+import CompactContactForm from "@/components/form/compact-contact-form";
+import { toast } from "sonner";
 
 interface ConsultationModalProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
+  isMobile?: boolean;
+  buttonRef?: React.RefObject<HTMLButtonElement | null>;
+  isTooltip?: boolean;
 }
 
 interface ContactFormData {
@@ -43,7 +47,7 @@ export const ContactValidationSchema: yup.ObjectSchema<ContactFormData> = yup
           // More strict email validation
           const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
           return emailRegex.test(value);
-        }
+        },
       ),
     phone: yup
       .string()
@@ -54,7 +58,7 @@ export const ContactValidationSchema: yup.ObjectSchema<ContactFormData> = yup
           if (!value) return false;
           const phoneDigits = value.replace(/\D/g, "");
           return phoneDigits.length >= 8;
-        }
+        },
       )
       .required("Phone number is required"),
     message: yup.string().required("Message is required"),
@@ -63,6 +67,9 @@ export const ContactValidationSchema: yup.ObjectSchema<ContactFormData> = yup
 export function ConsultationModal({
   open,
   onOpenChange,
+  isMobile = false,
+  buttonRef,
+  isTooltip = false,
 }: ConsultationModalProps) {
   const { submitContactForm, isLoading, error, success, resetState } =
     useContact();
@@ -103,19 +110,54 @@ export function ConsultationModal({
     onOpenChange(open);
   };
 
+  // If used inside a tooltip, just return the form content
+  if (isTooltip) {
+    return (
+      <>
+        {/* Header */}
+        <div className="mb-4">
+          <h2 className="text-brand-primary mb-2 text-center text-2xl font-semibold">
+            Request a Free{" "}
+            <span className="text-brand-secondary">Consultation</span>
+          </h2>
+        </div>
+
+        {/* Content */}
+        {success ? (
+          <div className="py-6 text-center">
+            <div className="mb-2 text-base font-semibold text-green-600">
+              ✅ Request sent successfully!
+            </div>
+            <p className="text-sm text-gray-600">
+              We&apos;ll get back to you soon.
+            </p>
+          </div>
+        ) : (
+          <CompactContactForm
+            form={form}
+            handleSubmit={form.handleSubmit(handleSubmit)}
+            isLoading={isLoading}
+            error={error}
+          />
+        )}
+      </>
+    );
+  }
+
+  // Use regular Dialog for mobile screens
   return (
     <Dialog open={open} onOpenChange={handleModalChange}>
-      <DialogContent className="max-w-lg w-full p-8">
+      <DialogContent className="z-[1005] w-[95%] max-w-lg p-8">
         <DialogHeader>
-          <DialogTitle className="text-3xl mb-3 font-semibold text-center text-brand-primary">
+          <DialogTitle className="text-brand-primary mb-3 text-center text-3xl font-semibold">
             Request a Free{" "}
             <span className="text-brand-secondary">Consultation</span>
           </DialogTitle>
         </DialogHeader>
 
         {success ? (
-          <div className="text-center py-8">
-            <div className="text-green-600 text-lg font-semibold mb-2">
+          <div className="py-8 text-center">
+            <div className="mb-2 text-lg font-semibold text-green-600">
               ✅ Request sent successfully!
             </div>
             <p className="text-gray-600">We&apos;ll get back to you soon.</p>

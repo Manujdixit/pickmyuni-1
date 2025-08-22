@@ -1,10 +1,9 @@
 "use client";
 import Image from "next/image";
-import React, { useState } from "react";
+import React from "react";
 import { Button } from "../ui/button";
 import { redirect } from "next/navigation";
 import { tagSanatize } from "@/utils/tagsanatize";
-import ContactWrapper from "../form/contact-wrapper";
 
 interface UniLayoutProps {
   college: any;
@@ -12,7 +11,15 @@ interface UniLayoutProps {
 }
 
 function UniLayout({ college, slugAndId }: UniLayoutProps) {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const handleEnquireClick = () => {
+    // Trigger the SitePopup bot button click
+    const botButton = document.querySelector(
+      '[aria-label="chat with ai"]',
+    ) as HTMLButtonElement;
+    if (botButton) {
+      botButton.click();
+    }
+  };
 
   // Split into slug and id
   const parts = slugAndId.split("-");
@@ -79,7 +86,7 @@ function UniLayout({ college, slugAndId }: UniLayoutProps) {
           <div className="flex justify-center sm:justify-end">
             <Button
               variant={"secondary"}
-              onClick={() => setIsModalOpen(true)}
+              onClick={handleEnquireClick}
               className="flex items-center"
             >
               <span>Enquire Now</span>
@@ -94,9 +101,6 @@ function UniLayout({ college, slugAndId }: UniLayoutProps) {
           </div>
         </div>
       </div>
-
-      {/* Application Modal */}
-      <ContactWrapper open={isModalOpen} onOpenChange={setIsModalOpen} />
     </div>
   );
 }

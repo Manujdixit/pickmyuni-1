@@ -7,7 +7,7 @@ export default function Navbar() {
   const scrollDirection = useScrollDirection();
 
   return (
-    <header className="sticky top-0 z-[100]">
+    <header className="sticky top-0 z-20">
       <div className="relative">
         {/* Navigation Header - stays fixed at top */}
         <div className="relative z-[100] bg-white">
