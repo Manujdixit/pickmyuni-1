@@ -12,10 +12,10 @@ export function UniversityCard({ university, feesPreference }: any) {
 
   const getDisplayFee = () => {
     if (feesPreference === "domestic") {
-      return university.domestic_fees_in_aud || "4,50,000";
+      return university?.min_tution_fee_domestic || " -/ ";
     }
     if (feesPreference === "international") {
-      return university.avg_fees_in_aud || "4,50,000";
+      return university?.min_tution_fee_int || " -/ ";
     }
   };
 
@@ -132,21 +132,25 @@ export function UniversityCard({ university, feesPreference }: any) {
             </div>
           </div>
           <div className="border-gray-200 text-center sm:border-x-2 sm:px-4 sm:text-left">
-            <div className="mb-1 text-xs text-gray-500">Placement</div>
-            <div className="text-base font-bold text-gray-900 sm:text-lg">
-              {university.placement_rate || "85"}%
-            </div>
+            <div className="mb-1 text-xs text-gray-500">Courses</div>
+            {university.course_count ? (
+              <Link
+                href={`/university/${tagSanatize(university.slug)}-${university.id}/courses`}
+              >
+                <div className="text-base font-bold text-gray-900 sm:text-lg">
+                  {university.course_count + " +"}
+                </div>
+              </Link>
+            ) : (
+              <span className="text-base font-bold text-gray-900 sm:text-lg">
+                -
+              </span>
+            )}
           </div>
           <div className="text-center sm:text-left">
             <div className="mb-1 text-xs text-gray-500">Ranking</div>
             <div className="text-base font-bold text-gray-900 sm:text-lg">
-              {university.ranking || "31st"} /{" "}
-              <span className="hidden sm:inline">
-                {university.total_ranking || "100 in Australia"}
-              </span>
-              <span className="sm:hidden">
-                {university.total_ranking?.split(" ")[0] || "100"}
-              </span>
+              {university?.rank || "-"}
             </div>
           </div>
         </div>
