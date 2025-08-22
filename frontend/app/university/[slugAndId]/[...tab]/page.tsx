@@ -1,7 +1,6 @@
 import React from "react";
 import { notFound, redirect } from "next/navigation";
 import { Metadata } from "next";
-import Head from "next/head";
 import {
   Accordion,
   AccordionContent,
@@ -12,7 +11,6 @@ import { ChevronDown, ChevronUp, GraduationCap } from "lucide-react";
 import { decode } from "he";
 import { getYear } from "@/utils/getYear";
 import { Button } from "@/components/ui/button";
-import { UniversityCard } from "@/components/common/UniversityCard";
 import CampusContent from "@/components/CampusContent";
 import CampusesContent from "@/components/university-pages/CampusesContent";
 import styles from "@/app/styles/page.module.css";
@@ -349,7 +347,53 @@ export async function generateMetadata({
   const tabTitle =
     tabTitles[currentTab as keyof typeof tabTitles] || "Information";
 
-  return {
+  // Generate FAQ JSON-LD for the faqs tab
+  let faqJsonLd = null;
+  if (currentTab === "faqs") {
+    try {
+      const baseUrl = process.env.API_URL || process.env.NEXT_PUBLIC_API_URL;
+      const faqEndpoint = `${baseUrl}/api/v1/college/faqs/${id}`;
+
+      const response = await fetch(faqEndpoint);
+      if (response.ok) {
+        const data = await response.json();
+        if (data.success && data.data?.faq) {
+          const faqContent = data.data.faq.content;
+          if (faqContent) {
+            const faqItems = parseFAQContentServer(faqContent);
+            const uniqueFaqItems = faqItems
+              .filter((faqItem, index, self) => {
+                return (
+                  index ===
+                  self.findIndex(
+                    (t) =>
+                      t.question.toLowerCase() ===
+                      faqItem.question.toLowerCase(),
+                  )
+                );
+              })
+              .filter((faqItem) => {
+                return (
+                  faqItem.question.length > 10 &&
+                  faqItem.answer.length > 10 &&
+                  faqItem.question !== faqItem.answer &&
+                  !faqItem.question.includes("&nbsp;") &&
+                  !faqItem.answer.includes("&nbsp;")
+                );
+              });
+
+            if (uniqueFaqItems.length > 0) {
+              faqJsonLd = generateFAQJsonLd(uniqueFaqItems, universityName);
+            }
+          }
+        }
+      }
+    } catch (error) {
+      console.error("Error generating FAQ JSON-LD:", error);
+    }
+  }
+
+  const metadata: Metadata = {
     title: `${universityName} ${tabTitle} - PickMyUni`,
     description: `Explore ${tabTitle.toLowerCase()} for ${universityName}. Get detailed information about this Australian university.`,
     openGraph: {
@@ -366,6 +410,15 @@ export async function generateMetadata({
       description: `Explore ${tabTitle.toLowerCase()} for ${universityName}. Get detailed information about this Australian university.`,
     },
   };
+
+  // Add FAQ JSON-LD to metadata if available
+  if (faqJsonLd) {
+    metadata.other = {
+      "script:ld+json": faqJsonLd,
+    };
+  }
+
+  return metadata;
 }
 
 // Generate FAQ JSON-LD structured data
@@ -373,6 +426,10 @@ const generateFAQJsonLd = (
   faqItems: Array<{ question: string; answer: string }>,
   universityName: string,
 ) => {
+  if (!faqItems || faqItems.length === 0) {
+    return null;
+  }
+
   const faqSchema = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
@@ -528,66 +585,10 @@ async function TabPage({
     );
   }
 
-  // Generate FAQ JSON-LD for the faqs tab
-  let faqJsonLd = null;
-  if (currentTab === "faqs" && info.length > 0) {
-    const universityName = slugAndId
-      .split("-")
-      .slice(0, -1)
-      .join(" ")
-      .replace(/-/g, " ")
-      .replace(/\b\w/g, (l) => l.toUpperCase());
-
-    // Extract all FAQ items from the content
-    const allFaqItems: Array<{ question: string; answer: string }> = [];
-
-    info.forEach((item: any) => {
-      if (item?.content) {
-        const faqItems = parseFAQContentServer(item.content);
-        const uniqueFaqItems = faqItems
-          .filter((faqItem, index, self) => {
-            return (
-              index ===
-              self.findIndex(
-                (t) =>
-                  t.question.toLowerCase() === faqItem.question.toLowerCase(),
-              )
-            );
-          })
-          .filter((faqItem) => {
-            return (
-              faqItem.question.length > 10 &&
-              faqItem.answer.length > 10 &&
-              faqItem.question !== faqItem.answer &&
-              !faqItem.question.includes("&nbsp;") &&
-              !faqItem.answer.includes("&nbsp;")
-            );
-          });
-        allFaqItems.push(...uniqueFaqItems);
-      }
-    });
-
-    if (allFaqItems.length > 0) {
-      faqJsonLd = generateFAQJsonLd(allFaqItems, universityName);
-    }
-  }
-
   return (
-    <>
-      {faqJsonLd && (
-        <Head>
-          <script
-            type="application/ld+json"
-            dangerouslySetInnerHTML={{
-              __html: faqJsonLd,
-            }}
-          />
-        </Head>
-      )}
-      <div className="p-2 sm:p-4 lg:p-6">
-        {renderContent(currentTab, info, slugAndId)}
-      </div>
-    </>
+    <div className="p-2 sm:p-4 lg:p-6">
+      {renderContent(currentTab, info, slugAndId)}
+    </div>
   );
 }
 
