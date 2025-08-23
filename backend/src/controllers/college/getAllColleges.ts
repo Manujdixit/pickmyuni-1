@@ -22,11 +22,52 @@ import { prisma } from "../../lib/prisma";
 export const getAllColleges = async (req: Request, res: Response) => {
   try {
     const colleges = await prisma.colleges.findMany({
-      select: { id: true, slug: true },
+      select: {
+        id: true,
+        slug: true,
+        is_parent: true,
+        CollegewiseContent: {
+          select: {
+            silos: true,
+            is_active: true,
+          },
+          where: {
+            is_active: true,
+            content: {
+              not: "",
+            },
+          },
+        },
+      },
+      where: {
+        CollegewiseContent: {
+          some: {
+            is_active: true,
+            content: {
+              not: "",
+            },
+          },
+        },
+      },
     });
+
+    // Transform the data to include available silos for each college
+    const transformedColleges = colleges.map((college) => {
+      const available_silos = college.CollegewiseContent
+        ? college.CollegewiseContent.map((content) => content.silos)
+        : [];
+
+      return {
+        id: college.id,
+        slug: college.slug,
+        is_parent: college.is_parent,
+        available_silos,
+      };
+    });
+
     res.json({
       success: true,
-      data: colleges,
+      data: transformedColleges,
     });
   } catch (error) {
     console.error("Error fetching colleges:", error);
