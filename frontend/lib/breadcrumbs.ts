@@ -1,5 +1,8 @@
 import { BreadcrumbItem } from "@/components/seo";
 
+// Export the type for use in other modules
+export type { BreadcrumbItem };
+
 /**
  * Generate breadcrumb data based on the current path
  * This function creates breadcrumb schema data for SEO
@@ -20,16 +23,31 @@ export function generateBreadcrumbData(
     },
   ];
 
-  // Map of route segments to display names
+  // Comprehensive route mapping for all pages
   const routeNames: Record<string, string> = {
-    university: "Universities",
-    compare: "Compare Universities",
-    "student-resources": "Student Resources",
-    "transfer-assistance": "Transfer Assistance",
+    // Static pages
     "about-us": "About Us",
     "contact-us": "Contact Us",
+    "student-resources": "Student Resources",
+    "transfer-assistance": "Transfer Assistance",
     privacy: "Privacy Policy",
-    "pr-path": "PR Pathway",
+
+    // University related
+    university: "Universities",
+    "compare-universities-in-australia": "Compare Universities",
+    "top-universities-in-australia": "Universities",
+
+    // Level-based pages
+    "level1-universities-in-australia": "Level 1 Universities",
+    "level2-universities-in-australia": "Level 2 Universities",
+    "level3-universities-in-australia": "Level 3 Universities",
+
+    // University types
+    "private-universities-in-australia": "Private Universities",
+    "public-universities-in-australia": "Public Universities",
+
+    // Other pages
+    "pr-courses-in-australia": "PR Courses",
     city: "Cities",
   };
 
@@ -43,13 +61,31 @@ export function generateBreadcrumbData(
     if (segment.startsWith("[") && segment.endsWith("]")) {
       // For dynamic segments, use params to get the actual value
       const paramKey = segment.slice(1, -1);
-      const displayName = params?.[paramKey] || segment;
+      const paramValue = params?.[paramKey];
 
-      breadcrumbs.push({
-        name: displayName,
-        item: `${baseUrl}${currentPath}`,
-        position,
-      });
+      if (paramValue) {
+        // Handle specific dynamic route cases
+        let displayName = paramValue;
+
+        // Special handling for university slugs
+        if (paramKey === "universitySlug") {
+          displayName = paramValue
+            .split("-")
+            .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+            .join(" ");
+        } else if (paramKey === "filterSlug") {
+          displayName = paramValue
+            .split("-")
+            .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+            .join(" ");
+        }
+
+        breadcrumbs.push({
+          name: displayName,
+          item: `${baseUrl}${currentPath}`,
+          position,
+        });
+      }
     } else {
       // Use predefined names or capitalize the segment
       const displayName =
@@ -69,39 +105,3 @@ export function generateBreadcrumbData(
 
   return breadcrumbs;
 }
-
-/**
- * Common breadcrumb patterns for specific pages
- */
-export const commonBreadcrumbs = {
-  university: (universityName?: string): BreadcrumbItem[] => [
-    { name: "Home", item: "https://pickmyuni.com", position: 1 },
-    {
-      name: "Universities",
-      item: "https://pickmyuni.com/top-universities-in-australia",
-      position: 2,
-    },
-    ...(universityName
-      ? [{ name: universityName, item: "", position: 3 }]
-      : []),
-  ],
-
-  compare: (): BreadcrumbItem[] => [
-    { name: "Home", item: "https://pickmyuni.com", position: 1 },
-    {
-      name: "Compare Universities",
-      item: "https://pickmyuni.com/compare-universities-in-australia",
-      position: 2,
-    },
-  ],
-
-  studentResources: (articleTitle?: string): BreadcrumbItem[] => [
-    { name: "Home", item: "https://pickmyuni.com", position: 1 },
-    {
-      name: "Student Resources",
-      item: "https://pickmyuni.com/student-resources",
-      position: 2,
-    },
-    ...(articleTitle ? [{ name: articleTitle, item: "", position: 3 }] : []),
-  ],
-};

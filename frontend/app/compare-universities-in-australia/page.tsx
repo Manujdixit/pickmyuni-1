@@ -1,7 +1,5 @@
 import ComaprisonComponent from "@/components/compare/university-comparison";
 import { Metadata } from "next";
-import { BreadcrumbSchema } from "@/components/seo";
-import { commonBreadcrumbs } from "@/lib/breadcrumbs";
 
 export const metadata: Metadata = {
   title: "Compare Universities in Australia | Course & Review Match Tool",
@@ -25,10 +23,5 @@ export const metadata: Metadata = {
 };
 
 export default function Page() {
-  return (
-    <>
-      <BreadcrumbSchema items={commonBreadcrumbs.compare()} />
-      <ComaprisonComponent />
-    </>
-  );
+  return <ComaprisonComponent />;
 }
