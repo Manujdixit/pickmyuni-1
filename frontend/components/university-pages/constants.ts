@@ -1,7 +1,7 @@
 export const validTabs = [
   "info",
-  "courses",
   "campuses",
+  "courses",
   "careers",
   "ranking",
   "fees",
