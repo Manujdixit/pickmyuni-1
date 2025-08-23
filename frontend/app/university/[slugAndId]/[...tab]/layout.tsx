@@ -208,6 +208,70 @@ export default async function UniversityLayout({
     } else return false;
   };
 
+  // Map database silos to frontend tab names
+  const siloToTabMapping: { [key: string]: string } = {
+    info: "info",
+    course: "courses",
+    career: "careers",
+    ranking: "ranking",
+    fees: "fees",
+    scholarship: "scholarships",
+    placement: "placement",
+    news: "news",
+    faq: "faqs",
+    other: "more",
+    campus: "campuses",
+    accommodation: "accommodations",
+    reviews: "reviews",
+    facilities: "facilities",
+  };
+
+  // Define restricted tabs for parent and non-parent colleges
+  const parentRestrictedTabs = ["facilities", "accommodations"];
+  const nonParentRestrictedTabs = ["campuses", "ranking", "scholarships"];
+
+  // Get tabs that have actual content in the database
+  const availableTabs = college.available_silos
+    ? college.available_silos
+        .map((silo: string) => siloToTabMapping[silo])
+        .filter((tab: string | undefined): tab is string => Boolean(tab))
+    : [];
+
+  // Apply parent/non-parent filtering
+  let filteredTabs: string[];
+  if (college.is_parent === true) {
+    // For parent colleges: remove restricted tabs
+    filteredTabs = availableTabs.filter(
+      (tab: string) => !parentRestrictedTabs.includes(tab),
+    );
+  } else {
+    // For non-parent colleges: remove restricted tabs
+    filteredTabs = availableTabs.filter(
+      (tab: string) => !nonParentRestrictedTabs.includes(tab),
+    );
+  }
+
+  // If no content-based tabs are available, fall back to the original logic
+  if (filteredTabs.length === 0) {
+    const { validTabs } = await import(
+      "@/components/university-pages/constants"
+    );
+    filteredTabs =
+      college.is_parent === true
+        ? validTabs.filter((tab: string) => !parentRestrictedTabs.includes(tab))
+        : validTabs.filter(
+            (tab: string) => !nonParentRestrictedTabs.includes(tab),
+          );
+  } else {
+    // Sort the filtered tabs according to the order in validTabs
+    const { validTabs } = await import(
+      "@/components/university-pages/constants"
+    );
+    filteredTabs = validTabs.filter((tab: string) =>
+      filteredTabs.includes(tab),
+    );
+  }
+
   return (
     <>
       <UniLayout college={college} slugAndId={slugAndId} />
@@ -215,7 +279,11 @@ export default async function UniversityLayout({
       <div className="container mx-auto flex min-h-screen flex-col gap-6 py-6 lg:flex-row-reverse">
         <QuickFacts college={college} />
         <div className="min-w-0 flex-1">
-          <TabsWithUrlContainer isparent={isParent()} slugAndId={slugAndId} />
+          <TabsWithUrlContainer
+            isparent={isParent()}
+            slugAndId={slugAndId}
+            availableTabs={filteredTabs}
+          />
           {children}
         </div>
       </div>

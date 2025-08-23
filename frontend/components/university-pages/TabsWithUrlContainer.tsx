@@ -4,44 +4,36 @@ import React from "react";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useRouter, useParams } from "next/navigation";
-
-const indexes = [
-  "info",
-  "courses",
-  "campuses",
-  "ranking",
-  "careers",
-  "fees",
-  "scholarships",
-  "facilities",
-  "accommodations",
-  "faqs",
-  "reviews",
-  "news",
-  "more",
-];
+import { validTabs } from "./constants";
 
 interface TabsWithUrlContainerProps {
   isparent: boolean;
   slugAndId: string;
+  availableTabs?: string[];
 }
 
 function TabsWithUrlContainer({
   slugAndId,
   isparent,
+  availableTabs: propAvailableTabs,
 }: TabsWithUrlContainerProps) {
   const router = useRouter();
   const params = useParams();
   const tabParam = (params.tab as string[])?.[0] || "info";
   const currentTab = tabParam.startsWith("courses") ? "courses" : tabParam;
 
-  // Filter out campuses tab if isparent is false
-  const availableTabs = isparent
-    ? indexes.filter((tab) => tab !== "facilities" && tab !== "accommodations")
-    : indexes.filter(
-        (tab) =>
-          tab !== "campuses" && tab !== "ranking" && tab !== "scholarships",
-      );
+  // Use prop availableTabs if provided, otherwise fall back to original logic
+  const availableTabs =
+    propAvailableTabs && propAvailableTabs.length > 0
+      ? propAvailableTabs
+      : isparent
+        ? validTabs.filter(
+            (tab: string) => tab !== "facilities" && tab !== "accommodations",
+          )
+        : validTabs.filter(
+            (tab: string) =>
+              tab !== "campuses" && tab !== "ranking" && tab !== "scholarships",
+          );
 
   const scrollRef = React.useRef<HTMLDivElement>(null);
   const [canScrollLeft, setCanScrollLeft] = React.useState(false);

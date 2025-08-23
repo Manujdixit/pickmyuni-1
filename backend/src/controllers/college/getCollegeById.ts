@@ -57,6 +57,19 @@ export const getCollegeById = async (req: Request, res: Response) => {
             CollegesCourses: true,
           },
         },
+        CollegewiseContent: {
+          select: {
+            silos: true,
+            content: true,
+            is_active: true,
+          },
+          where: {
+            is_active: true,
+            content: {
+              not: "",
+            },
+          },
+        },
       },
     });
 
@@ -67,9 +80,20 @@ export const getCollegeById = async (req: Request, res: Response) => {
       });
     }
 
+    // Transform the data to include available silos for tabs
+    const transformedCollege = {
+      ...college,
+      available_silos: college.CollegewiseContent
+        ? college.CollegewiseContent.map((content) => content.silos)
+        : [],
+    };
+
+    // Remove CollegewiseContent from the response as we only need available_silos
+    delete (transformedCollege as any).CollegewiseContent;
+
     res.status(200).json({
       success: true,
-      data: college,
+      data: transformedCollege,
     });
   } catch (error) {
     console.error("Error fetching college by ID:", error);
