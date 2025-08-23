@@ -24,31 +24,33 @@ export default function CampusesContent({ info }: CampusesContentProps) {
       {info?.campus?.content && <CampusContent content={info.campus.content} />}
 
       {/* Toggle */}
-      <div className="flex justify-center">
-        <Badge className="bg-gray-100 p-1">
-          <div className="flex items-center space-x-2">
-            <Label className="text-brand-primary" htmlFor="domestic">
-              Domestic
-            </Label>
-            <Switch
-              aria-label="toggle"
-              id="preference-switch"
-              checked={preference === "international"}
-              className={
-                preference === "international"
-                  ? "data-[state=checked]:bg-brand-secondary"
-                  : "data-[state=unchecked]:bg-brand-primary"
-              }
-              onCheckedChange={(checked) =>
-                setPreference(checked ? "international" : "domestic")
-              }
-            />
-            <Label className="text-brand-secondary" htmlFor="international">
-              International
-            </Label>
-          </div>
-        </Badge>
-      </div>
+      {info?.collegeList.length > 0 && (
+        <div className="flex justify-center">
+          <Badge className="bg-gray-100 p-1">
+            <div className="flex items-center space-x-2">
+              <Label className="text-brand-primary" htmlFor="domestic">
+                Domestic
+              </Label>
+              <Switch
+                aria-label="toggle"
+                id="preference-switch"
+                checked={preference === "international"}
+                className={
+                  preference === "international"
+                    ? "data-[state=checked]:bg-brand-secondary"
+                    : "data-[state=unchecked]:bg-brand-primary"
+                }
+                onCheckedChange={(checked) =>
+                  setPreference(checked ? "international" : "domestic")
+                }
+              />
+              <Label className="text-brand-secondary" htmlFor="international">
+                International
+              </Label>
+            </div>
+          </Badge>
+        </div>
+      )}
 
       {/* University Cards */}
       {info?.collegeList?.map((university: any, index: number) => (
