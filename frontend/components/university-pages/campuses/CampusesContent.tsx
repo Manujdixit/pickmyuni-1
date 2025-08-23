@@ -18,46 +18,61 @@ export default function CampusesContent({ info }: CampusesContentProps) {
     return <p>Nothing to show.</p>;
   }
 
+  // Check if both content and colleges are not present
+  const hasContent = info?.campus?.content;
+  const hasColleges = info?.collegeList && info.collegeList.length > 0;
+
+  if (!hasContent && !hasColleges) {
+    return (
+      <div className="flex items-center justify-center py-8">
+        <p className="text-lg text-gray-500">No data available</p>
+      </div>
+    );
+  }
+
   return (
     <div className="space-y-4">
       {/* Campus Content */}
-      {info?.campus?.content && <CampusContent content={info.campus.content} />}
+      {hasContent && <CampusContent content={info.campus.content} />}
 
       {/* Toggle */}
-      <div className="flex justify-center">
-        <Badge className="bg-gray-100 p-1">
-          <div className="flex items-center space-x-2">
-            <Label className="text-brand-primary" htmlFor="domestic">
-              Domestic
-            </Label>
-            <Switch
-              aria-label="toggle"
-              id="preference-switch"
-              checked={preference === "international"}
-              className={
-                preference === "international"
-                  ? "data-[state=checked]:bg-brand-secondary"
-                  : "data-[state=unchecked]:bg-brand-primary"
-              }
-              onCheckedChange={(checked) =>
-                setPreference(checked ? "international" : "domestic")
-              }
-            />
-            <Label className="text-brand-secondary" htmlFor="international">
-              International
-            </Label>
-          </div>
-        </Badge>
-      </div>
+      {hasColleges && (
+        <div className="flex justify-center">
+          <Badge className="bg-gray-100 p-1">
+            <div className="flex items-center space-x-2">
+              <Label className="text-brand-primary" htmlFor="domestic">
+                Domestic
+              </Label>
+              <Switch
+                aria-label="toggle"
+                id="preference-switch"
+                checked={preference === "international"}
+                className={
+                  preference === "international"
+                    ? "data-[state=checked]:bg-brand-secondary"
+                    : "data-[state=unchecked]:bg-brand-primary"
+                }
+                onCheckedChange={(checked) =>
+                  setPreference(checked ? "international" : "domestic")
+                }
+              />
+              <Label className="text-brand-secondary" htmlFor="international">
+                International
+              </Label>
+            </div>
+          </Badge>
+        </div>
+      )}
 
       {/* University Cards */}
-      {info?.collegeList?.map((university: any, index: number) => (
-        <UniversityCard
-          key={university.id || index}
-          university={university}
-          feesPreference={preference}
-        />
-      ))}
+      {hasColleges &&
+        info.collegeList.map((university: any, index: number) => (
+          <UniversityCard
+            key={university.id || index}
+            university={university}
+            feesPreference={preference}
+          />
+        ))}
     </div>
   );
 }

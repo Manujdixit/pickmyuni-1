@@ -240,10 +240,14 @@ export default async function UniversityLayout({
   // Apply parent/non-parent filtering
   let filteredTabs: string[];
   if (college.is_parent === true) {
-    // For parent colleges: remove restricted tabs
+    // For parent colleges: remove restricted tabs and ensure campuses is included
     filteredTabs = availableTabs.filter(
       (tab: string) => !parentRestrictedTabs.includes(tab),
     );
+    // Always include campuses for parent colleges
+    if (!filteredTabs.includes("campuses")) {
+      filteredTabs.push("campuses");
+    }
   } else {
     // For non-parent colleges: remove restricted tabs
     filteredTabs = availableTabs.filter(
@@ -256,12 +260,19 @@ export default async function UniversityLayout({
     const { validTabs } = await import(
       "@/components/university-pages/constants"
     );
-    filteredTabs =
-      college.is_parent === true
-        ? validTabs.filter((tab: string) => !parentRestrictedTabs.includes(tab))
-        : validTabs.filter(
-            (tab: string) => !nonParentRestrictedTabs.includes(tab),
-          );
+    if (college.is_parent === true) {
+      filteredTabs = validTabs.filter(
+        (tab: string) => !parentRestrictedTabs.includes(tab),
+      );
+      // Ensure campuses is included for parent colleges
+      if (!filteredTabs.includes("campuses")) {
+        filteredTabs.push("campuses");
+      }
+    } else {
+      filteredTabs = validTabs.filter(
+        (tab: string) => !nonParentRestrictedTabs.includes(tab),
+      );
+    }
   } else {
     // Sort the filtered tabs according to the order in validTabs
     const { validTabs } = await import(
@@ -270,6 +281,13 @@ export default async function UniversityLayout({
     filteredTabs = validTabs.filter((tab: string) =>
       filteredTabs.includes(tab),
     );
+
+    // For parent colleges, ensure campuses is included and properly positioned
+    if (college.is_parent === true && !filteredTabs.includes("campuses")) {
+      // Insert campuses at its proper position according to validTabs order
+      const campusesIndex = validTabs.indexOf("campuses");
+      filteredTabs.splice(campusesIndex, 0, "campuses");
+    }
   }
 
   return (
