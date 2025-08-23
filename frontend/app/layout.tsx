@@ -4,6 +4,7 @@ import "./globals.css";
 import Navbar from "@/components/layout/navbar";
 import Footer from "@/components/layout/footer";
 import { OrganizationSchema } from "@/components/seo";
+import BreadcrumbProvider from "@/components/seo/BreadcrumbProvider";
 import Script from "next/script";
 import { PhoneCall } from "lucide-react";
 import dynamic from "next/dynamic";
@@ -123,7 +124,9 @@ export default function RootLayout({
             </a>
           </div>
         </div>
-        <main className="flex-grow">{children}</main>
+        <main className="flex-grow">
+          <BreadcrumbProvider>{children}</BreadcrumbProvider>
+        </main>
         <Toaster position="bottom-left" />
         <Footer />
         <Script

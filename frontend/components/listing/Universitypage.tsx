@@ -5,8 +5,6 @@ import { useInfiniteUniversityList } from "@/hooks/useInfiniteUniversityList";
 import { useInfiniteScroll } from "@/hooks/useInfiniteScroll";
 import { useUniversityPageState } from "@/hooks/useUniversityPageState";
 import { useUniversityFilters } from "@/hooks/useUniversityFilters";
-import { BreadcrumbSchema } from "@/components/seo";
-import { commonBreadcrumbs } from "@/lib/breadcrumbs";
 import { NotFound } from "../ui/not-found";
 import {
   getCurrentFilters,
@@ -133,8 +131,6 @@ function UniversityPage() {
 
   return (
     <div className="min-h-screen bg-white">
-      <BreadcrumbSchema items={commonBreadcrumbs.university()} />
-
       {/* Hero Section */}
       <UniversityHero />
 
