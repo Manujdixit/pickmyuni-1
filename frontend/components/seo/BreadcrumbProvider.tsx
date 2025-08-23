@@ -1,7 +1,7 @@
 "use client";
 
-import React, { createContext, useContext, useMemo } from "react";
-import { usePathname, useSearchParams } from "next/navigation";
+import React, { createContext, useContext, useMemo, Suspense } from "react";
+import { usePathname } from "next/navigation";
 import { generateBreadcrumbData, BreadcrumbItem } from "@/lib/breadcrumbs";
 import BreadcrumbSchema from "./BreadcrumbSchema";
 
@@ -19,15 +19,13 @@ interface BreadcrumbProviderProps {
 }
 
 /**
- * BreadcrumbProvider automatically generates breadcrumb schema for SEO
- * and provides breadcrumb context to child components
+ * Internal component that uses client-side hooks
  */
-export default function BreadcrumbProvider({
+function BreadcrumbProviderInner({
   children,
   customBreadcrumbs,
 }: BreadcrumbProviderProps) {
   const pathname = usePathname();
-  const searchParams = useSearchParams();
 
   // Extract dynamic route parameters
   const params = useMemo(() => {
@@ -79,6 +77,19 @@ export default function BreadcrumbProvider({
       <BreadcrumbSchema items={breadcrumbs} />
       {children}
     </BreadcrumbContext.Provider>
+  );
+}
+
+/**
+ * BreadcrumbProvider automatically generates breadcrumb schema for SEO
+ * and provides breadcrumb context to child components
+ * Wrapped in Suspense to handle Next.js 13+ requirements
+ */
+export default function BreadcrumbProvider(props: BreadcrumbProviderProps) {
+  return (
+    <Suspense fallback={null}>
+      <BreadcrumbProviderInner {...props} />
+    </Suspense>
   );
 }
 
