@@ -261,6 +261,20 @@ const accordionData = [
   },
 ];
 
+// FAQ Schema for SEO
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: accordionData.map((item) => ({
+    "@type": "Question",
+    name: item.trigger,
+    acceptedAnswer: {
+      "@type": "Answer",
+      text: item.content.replace(/<[^>]*>/g, "").trim(), // Remove HTML tags for plain text
+    },
+  })),
+};
+
 const sec1Cards = (data: any, fullHeight = false) => {
   return (
     <div
@@ -325,114 +339,222 @@ const sec3Cards = (data: any) => {
 
 export default function PrivacyPage() {
   return (
-    <div className="min-h-screen bg-white text-[#242628]">
-      {/* Hero Section */}
-      <div className="relative h-64 md:h-80 lg:h-96">
-        <Image
-          src="https://pickmyuni-bucket.s3.ap-southeast-2.amazonaws.com/static/level-1-banner.webp"
-          alt="Library with books on shelves"
-          fill
-          className="object-cover"
-          priority
-        />
-        <div className="absolute inset-0 bg-black/40" />
-        <div className="absolute inset-0 flex items-end">
-          <div className="container mx-auto pb-8">
-            <h1 className="text-3xl font-bold text-white md:text-4xl lg:text-5xl">
-              Level 1 Universities in Australia​
-            </h1>
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(faqSchema),
+        }}
+      />
+      <div className="min-h-screen bg-white text-[#242628]">
+        {/* Hero Section */}
+        <div className="relative h-64 md:h-80 lg:h-96">
+          <Image
+            src="https://pickmyuni-bucket.s3.ap-southeast-2.amazonaws.com/static/level-1-banner.webp"
+            alt="Library with books on shelves"
+            fill
+            className="object-cover"
+            priority
+          />
+          <div className="absolute inset-0 bg-black/40" />
+          <div className="absolute inset-0 flex items-end">
+            <div className="container mx-auto pb-8">
+              <h1 className="text-3xl font-bold text-white md:text-4xl lg:text-5xl">
+                Level 1 Universities in Australia​
+              </h1>
+            </div>
           </div>
         </div>
-      </div>
 
-      {/* Main Content */}
-      <div className="container mx-auto space-y-20 py-12 lg:py-16">
-        {/* Header Section */}
-        <p className="text-lg font-normal">
-          Australia is renowned for its world-class education system, attracting
-          thousands of international students each year. With globally
-          recognized universities, state-of-the-art research facilities, and a
-          strong emphasis on academic excellence, Australia has become a top
-          destination for higher education. Among these institutions, Assessment
-          Level 1 universities in Australia hold a prestigious position,
-          offering high-quality education, excellent faculty, and superior
-          infrastructure. If you are an international student aiming for a
-          top-tier education in Australia, choosing a Level 1 university can be
-          the best decision for your academic and professional growth.
-        </p>
-
-        <section className="flex flex-col justify-center">
-          <h2 className="text-brand-primary mb-4 text-center text-4xl font-semibold">
-            Why Choose Level 1 Universities in{" "}
-            <span className="text-brand-secondary">Australia 2025?</span>
-          </h2>
-          <p className="mb-2 text-center">
-            Level 1 universities in Australia are the most reputable and highly
-            ranked institutions in the country. These universities provide
-            exceptional benefits to students, making them the preferred choice
-            for those seeking excellence in higher education.
+        {/* Main Content */}
+        <div className="container mx-auto space-y-20 py-12 lg:py-16">
+          {/* Header Section */}
+          <p className="text-lg font-normal">
+            Australia is renowned for its world-class education system,
+            attracting thousands of international students each year. With
+            globally recognized universities, state-of-the-art research
+            facilities, and a strong emphasis on academic excellence, Australia
+            has become a top destination for higher education. Among these
+            institutions, Assessment Level 1 universities in Australia hold a
+            prestigious position, offering high-quality education, excellent
+            faculty, and superior infrastructure. If you are an international
+            student aiming for a top-tier education in Australia, choosing a
+            Level 1 university can be the best decision for your academic and
+            professional growth.
           </p>
-          <div className="mt-8 grid gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-3">
-            {sec1CardData.map((data, idx) => (
-              <div
-                key={idx}
-                className="flex h-full flex-col items-center bg-[#F6F6F7]"
-              >
-                {sec1Cards(data, true)}
+
+          <section className="flex flex-col justify-center">
+            <h2 className="text-brand-primary mb-4 text-center text-4xl font-semibold">
+              Why Choose Level 1 Universities in{" "}
+              <span className="text-brand-secondary">Australia 2025?</span>
+            </h2>
+            <p className="mb-2 text-center">
+              Level 1 universities in Australia are the most reputable and
+              highly ranked institutions in the country. These universities
+              provide exceptional benefits to students, making them the
+              preferred choice for those seeking excellence in higher education.
+            </p>
+            <div className="mt-8 grid gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-3">
+              {sec1CardData.map((data, idx) => (
+                <div
+                  key={idx}
+                  className="flex h-full flex-col items-center bg-[#F6F6F7]"
+                >
+                  {sec1Cards(data, true)}
+                </div>
+              ))}
+            </div>
+          </section>
+
+          <section className="flex flex-col justify-center">
+            <h2 className="text-brand-primary mb-4 text-center text-4xl font-semibold">
+              List of Level 1 Universities in{" "}
+              <span className="text-brand-secondary">Australia</span>
+            </h2>
+            <p className="mb-2 text-center">
+              Below is a list of some of the most prestigious Level 1
+              universities in Australia, known for their academic excellence and
+              outstanding research contributions:
+            </p>
+            <div className="mt-8 grid gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-3">
+              {sec2CardData.map((data, idx) => (
+                <div
+                  key={idx}
+                  className="flex h-full flex-col items-center bg-[#F6F6F7] shadow hover:shadow-md"
+                >
+                  {sec2Cards(data, idx)}
+                </div>
+              ))}
+            </div>
+          </section>
+        </div>
+        <section>
+          <div className="bg-brand-primary py-24">
+            <div className="container flex flex-col items-center gap-8 lg:flex-row">
+              <div className="flex-1">
+                <h2 className="text-h1 leading-tight text-white">
+                  Cheap Level 1 universities{" "}
+                  <span className="text-brand-secondary">in Australia</span>
+                </h2>
+                <ul className="my-4 list-inside list-disc space-y-1 text-white">
+                  <li>
+                    Among Assessment Level 1 universities, some offer relatively
+                    affordable tuition fees for international students.
+                  </li>
+                  <li>
+                    For instance, the University of the Sunshine Coast (USC) is
+                    known for its competitive fee structure while maintaining
+                    quality education standards.
+                  </li>
+                  <li>
+                    Additionally, institutions like the University of Canberra
+                    (UC) and Australian Catholic University (ACU) offer programs
+                    that are cost-effective compared to other AL1 universities.
+                  </li>
+                  <li>
+                    Prospective students are encouraged to research specific
+                    programs and associated costs to identify the best fit for
+                    their academic and financial needs.
+                  </li>
+                </ul>
               </div>
-            ))}
+
+              <div className="lg:w-1/3">
+                <div className="relative">
+                  <Image
+                    src="https://pickmyuni-bucket.s3.ap-southeast-2.amazonaws.com/static/cheap-level-1-universities-in-australia.webp"
+                    alt="Graduate student celebrating"
+                    width={400}
+                    height={500}
+                    className="w-full rounded-lg"
+                  />
+                </div>
+              </div>
+            </div>
           </div>
         </section>
-
-        <section className="flex flex-col justify-center">
-          <h2 className="text-brand-primary mb-4 text-center text-4xl font-semibold">
-            List of Level 1 Universities in{" "}
-            <span className="text-brand-secondary">Australia</span>
-          </h2>
-          <p className="mb-2 text-center">
-            Below is a list of some of the most prestigious Level 1 universities
-            in Australia, known for their academic excellence and outstanding
-            research contributions:
-          </p>
-          <div className="mt-8 grid gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-3">
-            {sec2CardData.map((data, idx) => (
-              <div
-                key={idx}
-                className="flex h-full flex-col items-center bg-[#F6F6F7] shadow hover:shadow-md"
-              >
-                {sec2Cards(data, idx)}
-              </div>
-            ))}
-          </div>
-        </section>
-      </div>
-      <section>
-        <div className="bg-brand-primary py-24">
-          <div className="container flex flex-col items-center gap-8 lg:flex-row">
-            <div className="flex-1">
-              <h2 className="text-h1 leading-tight text-white">
-                Cheap Level 1 universities{" "}
-                <span className="text-brand-secondary">in Australia</span>
+        <section>
+          <div className="bg-brand-secondary py-24">
+            <div className="container mx-auto flex flex-col justify-center">
+              <h2 className="mb-4 text-center text-4xl font-semibold text-white">
+                Why Choose Level 1 Universities in <span>Australia 2025?</span>
               </h2>
-              <ul className="my-4 list-inside list-disc space-y-1 text-white">
+              <p className="mb-2 text-center text-white">
+                Level 1 universities in Australia are the most reputable and
+                highly ranked institutions in the country. These universities
+                provide exceptional benefits to students, making them the
+                preferred choice for those seeking excellence in higher
+                education.
+              </p>
+              <div className="mt-8 grid gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-3">
+                {sec3CardData.map((data, idx) => (
+                  <div
+                    key={idx}
+                    className="flex h-full flex-col items-center rounded-2xl bg-white p-4 shadow hover:shadow-md"
+                  >
+                    {sec3Cards(data)}
+                  </div>
+                ))}
+              </div>
+            </div>{" "}
+          </div>
+        </section>
+        <div className="container mx-auto space-y-20 py-12 lg:py-16">
+          <section className="py-13 flex flex-col items-center justify-center bg-[#FAF4F0] p-8 text-center">
+            <h2 className="text-brand-primary mb-4 max-w-[800px] text-center text-4xl font-semibold">
+              How FindMyUni Helps International Students to get into{" "}
+              <span className="text-brand-secondary">Level 1 Universities</span>
+            </h2>
+            <p className="mx-auto max-w-[1000px] text-center">
+              FindMyUni is an Australian-based platform dedicated to assisting
+              international students in selecting the right course and
+              university. We understand that choosing the right institution can
+              be challenging, especially for students moving to a new country.
+              That’s where we come in!
+            </p>
+          </section>
+          <section className="container flex flex-col items-center gap-8 lg:flex-row-reverse">
+            <div className="flex-1">
+              <h2 className="text-brand-primary text-center text-h1 leading-tight md:text-start">
+                Why Choose{" "}
+                <span className="text-brand-secondary">{"FindMyUni?"}</span>
+              </h2>
+              <ul className="my-4 list-inside list-disc space-y-1 pl-4">
                 <li>
-                  Among Assessment Level 1 universities, some offer relatively
-                  affordable tuition fees for international students.
+                  <span className="font-bold">
+                    Comparisons of Level 1 universities:
+                  </span>{" "}
+                  We provide detailed comparisons of Level 1 universities based
+                  on courses, rankings, tuition fees, and student reviews.
                 </li>
                 <li>
-                  For instance, the University of the Sunshine Coast (USC) is
-                  known for its competitive fee structure while maintaining
-                  quality education standards.
+                  <span className="font-bold">Personalized Guidance:</span> Our
+                  expert consultants offer one-on-one counseling to help
+                  students make informed decisions.
                 </li>
                 <li>
-                  Additionally, institutions like the University of Canberra
-                  (UC) and Australian Catholic University (ACU) offer programs
-                  that are cost-effective compared to other AL1 universities.
+                  <span className="font-bold">Application Assistance:</span> We
+                  assist students with university applications, ensuring all
+                  requirements are met for a smooth admission process.
                 </li>
                 <li>
-                  Prospective students are encouraged to research specific
-                  programs and associated costs to identify the best fit for
-                  their academic and financial needs.
+                  <span className="font-bold">Scholarship Support:</span>{" "}
+                  FindMyUni helps students explore and apply for scholarships
+                  available at top Australian universities.
+                </li>
+                <li>
+                  <span className="font-bold">
+                    Visa and Immigration Assistance:
+                  </span>{" "}
+                  Our team provides guidance on visa applications and ensures
+                  students meet all necessary requirements.
+                </li>
+                <li>
+                  <span className="font-bold">
+                    Internships & Career Support:
+                  </span>{" "}
+                  We connect students with internship opportunities to gain
+                  real-world experience and enhance employability.
                 </li>
               </ul>
             </div>
@@ -440,7 +562,7 @@ export default function PrivacyPage() {
             <div className="lg:w-1/3">
               <div className="relative">
                 <Image
-                  src="https://pickmyuni-bucket.s3.ap-southeast-2.amazonaws.com/static/cheap-level-1-universities-in-australia.webp"
+                  src="https://pickmyuni-bucket.s3.ap-southeast-2.amazonaws.com/static/why_choose_findmyuni.webp"
                   alt="Graduate student celebrating"
                   width={400}
                   height={500}
@@ -448,128 +570,32 @@ export default function PrivacyPage() {
                 />
               </div>
             </div>
-          </div>
-        </div>
-      </section>
-      <section>
-        <div className="bg-brand-secondary py-24">
-          <div className="container mx-auto flex flex-col justify-center">
-            <h2 className="mb-4 text-center text-4xl font-semibold text-white">
-              Why Choose Level 1 Universities in <span>Australia 2025?</span>
+          </section>
+          <section className="container flex flex-col items-center gap-8">
+            <h2 className="text-brand-primary text-center text-h1 leading-tight">
+              FAQs on Level 1 Universities
+              <span className="text-brand-secondary"> in Australia</span>
             </h2>
-            <p className="mb-2 text-center text-white">
-              Level 1 universities in Australia are the most reputable and
-              highly ranked institutions in the country. These universities
-              provide exceptional benefits to students, making them the
-              preferred choice for those seeking excellence in higher education.
-            </p>
-            <div className="mt-8 grid gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-3">
-              {sec3CardData.map((data, idx) => (
-                <div
-                  key={idx}
-                  className="flex h-full flex-col items-center rounded-2xl bg-white p-4 shadow hover:shadow-md"
-                >
-                  {sec3Cards(data)}
-                </div>
-              ))}
+            <div className="mx-auto w-full max-w-4xl">
+              <Accordion type="single" collapsible className="w-full">
+                {accordionData.map((item, idx) => (
+                  <AccordionItem key={idx} value={idx.toString()}>
+                    <AccordionTrigger className="text-brand-primary text-xl font-semibold">
+                      {item.trigger}
+                    </AccordionTrigger>
+                    <AccordionContent>
+                      <div
+                        className="p-4 text-base font-normal [&_li]:mb-1 [&_ul]:list-disc [&_ul]:pl-6"
+                        dangerouslySetInnerHTML={{ __html: item.content }}
+                      />
+                    </AccordionContent>
+                  </AccordionItem>
+                ))}
+              </Accordion>
             </div>
-          </div>{" "}
+          </section>
         </div>
-      </section>
-      <div className="container mx-auto space-y-20 py-12 lg:py-16">
-        <section className="py-13 flex flex-col items-center justify-center bg-[#FAF4F0] p-8 text-center">
-          <h2 className="text-brand-primary mb-4 max-w-[800px] text-center text-4xl font-semibold">
-            How FindMyUni Helps International Students to get into{" "}
-            <span className="text-brand-secondary">Level 1 Universities</span>
-          </h2>
-          <p className="mx-auto max-w-[1000px] text-center">
-            FindMyUni is an Australian-based platform dedicated to assisting
-            international students in selecting the right course and university.
-            We understand that choosing the right institution can be
-            challenging, especially for students moving to a new country. That’s
-            where we come in!
-          </p>
-        </section>
-        <section className="container flex flex-col items-center gap-8 lg:flex-row-reverse">
-          <div className="flex-1">
-            <h2 className="text-brand-primary text-center text-h1 leading-tight md:text-start">
-              Why Choose{" "}
-              <span className="text-brand-secondary">{"FindMyUni?"}</span>
-            </h2>
-            <ul className="my-4 list-inside list-disc space-y-1 pl-4">
-              <li>
-                <span className="font-bold">
-                  Comparisons of Level 1 universities:
-                </span>{" "}
-                We provide detailed comparisons of Level 1 universities based on
-                courses, rankings, tuition fees, and student reviews.
-              </li>
-              <li>
-                <span className="font-bold">Personalized Guidance:</span> Our
-                expert consultants offer one-on-one counseling to help students
-                make informed decisions.
-              </li>
-              <li>
-                <span className="font-bold">Application Assistance:</span> We
-                assist students with university applications, ensuring all
-                requirements are met for a smooth admission process.
-              </li>
-              <li>
-                <span className="font-bold">Scholarship Support:</span>{" "}
-                FindMyUni helps students explore and apply for scholarships
-                available at top Australian universities.
-              </li>
-              <li>
-                <span className="font-bold">
-                  Visa and Immigration Assistance:
-                </span>{" "}
-                Our team provides guidance on visa applications and ensures
-                students meet all necessary requirements.
-              </li>
-              <li>
-                <span className="font-bold">Internships & Career Support:</span>{" "}
-                We connect students with internship opportunities to gain
-                real-world experience and enhance employability.
-              </li>
-            </ul>
-          </div>
-
-          <div className="lg:w-1/3">
-            <div className="relative">
-              <Image
-                src="https://pickmyuni-bucket.s3.ap-southeast-2.amazonaws.com/static/why_choose_findmyuni.webp"
-                alt="Graduate student celebrating"
-                width={400}
-                height={500}
-                className="w-full rounded-lg"
-              />
-            </div>
-          </div>
-        </section>
-        <section className="container flex flex-col items-center gap-8">
-          <h2 className="text-brand-primary text-center text-h1 leading-tight">
-            FAQs on Level 1 Universities
-            <span className="text-brand-secondary"> in Australia</span>
-          </h2>
-          <div className="mx-auto w-full max-w-4xl">
-            <Accordion type="single" collapsible className="w-full">
-              {accordionData.map((item, idx) => (
-                <AccordionItem key={idx} value={idx.toString()}>
-                  <AccordionTrigger className="text-brand-primary text-xl font-semibold">
-                    {item.trigger}
-                  </AccordionTrigger>
-                  <AccordionContent>
-                    <div
-                      className="p-4 text-base font-normal [&_li]:mb-1 [&_ul]:list-disc [&_ul]:pl-6"
-                      dangerouslySetInnerHTML={{ __html: item.content }}
-                    />
-                  </AccordionContent>
-                </AccordionItem>
-              ))}
-            </Accordion>
-          </div>
-        </section>
       </div>
-    </div>
+    </>
   );
 }

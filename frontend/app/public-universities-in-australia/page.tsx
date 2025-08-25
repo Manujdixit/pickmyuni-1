@@ -209,288 +209,313 @@ const accordionData = [
   },
 ];
 
+// FAQ Schema for SEO
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: accordionData.map((item) => ({
+    "@type": "Question",
+    name: item.trigger,
+    acceptedAnswer: {
+      "@type": "Answer",
+      text: item.content.replace(/<[^>]*>/g, "").trim(), // Remove HTML tags for plain text
+    },
+  })),
+};
+
 export default function PrivacyPage() {
   const { colleges, loading, error } = useTopCollegesByType("government");
 
   return (
-    <div className="min-h-screen bg-white text-[#242628]">
-      {/* Hero Section */}
-      <div className="relative h-64 md:h-80 lg:h-96">
-        <Image
-          src="https://pickmyuni-bucket.s3.ap-southeast-2.amazonaws.com/static/level-1-banner.webp"
-          alt="Library with books on shelves"
-          fill
-          className="object-cover"
-          priority
-        />
-        <div className="absolute inset-0 bg-black/40" />
-        <div className="absolute inset-0 flex items-end">
-          <div className="container mx-auto pb-8">
-            <h1 className="text-3xl font-bold text-white md:text-4xl lg:text-5xl">
-              Public Universities in Australia
-            </h1>
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(faqSchema),
+        }}
+      />
+      <div className="min-h-screen bg-white text-[#242628]">
+        {/* Hero Section */}
+        <div className="relative h-64 md:h-80 lg:h-96">
+          <Image
+            src="https://pickmyuni-bucket.s3.ap-southeast-2.amazonaws.com/static/level-1-banner.webp"
+            alt="Library with books on shelves"
+            fill
+            className="object-cover"
+            priority
+          />
+          <div className="absolute inset-0 bg-black/40" />
+          <div className="absolute inset-0 flex items-end">
+            <div className="container mx-auto pb-8">
+              <h1 className="text-3xl font-bold text-white md:text-4xl lg:text-5xl">
+                Public Universities in Australia
+              </h1>
+            </div>
           </div>
         </div>
-      </div>
 
-      {/* Main Content */}
-      <div className="container mx-auto space-y-20 py-12 lg:py-16">
-        {/* Header Section */}
-        <p className="text-lg font-normal">
-          Australia is home to some of the world's best higher education
-          institutions, offering exceptional academic opportunities to students
-          worldwide. For international students looking to pursue higher
-          education, public universities in Australia stand out for their
-          quality education, affordability, and global recognition.
-        </p>
-
-        <section className="flex flex-col justify-center">
-          <h2 className="text-brand-primary mb-4 text-center text-4xl font-semibold">
-            Why Choose Public Universities in{" "}
-            <span className="text-brand-secondary">Australia</span>
-          </h2>
-          <p className="mb-2 text-center">
-            Public universities are government-funded institutions that provide
-            high-quality education and research facilities at subsidized tuition
-            rates. These universities are recognized globally for their academic
-            excellence and strong industry connections. Studying at a public
-            university in Australia ensures students receive an internationally
-            accredited degree that enhances their career prospects.
+        {/* Main Content */}
+        <div className="container mx-auto space-y-20 py-12 lg:py-16">
+          {/* Header Section */}
+          <p className="text-lg font-normal">
+            Australia is home to some of the world's best higher education
+            institutions, offering exceptional academic opportunities to
+            students worldwide. For international students looking to pursue
+            higher education, public universities in Australia stand out for
+            their quality education, affordability, and global recognition.
           </p>
-          <div className="mt-8 grid gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-3">
-            {sec1CardData.map((data, idx) => (
-              <div
-                key={idx}
-                className="flex h-full flex-col items-center bg-[#F6F6F7]"
-              >
-                {sec1Cards(data, true)}
-              </div>
-            ))}
-          </div>
-        </section>
 
-        {!error && (
           <section className="flex flex-col justify-center">
-            <h2 className="text-brand-primary mb-4 text-center text-4xl font-semibold lg:text-start">
-              Top Public Universities Australia for{" "}
-              <span className="text-brand-secondary">
-                International Students
-              </span>
-            </h2>
-            <p className="mb-2 text-center lg:text-start">
-              Below is a list of some of the most prestigious Level 1
-              universities in Australia, known for their academic excellence and
-              outstanding research contributions:
-            </p>
-            <div className="mt-8 grid gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-3">
-              {loading
-                ? Array.from({ length: 10 }).map((_, idx) => (
-                    <Skeleton key={idx} className="h-72 w-full rounded-lg" />
-                  ))
-                : colleges.map((data: College, idx: number) => (
-                    <div
-                      key={data.id}
-                      className="flex h-full flex-col items-center bg-[#F6F6F7] shadow hover:shadow-md"
-                    >
-                      {sec2Cards(data, idx)}
-                    </div>
-                  ))}
-            </div>
-            <p className="mt-8 text-center md:text-start">
-              These institutions are known for their academic excellence,
-              research contributions, and student support services, making them
-              top choices for international students.
-            </p>
-          </section>
-        )}
-      </div>
-      <section>
-        <div className="bg-[#F6F6F7] py-24">
-          <div className="container mx-auto flex flex-col justify-center">
             <h2 className="text-brand-primary mb-4 text-center text-4xl font-semibold">
-              Private vs. Public{" "}
-              <span className="text-brand-secondary"> Universities</span>
+              Why Choose Public Universities in{" "}
+              <span className="text-brand-secondary">Australia</span>
             </h2>
-            <p className="text-center">
-              One of the major concerns for students is deciding between public
-              colleges and universities and private institutions. While both
-              offer quality education, there are key differences:
+            <p className="mb-2 text-center">
+              Public universities are government-funded institutions that
+              provide high-quality education and research facilities at
+              subsidized tuition rates. These universities are recognized
+              globally for their academic excellence and strong industry
+              connections. Studying at a public university in Australia ensures
+              students receive an internationally accredited degree that
+              enhances their career prospects.
             </p>
-            {/* table here */}
-            <UniversityComparisonTable uniType="public" />
-          </div>
-        </div>
-      </section>
-
-      <section>
-        <div className="bg-brand-primary py-24">
-          <div className="container flex flex-col items-center gap-8 text-white lg:flex-row">
-            <div className="flex-1">
-              <h2 className="text-h1 leading-tight text-white">
-                Admission Requirements for Public{" "}
-                <span className="text-brand-secondary">
-                  Universities in Australia
-                </span>
-              </h2>
-              <p>
-                International students who wish to study at a public university
-                in Australia must meet specific admission criteria, which
-                typically include:
-              </p>
-              <ul className="my-4 list-inside list-disc space-y-1 text-white">
-                <li>
-                  <strong>Academic Qualifications:</strong> A recognized high
-                  school diploma or equivalent.
-                </li>
-                <li>
-                  <strong>English Language Proficiency:</strong> IELTS, TOEFL,
-                  or PTE scores meeting university requirements.
-                </li>
-                <li>
-                  <strong>Student Visa:</strong> A valid Australian student visa
-                  (subclass 500).
-                </li>
-                <li>
-                  <strong>Financial Proof:</strong> Evidence of sufficient funds
-                  to cover tuition and living expenses.
-                </li>
-                <li>
-                  <strong>Additional Requirements:</strong> Some courses may
-                  require work experience, portfolios, or additional entrance
-                  tests.
-                </li>
-              </ul>
-            </div>
-
-            <div className="lg:w-1/3">
-              <div className="relative">
-                <Image
-                  src="https://pickmyuni-bucket.s3.ap-southeast-2.amazonaws.com/static/cheap-level-1-universities-in-australia.webp"
-                  alt="Graduate student celebrating"
-                  width={400}
-                  height={500}
-                  className="w-full rounded-lg"
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-      <section>
-        <div className="bg-brand-secondary py-24">
-          <div className="container mx-auto flex flex-col justify-center">
-            <h2 className="mb-4 text-center text-4xl font-semibold text-white">
-              How to Apply to Public Universities in Australia
-            </h2>
             <div className="mt-8 grid gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-3">
-              {sec3CardData.map((data, idx) => (
+              {sec1CardData.map((data, idx) => (
                 <div
                   key={idx}
-                  className={`flex h-full flex-col items-center rounded-2xl bg-white p-4 shadow hover:shadow-md ${
-                    idx === 6 ? "md:col-start-1 md:mx-auto lg:col-start-2" : ""
-                  }`}
+                  className="flex h-full flex-col items-center bg-[#F6F6F7]"
                 >
-                  {sec3Cards(data)}
+                  {sec1Cards(data, true)}
                 </div>
               ))}
             </div>
-          </div>
+          </section>
+
+          {!error && (
+            <section className="flex flex-col justify-center">
+              <h2 className="text-brand-primary mb-4 text-center text-4xl font-semibold lg:text-start">
+                Top Public Universities Australia for{" "}
+                <span className="text-brand-secondary">
+                  International Students
+                </span>
+              </h2>
+              <p className="mb-2 text-center lg:text-start">
+                Below is a list of some of the most prestigious Level 1
+                universities in Australia, known for their academic excellence
+                and outstanding research contributions:
+              </p>
+              <div className="mt-8 grid gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-3">
+                {loading
+                  ? Array.from({ length: 10 }).map((_, idx) => (
+                      <Skeleton key={idx} className="h-72 w-full rounded-lg" />
+                    ))
+                  : colleges.map((data: College, idx: number) => (
+                      <div
+                        key={data.id}
+                        className="flex h-full flex-col items-center bg-[#F6F6F7] shadow hover:shadow-md"
+                      >
+                        {sec2Cards(data, idx)}
+                      </div>
+                    ))}
+              </div>
+              <p className="mt-8 text-center md:text-start">
+                These institutions are known for their academic excellence,
+                research contributions, and student support services, making
+                them top choices for international students.
+              </p>
+            </section>
+          )}
         </div>
-      </section>
-      <div className="container mx-auto space-y-24 py-12 lg:py-16">
-        <section className="">
-          <div className="flex flex-col items-center">
+        <section>
+          <div className="bg-[#F6F6F7] py-24">
+            <div className="container mx-auto flex flex-col justify-center">
+              <h2 className="text-brand-primary mb-4 text-center text-4xl font-semibold">
+                Private vs. Public{" "}
+                <span className="text-brand-secondary"> Universities</span>
+              </h2>
+              <p className="text-center">
+                One of the major concerns for students is deciding between
+                public colleges and universities and private institutions. While
+                both offer quality education, there are key differences:
+              </p>
+              {/* table here */}
+              <UniversityComparisonTable uniType="public" />
+            </div>
+          </div>
+        </section>
+
+        <section>
+          <div className="bg-brand-primary py-24">
+            <div className="container flex flex-col items-center gap-8 text-white lg:flex-row">
+              <div className="flex-1">
+                <h2 className="text-h1 leading-tight text-white">
+                  Admission Requirements for Public{" "}
+                  <span className="text-brand-secondary">
+                    Universities in Australia
+                  </span>
+                </h2>
+                <p>
+                  International students who wish to study at a public
+                  university in Australia must meet specific admission criteria,
+                  which typically include:
+                </p>
+                <ul className="my-4 list-inside list-disc space-y-1 text-white">
+                  <li>
+                    <strong>Academic Qualifications:</strong> A recognized high
+                    school diploma or equivalent.
+                  </li>
+                  <li>
+                    <strong>English Language Proficiency:</strong> IELTS, TOEFL,
+                    or PTE scores meeting university requirements.
+                  </li>
+                  <li>
+                    <strong>Student Visa:</strong> A valid Australian student
+                    visa (subclass 500).
+                  </li>
+                  <li>
+                    <strong>Financial Proof:</strong> Evidence of sufficient
+                    funds to cover tuition and living expenses.
+                  </li>
+                  <li>
+                    <strong>Additional Requirements:</strong> Some courses may
+                    require work experience, portfolios, or additional entrance
+                    tests.
+                  </li>
+                </ul>
+              </div>
+
+              <div className="lg:w-1/3">
+                <div className="relative">
+                  <Image
+                    src="https://pickmyuni-bucket.s3.ap-southeast-2.amazonaws.com/static/cheap-level-1-universities-in-australia.webp"
+                    alt="Graduate student celebrating"
+                    width={400}
+                    height={500}
+                    className="w-full rounded-lg"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+        <section>
+          <div className="bg-brand-secondary py-24">
+            <div className="container mx-auto flex flex-col justify-center">
+              <h2 className="mb-4 text-center text-4xl font-semibold text-white">
+                How to Apply to Public Universities in Australia
+              </h2>
+              <div className="mt-8 grid gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-3">
+                {sec3CardData.map((data, idx) => (
+                  <div
+                    key={idx}
+                    className={`flex h-full flex-col items-center rounded-2xl bg-white p-4 shadow hover:shadow-md ${
+                      idx === 6
+                        ? "md:col-start-1 md:mx-auto lg:col-start-2"
+                        : ""
+                    }`}
+                  >
+                    {sec3Cards(data)}
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+        <div className="container mx-auto space-y-24 py-12 lg:py-16">
+          <section className="">
+            <div className="flex flex-col items-center">
+              <h2 className="text-brand-primary mb-4 text-center text-4xl font-semibold lg:text-start">
+                Popular Courses Offered by Public Universities{" "}
+                <span className="text-brand-secondary">in Australia</span>
+              </h2>
+              <p className="mb-2 text-center lg:text-start">
+                International students can choose from a wide range of popular
+                courses at public universities, including:
+              </p>
+            </div>
+            <ul className="my-4 list-inside list-disc space-y-1">
+              <li>Business & Management</li>
+              <li>Engineering & Technology</li>
+              <li>Medicine & Healthcare</li>
+              <li>Information Technology & Computer Science</li>
+              <li>Law & Legal Studies</li>
+              <li>Environmental Science</li>
+              <li>Media & Communication</li>
+              <li>Hospitality & Tourism</li>
+            </ul>
+          </section>
+          <section className="">
+            <div className="flex flex-col items-center">
+              <h2 className="text-brand-primary mb-4 text-center text-4xl font-semibold lg:text-start">
+                Cost of Studying at Public Universities{" "}
+                <span className="text-brand-secondary">in Australia</span>
+              </h2>
+              <p className="mb-2 text-center lg:text-start">
+                The cost of studying in public universities in Australia varies
+                based on the university and course. On average:
+              </p>
+            </div>
+            <ul className="my-4 list-inside list-disc space-y-1">
+              <li>
+                <strong>Undergraduate Courses:</strong> AUD 20,000 – AUD 45,000
+                per year
+              </li>
+              <li>
+                <strong>Postgraduate Courses:</strong> AUD 22,000 – AUD 50,000
+                per year
+              </li>
+              <li>
+                <strong>Doctoral Degrees:</strong> AUD 18,000 – AUD 42,000 per
+                year
+              </li>
+            </ul>
+            <p>
+              Living expenses, including accommodation, transport, and daily
+              costs, typically range between AUD 20,000 – AUD 25,000 per year.
+            </p>
+          </section>
+          <section className="flex flex-col items-center justify-center">
             <h2 className="text-brand-primary mb-4 text-center text-4xl font-semibold lg:text-start">
-              Popular Courses Offered by Public Universities{" "}
-              <span className="text-brand-secondary">in Australia</span>
+              Final <span className="text-brand-secondary">Thoughts</span>
             </h2>
             <p className="mb-2 text-center lg:text-start">
-              International students can choose from a wide range of popular
-              courses at public universities, including:
+              For international students seeking high-quality education, global
+              recognition, and affordability, public universities in Australia
+              are the best choice. These universities provide excellent academic
+              resources, research opportunities, and career support to help
+              students achieve their professional goals.
             </p>
-          </div>
-          <ul className="my-4 list-inside list-disc space-y-1">
-            <li>Business & Management</li>
-            <li>Engineering & Technology</li>
-            <li>Medicine & Healthcare</li>
-            <li>Information Technology & Computer Science</li>
-            <li>Law & Legal Studies</li>
-            <li>Environmental Science</li>
-            <li>Media & Communication</li>
-            <li>Hospitality & Tourism</li>
-          </ul>
-        </section>
-        <section className="">
-          <div className="flex flex-col items-center">
-            <h2 className="text-brand-primary mb-4 text-center text-4xl font-semibold lg:text-start">
-              Cost of Studying at Public Universities{" "}
-              <span className="text-brand-secondary">in Australia</span>
+            <p>
+              If you’re considering studying in Australia, explore the diverse
+              range of courses and institutions available at public universities
+              and take the first step towards a successful academic journey!
+            </p>
+          </section>
+          <section className="container flex flex-col items-center gap-8">
+            <h2 className="text-brand-primary text-center text-h1 leading-tight">
+              FAQs on Level 1 Universities
+              <span className="text-brand-secondary"> in Australia</span>
             </h2>
-            <p className="mb-2 text-center lg:text-start">
-              The cost of studying in public universities in Australia varies
-              based on the university and course. On average:
-            </p>
-          </div>
-          <ul className="my-4 list-inside list-disc space-y-1">
-            <li>
-              <strong>Undergraduate Courses:</strong> AUD 20,000 – AUD 45,000
-              per year
-            </li>
-            <li>
-              <strong>Postgraduate Courses:</strong> AUD 22,000 – AUD 50,000 per
-              year
-            </li>
-            <li>
-              <strong>Doctoral Degrees:</strong> AUD 18,000 – AUD 42,000 per
-              year
-            </li>
-          </ul>
-          <p>
-            Living expenses, including accommodation, transport, and daily
-            costs, typically range between AUD 20,000 – AUD 25,000 per year.
-          </p>
-        </section>
-        <section className="flex flex-col items-center justify-center">
-          <h2 className="text-brand-primary mb-4 text-center text-4xl font-semibold lg:text-start">
-            Final <span className="text-brand-secondary">Thoughts</span>
-          </h2>
-          <p className="mb-2 text-center lg:text-start">
-            For international students seeking high-quality education, global
-            recognition, and affordability, public universities in Australia are
-            the best choice. These universities provide excellent academic
-            resources, research opportunities, and career support to help
-            students achieve their professional goals.
-          </p>
-          <p>
-            If you’re considering studying in Australia, explore the diverse
-            range of courses and institutions available at public universities
-            and take the first step towards a successful academic journey!
-          </p>
-        </section>
-        <section className="container flex flex-col items-center gap-8">
-          <h2 className="text-brand-primary text-center text-h1 leading-tight">
-            FAQs on Level 1 Universities
-            <span className="text-brand-secondary"> in Australia</span>
-          </h2>
-          <div className="mx-auto w-full max-w-4xl">
-            <Accordion type="single" collapsible className="w-full">
-              {accordionData.map((item, idx) => (
-                <AccordionItem key={idx} value={idx.toString()}>
-                  <AccordionTrigger className="text-brand-primary text-start text-xl font-semibold">
-                    {item.trigger}
-                  </AccordionTrigger>
-                  <AccordionContent>
-                    <div
-                      className="p-4 text-base font-normal [&_li]:mb-1 [&_ul]:list-disc [&_ul]:pl-6"
-                      dangerouslySetInnerHTML={{ __html: item.content }}
-                    />
-                  </AccordionContent>
-                </AccordionItem>
-              ))}
-            </Accordion>
-          </div>
-        </section>
+            <div className="mx-auto w-full max-w-4xl">
+              <Accordion type="single" collapsible className="w-full">
+                {accordionData.map((item, idx) => (
+                  <AccordionItem key={idx} value={idx.toString()}>
+                    <AccordionTrigger className="text-brand-primary text-start text-xl font-semibold">
+                      {item.trigger}
+                    </AccordionTrigger>
+                    <AccordionContent>
+                      <div
+                        className="p-4 text-base font-normal [&_li]:mb-1 [&_ul]:list-disc [&_ul]:pl-6"
+                        dangerouslySetInnerHTML={{ __html: item.content }}
+                      />
+                    </AccordionContent>
+                  </AccordionItem>
+                ))}
+              </Accordion>
+            </div>
+          </section>
+        </div>
       </div>
-    </div>
+    </>
   );
 }
