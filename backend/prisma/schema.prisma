@@ -93,6 +93,7 @@ model Courses {
   is_active          Boolean @default(true)
 
   CollegesCourses CollegesCourses[]
+  specialization  Specialization[]
 
   meta_desc String?
   og_img    String?
@@ -329,6 +330,7 @@ model Stream {
   Colleges        Colleges[]
   Courses         Courses[]
   CollegesCourses CollegesCourses[]
+  specialization Specialization[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -356,4 +358,32 @@ model Newsletter {
   email      String
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
+}
+
+
+model Specialization {
+  id                 Int     @id @default(autoincrement())
+  name        String
+  content            String?
+  duration_in_weeks Int?
+  rating             Float? // Must be between 1 and 10
+  score              Int     @default(1) // Must be between 1 and 999
+  banner_img         String?
+  img1               String?
+  img2               String?
+  slug               String? @unique
+  type               String?
+  is_online          Boolean @default(false)
+  is_active          Boolean @default(true)
+  streamId           Int?
+  course_id          Int?
+
+course Courses? @relation(fields: [course_id], references: [id])
+  stream             Stream? @relation(fields: [streamId], references: [id])
+
+  meta_desc String?
+  og_img    String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
