@@ -168,6 +168,20 @@ const accordionData = [
   },
 ];
 
+// FAQ Schema for SEO
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: accordionData.map((item) => ({
+    "@type": "Question",
+    name: item.trigger,
+    acceptedAnswer: {
+      "@type": "Answer",
+      text: item.content.replace(/<[^>]*>/g, "").trim(), // Remove HTML tags for plain text
+    },
+  })),
+};
+
 const sec1Cards = (data: any, fullHeight = false) => {
   return (
     <div
@@ -240,199 +254,209 @@ const sec3Cards = (data: any) => {
 
 export default function PrivacyPage() {
   return (
-    <div className="min-h-screen bg-white text-[#242628]">
-      {/* Hero Section */}
-      <div className="relative h-64 md:h-80 lg:h-96">
-        <Image
-          src="/globe.png"
-          alt="Library with books on shelves"
-          fill
-          className="object-cover"
-          priority
-        />
-        <div className="absolute inset-0 bg-black/40" />
-        <div className="absolute inset-0 flex items-end">
-          <div className="container mx-auto pb-8">
-            <h1 className="text-3xl font-bold text-white md:text-4xl lg:text-5xl">
-              Level 3 Universities in Australia​
-            </h1>
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(faqSchema),
+        }}
+      />
+      <div className="min-h-screen bg-white text-[#242628]">
+        {/* Hero Section */}
+        <div className="relative h-64 md:h-80 lg:h-96">
+          <Image
+            src="/globe.png"
+            alt="Library with books on shelves"
+            fill
+            className="object-cover"
+            priority
+          />
+          <div className="absolute inset-0 bg-black/40" />
+          <div className="absolute inset-0 flex items-end">
+            <div className="container mx-auto pb-8">
+              <h1 className="text-3xl font-bold text-white md:text-4xl lg:text-5xl">
+                Level 3 Universities in Australia​
+              </h1>
+            </div>
           </div>
         </div>
-      </div>
 
-      {/* Main Content */}
-      <div className="container mx-auto space-y-20 py-12 lg:py-16">
-        {/* Header Section */}
-        <p className="text-lg font-normal">
-          Level 3 universities in Australia are one of the most sought-after
-          study destinations for international students, offering high-quality
-          education and a diverse range of universities to choose from. The
-          universities in Australia are categorized based on their academic
-          performance, research output, and international reputation. Among
-          these, Level 3 Universities provide a balance between affordability
-          and quality education, making them an attractive option for many
-          students. Suppose you are planning to study in Australia and are
-          considering Level 3 Universities. In that case, this guide will
-          provide you with all the necessary details, including why to choose
-          these institutions, how to find them, and a comprehensive list of
-          available options.
-        </p>
-
-        <section className="flex flex-col justify-center">
-          <h2 className="text-brand-primary mb-4 text-center text-4xl font-semibold">
-            Why Choose Level 3 Universities in{" "}
-            <span className="text-brand-secondary">Australia 2025?</span>
-          </h2>
-          <p className="mb-2 text-center">
-            Level 3 Universities in Australia are an excellent choice for
-            students who seek quality education at an affordable cost. Here are
-            some key reasons why you should consider these universities:
+        {/* Main Content */}
+        <div className="container mx-auto space-y-20 py-12 lg:py-16">
+          {/* Header Section */}
+          <p className="text-lg font-normal">
+            Level 3 universities in Australia are one of the most sought-after
+            study destinations for international students, offering high-quality
+            education and a diverse range of universities to choose from. The
+            universities in Australia are categorized based on their academic
+            performance, research output, and international reputation. Among
+            these, Level 3 Universities provide a balance between affordability
+            and quality education, making them an attractive option for many
+            students. Suppose you are planning to study in Australia and are
+            considering Level 3 Universities. In that case, this guide will
+            provide you with all the necessary details, including why to choose
+            these institutions, how to find them, and a comprehensive list of
+            available options.
           </p>
-          <div className="mt-8 grid gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-3">
-            {sec1CardData.map((data, idx) => (
-              <div key={idx} className="flex h-full flex-col bg-[#F6F6F7]">
-                {sec1Cards(data, true)}
-              </div>
-            ))}
-          </div>
-        </section>
 
-        <section className="flex flex-col justify-center">
-          <h2 className="text-brand-primary mb-4 text-center text-4xl font-semibold">
-            List of Level 3 Universities in{" "}
-            <span className="text-brand-secondary">Australia</span>
-          </h2>
-          <p className="mb-2 text-center">
-            Below is a list of some prominent Level 3 Universities in Australia,
-            along with their key features:
-          </p>
-          <div className="mt-8 grid gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-3">
-            {sec2CardData.map((data, idx) => (
-              <div
-                key={idx}
-                className="flex h-full flex-col items-center bg-[#F6F6F7] shadow hover:shadow-md"
-              >
-                {sec2Cards(data, idx)}
-              </div>
-            ))}
-          </div>
-        </section>
-      </div>
-      <section>
-        <div className="bg-brand-secondary py-24">
-          <div className="container mx-auto flex flex-col justify-center">
-            <h2 className="mb-4 text-center text-4xl font-semibold text-white">
-              How to Find the Level 3 Universities <span>in Australia?</span>
+          <section className="flex flex-col justify-center">
+            <h2 className="text-brand-primary mb-4 text-center text-4xl font-semibold">
+              Why Choose Level 3 Universities in{" "}
+              <span className="text-brand-secondary">Australia 2025?</span>
             </h2>
-            <p className="mb-2 text-center text-white">
-              Finding the right university is crucial for a successful academic
-              journey. Here’s how you can identify and select the best Level 3
-              Universities in Australia:
+            <p className="mb-2 text-center">
+              Level 3 Universities in Australia are an excellent choice for
+              students who seek quality education at an affordable cost. Here
+              are some key reasons why you should consider these universities:
             </p>
             <div className="mt-8 grid gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-3">
-              {sec3CardData.map((data, idx) => (
-                <div
-                  key={idx}
-                  className="flex h-full flex-col items-center rounded-2xl bg-white p-4 shadow hover:shadow-md"
-                >
-                  {sec3Cards(data)}
+              {sec1CardData.map((data, idx) => (
+                <div key={idx} className="flex h-full flex-col bg-[#F6F6F7]">
+                  {sec1Cards(data, true)}
                 </div>
               ))}
             </div>
-          </div>{" "}
-        </div>
-      </section>
-      <div className="container mx-auto space-y-20 py-12 lg:py-16">
-        <section className="py-13 flex flex-col items-center justify-center bg-[#FAF4F0] p-8 text-center">
-          <h2 className="text-brand-primary mb-4 max-w-[800px] text-center text-4xl font-semibold">
-            How FindMyUni Helps{" "}
-            <span className="text-brand-secondary">International Students</span>
-          </h2>
-          <p className="mx-auto max-w-[1000px] text-center">
-            Choosing the right university can be overwhelming, especially for
-            international students unfamiliar with the Australian education
-            system. That’s where FindMyUni comes in.
-          </p>
-        </section>
-        <section className="container flex flex-col items-center gap-8 lg:flex-row-reverse">
-          <div className="flex-1">
-            <h2 className="text-brand-primary text-center text-h1 leading-tight md:text-start">
-              Why Choose{" "}
-              <span className="text-brand-secondary">{"FindMyUni?"}</span>
+          </section>
+
+          <section className="flex flex-col justify-center">
+            <h2 className="text-brand-primary mb-4 text-center text-4xl font-semibold">
+              List of Level 3 Universities in{" "}
+              <span className="text-brand-secondary">Australia</span>
             </h2>
-
-            <ul className="my-4 list-inside list-disc space-y-1 pl-4">
-              <li>
-                <span className="font-bold">Personalized Guidance:</span> We
-                provide tailored assistance based on your academic background,
-                career goals, and financial situation.
-              </li>
-              <li>
-                <span className="font-bold">Course Comparison:</span> Our
-                platform allows you to compare universities, courses, tuition
-                fees, and rankings.
-              </li>
-              <li>
-                <span className="font-bold">Application Assistance:</span> From
-                document preparation to visa applications, we assist you at
-                every step.
-              </li>
-              <li>
-                <span className="font-bold">Scholarship Information:</span> We
-                help students find scholarships and financial aid options to
-                ease their financial burden.
-              </li>
-              <li>
-                <span className="font-bold">Internship and Job Support:</span>{" "}
-                We guide students in securing internships and part-time jobs to
-                enhance their practical experience.
-              </li>
-              <li>
-                <span className="font-bold">
-                  OSHC and Accommodation Assistance:
-                </span>{" "}
-                We assist students in finding suitable health insurance (OSHC)
-                and accommodation options in Australia.
-              </li>
-            </ul>
-          </div>
-
-          <div className="lg:w-1/3">
-            <div className="relative">
-              <Image
-                src="https://pickmyuni-bucket.s3.ap-southeast-2.amazonaws.com/static/pr_path3.webp"
-                alt="Graduate student celebrating"
-                width={400}
-                height={500}
-                className="w-full rounded-lg"
-              />
-            </div>
-          </div>
-        </section>
-        <section className="container flex flex-col items-center gap-8">
-          <h2 className="text-brand-primary text-center text-h1 leading-tight">
-            FAQs on Level 3 Universities
-            <span className="text-brand-secondary"> in Australia</span>
-          </h2>
-          <div className="mx-auto w-full max-w-4xl">
-            <Accordion type="single" collapsible className="w-full">
-              {accordionData.map((item, idx) => (
-                <AccordionItem key={idx} value={idx.toString()}>
-                  <AccordionTrigger className="text-brand-primary text-xl font-semibold">
-                    {item.trigger}
-                  </AccordionTrigger>
-                  <AccordionContent>
-                    <div
-                      className="p-4 text-base font-normal [&_li]:mb-1 [&_ul]:list-disc [&_ul]:pl-6"
-                      dangerouslySetInnerHTML={{ __html: item.content }}
-                    />
-                  </AccordionContent>
-                </AccordionItem>
+            <p className="mb-2 text-center">
+              Below is a list of some prominent Level 3 Universities in
+              Australia, along with their key features:
+            </p>
+            <div className="mt-8 grid gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-3">
+              {sec2CardData.map((data, idx) => (
+                <div
+                  key={idx}
+                  className="flex h-full flex-col items-center bg-[#F6F6F7] shadow hover:shadow-md"
+                >
+                  {sec2Cards(data, idx)}
+                </div>
               ))}
-            </Accordion>
+            </div>
+          </section>
+        </div>
+        <section>
+          <div className="bg-brand-secondary py-24">
+            <div className="container mx-auto flex flex-col justify-center">
+              <h2 className="mb-4 text-center text-4xl font-semibold text-white">
+                How to Find the Level 3 Universities <span>in Australia?</span>
+              </h2>
+              <p className="mb-2 text-center text-white">
+                Finding the right university is crucial for a successful
+                academic journey. Here’s how you can identify and select the
+                best Level 3 Universities in Australia:
+              </p>
+              <div className="mt-8 grid gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-3">
+                {sec3CardData.map((data, idx) => (
+                  <div
+                    key={idx}
+                    className="flex h-full flex-col items-center rounded-2xl bg-white p-4 shadow hover:shadow-md"
+                  >
+                    {sec3Cards(data)}
+                  </div>
+                ))}
+              </div>
+            </div>{" "}
           </div>
         </section>
+        <div className="container mx-auto space-y-20 py-12 lg:py-16">
+          <section className="py-13 flex flex-col items-center justify-center bg-[#FAF4F0] p-8 text-center">
+            <h2 className="text-brand-primary mb-4 max-w-[800px] text-center text-4xl font-semibold">
+              How FindMyUni Helps{" "}
+              <span className="text-brand-secondary">
+                International Students
+              </span>
+            </h2>
+            <p className="mx-auto max-w-[1000px] text-center">
+              Choosing the right university can be overwhelming, especially for
+              international students unfamiliar with the Australian education
+              system. That’s where FindMyUni comes in.
+            </p>
+          </section>
+          <section className="container flex flex-col items-center gap-8 lg:flex-row-reverse">
+            <div className="flex-1">
+              <h2 className="text-brand-primary text-center text-h1 leading-tight md:text-start">
+                Why Choose{" "}
+                <span className="text-brand-secondary">{"FindMyUni?"}</span>
+              </h2>
+
+              <ul className="my-4 list-inside list-disc space-y-1 pl-4">
+                <li>
+                  <span className="font-bold">Personalized Guidance:</span> We
+                  provide tailored assistance based on your academic background,
+                  career goals, and financial situation.
+                </li>
+                <li>
+                  <span className="font-bold">Course Comparison:</span> Our
+                  platform allows you to compare universities, courses, tuition
+                  fees, and rankings.
+                </li>
+                <li>
+                  <span className="font-bold">Application Assistance:</span>{" "}
+                  From document preparation to visa applications, we assist you
+                  at every step.
+                </li>
+                <li>
+                  <span className="font-bold">Scholarship Information:</span> We
+                  help students find scholarships and financial aid options to
+                  ease their financial burden.
+                </li>
+                <li>
+                  <span className="font-bold">Internship and Job Support:</span>{" "}
+                  We guide students in securing internships and part-time jobs
+                  to enhance their practical experience.
+                </li>
+                <li>
+                  <span className="font-bold">
+                    OSHC and Accommodation Assistance:
+                  </span>{" "}
+                  We assist students in finding suitable health insurance (OSHC)
+                  and accommodation options in Australia.
+                </li>
+              </ul>
+            </div>
+
+            <div className="lg:w-1/3">
+              <div className="relative">
+                <Image
+                  src="https://pickmyuni-bucket.s3.ap-southeast-2.amazonaws.com/static/pr_path3.webp"
+                  alt="Graduate student celebrating"
+                  width={400}
+                  height={500}
+                  className="w-full rounded-lg"
+                />
+              </div>
+            </div>
+          </section>
+          <section className="container flex flex-col items-center gap-8">
+            <h2 className="text-brand-primary text-center text-h1 leading-tight">
+              FAQs on Level 3 Universities
+              <span className="text-brand-secondary"> in Australia</span>
+            </h2>
+            <div className="mx-auto w-full max-w-4xl">
+              <Accordion type="single" collapsible className="w-full">
+                {accordionData.map((item, idx) => (
+                  <AccordionItem key={idx} value={idx.toString()}>
+                    <AccordionTrigger className="text-brand-primary text-xl font-semibold">
+                      {item.trigger}
+                    </AccordionTrigger>
+                    <AccordionContent>
+                      <div
+                        className="p-4 text-base font-normal [&_li]:mb-1 [&_ul]:list-disc [&_ul]:pl-6"
+                        dangerouslySetInnerHTML={{ __html: item.content }}
+                      />
+                    </AccordionContent>
+                  </AccordionItem>
+                ))}
+              </Accordion>
+            </div>
+          </section>
+        </div>
       </div>
-    </div>
+    </>
   );
 }

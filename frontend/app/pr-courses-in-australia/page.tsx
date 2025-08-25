@@ -58,6 +58,20 @@ const faqData = [
   },
 ];
 
+// FAQ Schema for SEO
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: faqData.map((item) => ({
+    "@type": "Question",
+    name: item.question,
+    acceptedAnswer: {
+      "@type": "Answer",
+      text: item.answer, // Plain text already
+    },
+  })),
+};
+
 export const metadata: Metadata = {
   title:
     "Top PR Courses in Australia by PickMyUni | Compare & Choose the Right Path",
@@ -84,6 +98,12 @@ export const metadata: Metadata = {
 export default function PrPath() {
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(faqSchema),
+        }}
+      />
       <div className="min-h-screen bg-white">
         {/* Hero Section */}
         <div className="relative h-64 md:h-80 lg:h-96">
