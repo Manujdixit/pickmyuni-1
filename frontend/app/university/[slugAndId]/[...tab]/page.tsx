@@ -1,7 +1,6 @@
 import React from "react";
 import { notFound, redirect } from "next/navigation";
 import CampusesContent from "@/components/university-pages/campuses/CampusesContent";
-import FAQsContent from "@/components/university-pages/faqs/FAQsContent";
 import InfoContent from "@/components/university-pages/info/InfoContent";
 import CoursesContent from "@/components/university-pages/courses/CoursesContent";
 import CareersContent from "@/components/university-pages/careers/CareersContent";
@@ -15,6 +14,7 @@ import ReviewsContent from "@/components/university-pages/reviews/ReviewsContent
 import MoreContent from "@/components/university-pages/more/MoreContent";
 import CollegeCourses from "@/components/university-pages/courses/CollegeCourses";
 import { validTabs } from "@/components/university-pages/constants";
+import FAQsContent from "@/components/university-pages/faqs/FAQsContent";
 
 const getEndpointForTab = (tab: string, id: number): string | null => {
   const baseUrl = process.env.API_URL || process.env.NEXT_PUBLIC_API_URL;
