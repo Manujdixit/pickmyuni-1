@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { prisma } from "../../lib/prisma";
-import { ArticlesSilos } from "@prisma/client"; // Add this import
+import { ArticlesSilos } from "@prisma/client";
 
 /**
  * @swagger
