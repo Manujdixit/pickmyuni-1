@@ -1,4 +1,3 @@
-"use client";
 import {
   Accordion,
   AccordionItem,
@@ -6,10 +5,10 @@ import {
   AccordionContent,
 } from "@/components/ui/radix-accordion";
 import Image from "next/image";
-import { useTopCollegesByType } from "@/hooks/useTopCollegesByType";
 import { CheckCircle2 } from "lucide-react";
 import { Intake2025Table } from "@/components/Intake2025Table";
 import IntakeApplicationSteps from "@/components/IntakeApplicationsSteps";
+import { Metadata } from "next";
 
 const sec1CardData = [
   {
@@ -245,6 +244,31 @@ const descriptionData = [
   },
 ];
 
+export const metadata: Metadata = {
+  title: "Australia Intake 2025 for International Students | PickMyUni",
+  description:
+    "Explore Australia Intake 2025 for international students. Learn about February, July, November intakes, deadlines, eligibility criteria, and benefits of studying in Australia with PickMyUni.",
+  keywords: [
+    "Australia intake 2025",
+    "international students Australia",
+    "February intake Australia",
+    "July intake Australia",
+    "November intake Australia",
+    "Australia university intakes",
+    "study in Australia 2025",
+    "Australian universities",
+    "university comparison",
+    "courses in Australia",
+    "PickMyUni",
+    "scholarships Australia",
+    "student resources",
+    "PR pathway universities",
+    "international student intake Australia",
+    "Australia admission deadlines",
+    "Australia visa requirements",
+  ],
+};
+
 // FAQ Schema for SEO
 const faqSchema = {
   "@context": "https://schema.org",
@@ -260,8 +284,6 @@ const faqSchema = {
 };
 
 export default function PrivacyPage() {
-  const { colleges, loading, error } = useTopCollegesByType("government");
-
   return (
     <>
       <script
@@ -402,7 +424,7 @@ export default function PrivacyPage() {
             </p>
             <div className="space-y-4">
               {descriptionData.map((data, idx) => (
-                <div className="rounded-2xl bg-[#25476A] p-9">
+                <div key={idx} className="rounded-2xl bg-[#25476A] p-9">
                   <h3 className="text-[26px] font-semibold text-white">
                     <span className="text-brand-secondary">{data.title1}</span>{" "}
                     {data.title2}

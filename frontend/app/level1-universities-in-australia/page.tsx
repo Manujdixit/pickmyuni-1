@@ -4,6 +4,7 @@ import {
   AccordionTrigger,
   AccordionContent,
 } from "@/components/ui/radix-accordion";
+import { Metadata } from "next";
 import Image from "next/image";
 
 const sec1CardData = [
@@ -258,6 +259,30 @@ const accordionData = [
           These institutions are recognized for their academic excellence and low immigration risk profiles.`,
   },
 ];
+
+export const metadata: Metadata = {
+  title: "Level 1 Universities in Australia | PickMyUni",
+  description:
+    "Discover Level 1 universities in Australia for international students. Explore top Assessment Level 1 universities, benefits, rankings, and admission processes with PickMyUni.",
+  keywords: [
+    "level 1 universities Australia",
+    "assessment level 1 universities Australia",
+    "top universities Australia",
+    "AL1 universities Australia",
+    "best universities Australia",
+    "international students Australia",
+    "Australian universities",
+    "university comparison",
+    "courses in Australia",
+    "PickMyUni",
+    "scholarships Australia",
+    "student resources",
+    "PR pathway universities",
+    "Australia admission",
+    "university rankings Australia",
+    "top ranked universities Australia",
+  ],
+};
 
 // FAQ Schema for SEO
 const faqSchema = {

@@ -4,6 +4,7 @@ import {
   AccordionTrigger,
   AccordionContent,
 } from "@/components/ui/radix-accordion";
+import { Metadata } from "next";
 import Image from "next/image";
 
 const sec1CardData = [
@@ -167,6 +168,31 @@ const accordionData = [
       "No, a Level 3 qualification is not the same as a degree. A bachelor's degree is AQF Level 7, requiring more advanced academic and professional knowledge.",
   },
 ];
+
+export const metadata: Metadata = {
+  title: "Australia Intake 2025 for International Students | PickMyUni",
+  description:
+    "Explore Australia Intake 2025 for international students. Learn about February, July, November intakes, deadlines, eligibility criteria, and benefits of studying in Australia with PickMyUni.",
+  keywords: [
+    "Australia intake 2025",
+    "international students Australia",
+    "February intake Australia",
+    "July intake Australia",
+    "November intake Australia",
+    "Australia university intakes",
+    "study in Australia 2025",
+    "Australian universities",
+    "university comparison",
+    "courses in Australia",
+    "PickMyUni",
+    "scholarships Australia",
+    "student resources",
+    "PR pathway universities",
+    "international student intake Australia",
+    "Australia admission deadlines",
+    "Australia visa requirements",
+  ],
+};
 
 // FAQ Schema for SEO
 const faqSchema = {
