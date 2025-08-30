@@ -231,7 +231,7 @@ const descriptionData = [
       "The April intake is a lesser-known but valuable opportunity for students looking to start their studies without waiting for the major February or July intakes. Not all universities have an April intake, but those that do typically offer diploma programs, foundation courses, and some postgraduate degrees. This intake is ideal for students who need extra time for visa processing, English proficiency tests, or financial arrangements.",
   },
   {
-    title1: "April",
+    title1: "June",
     title2: "Intake Australia",
     description1:
       "The June intake is another great option, especially for students who want to start mid-year but missed the main February intake. Several universities and institutions open admissions for business, IT, and vocational courses in June. This intake allows students to enter the academic cycle smoothly while avoiding the peak application rush. Additionally, starting in June means completing the program earlier than those who join in July.",
