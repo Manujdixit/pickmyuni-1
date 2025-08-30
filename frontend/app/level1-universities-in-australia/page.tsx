@@ -4,8 +4,6 @@ import {
   AccordionTrigger,
   AccordionContent,
 } from "@/components/ui/radix-accordion";
-import { url } from "inspector";
-import { HelpCircle } from "lucide-react";
 import Image from "next/image";
 
 const sec1CardData = [
