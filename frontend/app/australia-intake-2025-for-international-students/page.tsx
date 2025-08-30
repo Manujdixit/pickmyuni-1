@@ -1,4 +1,3 @@
-"use client";
 import {
   Accordion,
   AccordionItem,
@@ -6,10 +5,10 @@ import {
   AccordionContent,
 } from "@/components/ui/radix-accordion";
 import Image from "next/image";
-import { useTopCollegesByType } from "@/hooks/useTopCollegesByType";
 import { CheckCircle2 } from "lucide-react";
 import { Intake2025Table } from "@/components/Intake2025Table";
 import IntakeApplicationSteps from "@/components/IntakeApplicationsSteps";
+import { Metadata } from "next";
 
 const sec1CardData = [
   {
@@ -232,7 +231,7 @@ const descriptionData = [
       "The April intake is a lesser-known but valuable opportunity for students looking to start their studies without waiting for the major February or July intakes. Not all universities have an April intake, but those that do typically offer diploma programs, foundation courses, and some postgraduate degrees. This intake is ideal for students who need extra time for visa processing, English proficiency tests, or financial arrangements.",
   },
   {
-    title1: "April",
+    title1: "June",
     title2: "Intake Australia",
     description1:
       "The June intake is another great option, especially for students who want to start mid-year but missed the main February intake. Several universities and institutions open admissions for business, IT, and vocational courses in June. This intake allows students to enter the academic cycle smoothly while avoiding the peak application rush. Additionally, starting in June means completing the program earlier than those who join in July.",
@@ -244,6 +243,31 @@ const descriptionData = [
       "The September intake is growing in popularity among international students. While not as large as the February or July intakes, it provides a solid opportunity for those looking to begin their studies in the second half of the year. Many private colleges, TAFEs, and universities offer courses in fields like business, healthcare, and engineering during this intake. It’s particularly useful for students aligning their studies with visa approvals, financial readiness, or previous academic schedules. Business and Management, Information Technology, Engineering, Health Sciences, Environmental Science, Finance and Accounting are some September intake courses in Australia​.",
   },
 ];
+
+export const metadata: Metadata = {
+  title: "Australia Intake 2025 for International Students | PickMyUni",
+  description:
+    "Explore Australia Intake 2025 for international students. Learn about February, July, November intakes, deadlines, eligibility criteria, and benefits of studying in Australia with PickMyUni.",
+  keywords: [
+    "Australia intake 2025",
+    "international students Australia",
+    "February intake Australia",
+    "July intake Australia",
+    "November intake Australia",
+    "Australia university intakes",
+    "study in Australia 2025",
+    "Australian universities",
+    "university comparison",
+    "courses in Australia",
+    "PickMyUni",
+    "scholarships Australia",
+    "student resources",
+    "PR pathway universities",
+    "international student intake Australia",
+    "Australia admission deadlines",
+    "Australia visa requirements",
+  ],
+};
 
 // FAQ Schema for SEO
 const faqSchema = {
@@ -260,8 +284,6 @@ const faqSchema = {
 };
 
 export default function PrivacyPage() {
-  const { colleges, loading, error } = useTopCollegesByType("government");
-
   return (
     <>
       <script
@@ -402,7 +424,7 @@ export default function PrivacyPage() {
             </p>
             <div className="space-y-4">
               {descriptionData.map((data, idx) => (
-                <div className="rounded-2xl bg-[#25476A] p-9">
+                <div key={idx} className="rounded-2xl bg-[#25476A] p-9">
                   <h3 className="text-[26px] font-semibold text-white">
                     <span className="text-brand-secondary">{data.title1}</span>{" "}
                     {data.title2}

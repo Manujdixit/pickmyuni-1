@@ -5,6 +5,7 @@ import {
   AccordionContent,
 } from "@/components/ui/radix-accordion";
 import { HelpCircle } from "lucide-react";
+import { Metadata } from "next";
 import Image from "next/image";
 
 const sec1CardData = [
@@ -195,6 +196,30 @@ const accordionData = [
       "The University of Tasmania is typically classified as a Level 2 university. It offers comprehensive programs and has research strengths in specific areas but does not consistently rank among Australia's top-tier institutions.",
   },
 ];
+
+export const metadata: Metadata = {
+  title: "Level 2 Universities in Australia | PickMyUni",
+  description:
+    "Discover Level 2 universities in Australia for international students. Explore affordable tuition, practical learning, and quality education at Assessment Level 2 universities with PickMyUni.",
+  keywords: [
+    "level 2 universities Australia",
+    "assessment level 2 universities Australia",
+    "AL2 universities Australia",
+    "affordable universities Australia",
+    "practical learning Australia",
+    "international students Australia",
+    "Australian universities",
+    "university comparison",
+    "courses in Australia",
+    "PickMyUni",
+    "scholarships Australia",
+    "student resources",
+    "PR pathway universities",
+    "Australia admission",
+    "university rankings Australia",
+    "best level 2 universities Australia",
+  ],
+};
 
 // FAQ Schema for SEO
 const faqSchema = {
