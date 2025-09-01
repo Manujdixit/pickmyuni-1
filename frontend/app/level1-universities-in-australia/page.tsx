@@ -6,6 +6,41 @@ import {
 } from "@/components/ui/radix-accordion";
 import { Metadata } from "next";
 import Image from "next/image";
+import { CollegeListSection } from "@/components/CollegeListSection";
+
+async function fetchTopCollegesByLevel(
+  level: string,
+  limit: number = 10,
+): Promise<any> {
+  try {
+    const params = new URLSearchParams({
+      limit: limit.toString(),
+      sortBy: "score_desc",
+      level: level,
+    });
+
+    const url = `${process.env.NEXT_PUBLIC_API_URL}/api/v1/college/list?${params.toString()}`;
+
+    const response = await fetch(url, {
+      next: { revalidate: 60 * 60 * 24 * 7 },
+    });
+
+    if (!response.ok) {
+      throw new Error(`Failed to fetch colleges: ${response.status}`);
+    }
+
+    const data = await response.json();
+
+    if (data.success && data.data?.colleges) {
+      return data.data.colleges;
+    } else {
+      return [];
+    }
+  } catch (err) {
+    console.error("Error fetching colleges:", err);
+    return [];
+  }
+}
 
 const sec1CardData = [
   {
@@ -360,7 +395,9 @@ const sec3Cards = (data: any) => {
   );
 };
 
-export default function PrivacyPage() {
+export default async function Level1UniversitiesPage() {
+  const colleges = await fetchTopCollegesByLevel("level 1");
+
   return (
     <>
       <script
@@ -429,27 +466,14 @@ export default function PrivacyPage() {
             </div>
           </section>
 
-          <section className="flex flex-col justify-center">
-            <h2 className="text-brand-primary mb-4 text-center text-4xl font-semibold">
-              List of Level 1 Universities in{" "}
-              <span className="text-brand-secondary">Australia</span>
-            </h2>
-            <p className="mb-2 text-center">
-              Below is a list of some of the most prestigious Level 1
-              universities in Australia, known for their academic excellence and
-              outstanding research contributions:
-            </p>
-            <div className="mt-8 grid gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-3">
-              {sec2CardData.map((data, idx) => (
-                <div
-                  key={idx}
-                  className="flex h-full flex-col items-center bg-[#F6F6F7] shadow hover:shadow-md"
-                >
-                  {sec2Cards(data, idx)}
-                </div>
-              ))}
-            </div>
-          </section>
+          <CollegeListSection
+            colleges={colleges}
+            loading={false}
+            error={null}
+            title="List of Level 1 Universities in Australia"
+            description="Below is a list of some of the most prestigious Level 1 universities in Australia, known for their academic excellence and outstanding research contributions:"
+            level="level 1"
+          />
         </div>
         <section>
           <div className="bg-brand-primary py-24">
@@ -536,7 +560,7 @@ export default function PrivacyPage() {
               That’s where we come in!
             </p>
           </section>
-          <section className="container flex flex-col items-center gap-8 lg:flex-row-reverse">
+          <section className="flex flex-col items-center gap-8 lg:flex-row-reverse">
             <div className="flex-1">
               <h2 className="text-brand-primary text-center text-h1 leading-tight md:text-start">
                 Why Choose{" "}

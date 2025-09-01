@@ -66,7 +66,9 @@ export function useInfiniteUniversityList(initialParams: any = {}) {
         if (queryParams.streamname)
           searchParams.append("streamname", queryParams.streamname);
         if (queryParams.type) searchParams.append("type", queryParams.type);
-        if (queryParams.level) searchParams.append("level", queryParams.level);
+        if (queryParams.level) {
+          searchParams.append("level", queryParams.level.replace(/-/g, " "));
+        }
         if (queryParams.min_fees)
           searchParams.append("min_fees", queryParams.min_fees.toString());
         if (queryParams.max_fees)

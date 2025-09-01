@@ -8,6 +8,7 @@ import Image from "next/image";
 import { notFound, redirect } from "next/navigation";
 import { Metadata } from "next";
 import styles from "@/app/styles/page.module.css";
+import { CollegeListSection } from "@/components/CollegeListSection";
 
 interface CityData {
   city: {
@@ -37,6 +38,39 @@ async function fetchCity(id: number): Promise<CityData | null> {
   } catch (error) {
     // console.error("Error fetching city:", error);
     return null;
+  }
+}
+
+async function fetchTopCollegesByLevel(
+  limit: number = 10,
+  cityId: string,
+): Promise<any> {
+  try {
+    const params = new URLSearchParams();
+    params.append("limit", limit.toString());
+    params.append("sortBy", "score_desc");
+    params.append("city", cityId);
+
+    const url = `${process.env.NEXT_PUBLIC_API_URL}/api/v1/college/list?${params.toString()}`;
+
+    const response = await fetch(url, {
+      next: { revalidate: 60 * 60 * 24 * 7 },
+    });
+
+    if (!response.ok) {
+      throw new Error(`Failed to fetch colleges: ${response.status}`);
+    }
+
+    const data = await response.json();
+
+    if (data.success && data.data?.colleges) {
+      return data.data.colleges;
+    } else {
+      return [];
+    }
+  } catch (err) {
+    console.error("Error fetching colleges:", err);
+    return [];
   }
 }
 
@@ -116,6 +150,8 @@ export default async function PrPath({
     redirect(`/city/${city.city.slug}-${city.city.id}`);
   }
 
+  const colleges = await fetchTopCollegesByLevel(10, cityid);
+
   return (
     <>
       <div className="min-h-screen bg-white">
@@ -148,6 +184,17 @@ export default async function PrPath({
             />
           )}
         </div>
+
+        <div className="container mx-auto pb-24">
+          <CollegeListSection
+            colleges={colleges}
+            loading={false}
+            error={null}
+            title={`List of Top Universities in ${city.city.name}`}
+            description={`Below is a list of some of the top universities in ${city.city.name}, offering affordable tuition, diverse course offerings, and a range of student support services.`}
+          />
+        </div>
+
         <div className="bg-brand-primary border-b py-24">
           <div className="container flex flex-col items-center gap-8 lg:flex-row-reverse">
             <div className="flex-1">

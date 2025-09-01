@@ -6,6 +6,7 @@ import { Article } from "@/types/search";
 import { Metadata } from "next";
 import dynamic from "next/dynamic";
 import dayjs from "dayjs";
+import { tagSanatize } from "@/utils/tagsanatize";
 
 const SuggestedArticles = dynamic(
   () => import("@/components/SuggestedArticles"),
@@ -17,6 +18,7 @@ async function getArticle(id: number): Promise<Article | null> {
   try {
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_API_URL}/api/v1/articles/${id}`,
+      { next: { revalidate: 60 * 60 * 24 * 7 } },
     );
 
     if (!response.ok) {
@@ -64,7 +66,7 @@ export async function generateMetadata({
   }
 
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://pickmyuni.com";
-  const articleUrl = `${siteUrl}/student-resources/${article.slug}-${article.id}`;
+  const articleUrl = `${siteUrl}/student-resources/${tagSanatize(article.slug)}-${article.id}`;
 
   return {
     title: `${article.title} | PickMyUni`,
@@ -133,35 +135,36 @@ export default async function Page({
   }
 
   // If the slug is incorrect, redirect to correct URL
-  if (article.slug && slug !== article.slug) {
-    redirect(`/student-resources/${article.slug}-${article.id}`);
+  if (article.slug && slug !== tagSanatize(article.slug)) {
+    redirect(`/student-resources/${tagSanatize(article.slug)}-${article.id}`);
   }
 
   // Generate the current page URL for social sharing
   const currentUrl = `${
     process.env.NEXT_PUBLIC_SITE_URL || "https://pickmyuni.com"
-  }/student-resources/${article.slug}-${article.id}`;
+  }/student-resources/${tagSanatize(article.slug)}-${article.id}`;
 
   return (
     <div className="bg-white font-sans">
       {/* Hero Section */}
       <section className="relative h-[336px] w-full text-white">
         <Image
-          src="/transfer.svg"
+          src={article.img1 || "/transfer.svg"}
           alt="University campus background"
           fill
           className="object-cover"
           priority
+          fetchPriority="high"
           sizes="100vw"
           quality={85}
         />
-        <div className="absolute inset-0 bg-black/20" />
+        <div className="absolute inset-0 bg-black/70" />
         <div className="absolute inset-0 flex items-center justify-center">
           <div className="container mx-auto pb-8 text-center">
             {/* Date Badge */}
             {article?.createdAt && (
               <div className="mb-4 inline-block bg-orange-500 px-4 py-2 text-sm font-medium uppercase text-white">
-                {dayjs(article?.createdAt).format("MMMM Do, YYYY")}
+                {dayjs(article?.createdAt).format("MMMM DD, YYYY")}
               </div>
             )}
 

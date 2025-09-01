@@ -135,8 +135,6 @@ function RecentArticles() {
       ? articles
       : articles.filter((article) => article.silos === selectedSilo);
 
-  console.log({ filteredArticles });
-
   // Scroll event handler
   const handleScroll = useCallback(() => {
     // Prevent multiple simultaneous requests
@@ -215,7 +213,6 @@ function RecentArticles() {
   }
 
   if (error) {
-    console.log(error);
     return notFound();
   }
 

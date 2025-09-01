@@ -45,7 +45,7 @@ export function buildUniversitySlug(filters: {
     );
   if (filters.level)
     parts.push(
-      "level",
+      "levels",
       ...filters.level
         .toLowerCase()
         .split(/\s+/)
@@ -97,7 +97,7 @@ export function parseSlugToFilters(slug: string) {
     "from",
     "upto",
     "type",
-    "level",
+    "levels",
     "search",
   ];
 
@@ -137,7 +137,7 @@ export function parseSlugToFilters(slug: string) {
         filters.type = typeWords.join("-");
       }
     }
-    if (words[i] === "level") {
+    if (words[i] === "levels") {
       const levelWords = getValuesBetweenKeywords(i);
       if (levelWords.length > 0) {
         filters.level = levelWords.join("-");
