@@ -24,6 +24,7 @@ async function fetchCity(id: number): Promise<CityData | null> {
   try {
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_API_URL}/api/v1/city/${id}`,
+      { next: { revalidate: 60 * 60 * 24 } },
     );
 
     if (!response.ok) {
