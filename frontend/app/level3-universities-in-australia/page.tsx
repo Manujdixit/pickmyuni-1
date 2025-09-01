@@ -6,6 +6,41 @@ import {
 } from "@/components/ui/radix-accordion";
 import { Metadata } from "next";
 import Image from "next/image";
+import { CollegeListSection } from "@/components/CollegeListSection";
+
+async function fetchTopCollegesByLevel(
+  level: string,
+  limit: number = 10,
+): Promise<any> {
+  try {
+    const params = new URLSearchParams({
+      limit: limit.toString(),
+      sortBy: "score_desc",
+      level: level,
+    });
+
+    const url = `${process.env.NEXT_PUBLIC_API_URL}/api/v1/college/list?${params.toString()}`;
+
+    const response = await fetch(url, {
+      next: { revalidate: 60 * 60 * 24 * 7 },
+    });
+
+    if (!response.ok) {
+      throw new Error(`Failed to fetch colleges: ${response.status}`);
+    }
+
+    const data = await response.json();
+
+    if (data.success && data.data?.colleges) {
+      return data.data.colleges;
+    } else {
+      return [];
+    }
+  } catch (err) {
+    console.error("Error fetching colleges:", err);
+    return [];
+  }
+}
 
 const sec1CardData = [
   {
@@ -52,56 +87,56 @@ const sec1CardData = [
   },
 ];
 
-const sec2CardData = [
-  {
-    title: "Federation University Australia",
-    description: `<ul><li><strong>Location:</strong> Victoria</li>
-<li><strong>Overview:</strong> Federation University offers a range of undergraduate and postgraduate programs with a focus on hands-on learning.</li>
-<li><strong>Popular Courses:</strong> Business, Engineering, IT, Nursing, and Education.</li>
-<li><strong>Why Choose?</strong> Affordable tuition fees, strong industry partnerships, and regional campus benefits.</li></ul>`,
-    url: "https://pickmyuni-bucket.s3.ap-southeast-2.amazonaws.com/static/federation_university_australia_fua.webp",
-  },
-  {
-    title: "Charles Darwin University (CDU)",
-    description: `<ul><li><strong>Location:</strong> Northern Territory</li>
-<li><strong>Overview:</strong> CDU is known for its research-based programs and innovative learning methodologies.</li>
-<li><strong>Popular Courses:</strong> Environmental Science, Indigenous Knowledge, Business, and Nursing.</li>
-<li><strong>Why Choose?</strong> Flexible learning options and a focus on regional and Indigenous education. Also best level 3 universities in Australia for international students.</li></ul>`,
-    url: "https://pickmyuni-bucket.s3.ap-southeast-2.amazonaws.com/static/charles_darwin_university_cdu.webp",
-  },
-  {
-    title: "University of Southern Queensland (USQ)",
-    description: `<ul><li><strong>Location:</strong> Queensland</li>
-<li><strong>Overview:</strong> USQ provides student-focused learning and career-ready programs.</li>
-<li><strong>Popular Courses:</strong> Aviation, Psychology, Engineering, and Agriculture.</li>
-<li><strong>Why Choose?</strong> Strong online education programs and industry-relevant curriculum.</li></ul>`,
-    url: "https://pickmyuni-bucket.s3.ap-southeast-2.amazonaws.com/static/university_of_southern_queensland_usq.webp",
-  },
-  {
-    title: "Central Queensland University (CQU)",
-    description: `<ul><li><strong>Location:</strong> Queensland</li>
-<li><strong>Overview:</strong> CQU has a reputation for providing industry-focused courses with practical training.</li>
-<li><strong>Popular Courses:</strong> Allied Health, IT, Business, and Social Work.</li>
-<li><strong>Why Choose?</strong> High graduate employability rates and affordable tuition.</li></ul>`,
-    url: "https://pickmyuni-bucket.s3.ap-southeast-2.amazonaws.com/static/central_queensland_university_cqu.webp",
-  },
-  {
-    title: "Southern Cross University (SCU)",
-    description: `<ul><li><strong>Location:</strong> New South Wales & Queensland</li>
-<li><strong>Overview:</strong> SCU offers flexible study options, including online and hybrid programs.</li>
-<li><strong>Popular Courses:</strong> Marine Science, Arts, Business, and Tourism.</li>
-<li><strong>Why Choose?</strong> Emphasis on research excellence and regional campus accessibility.</li></ul>`,
-    url: "https://pickmyuni-bucket.s3.ap-southeast-2.amazonaws.com/static/southern_cross_university_scu.webp",
-  },
-  {
-    title: "Victoria University (VU)",
-    description: `<ul><li><strong>Location:</strong> Melbourne, Victoria</li>
-<li><strong>Overview:</strong> VU follows a block model of education, ensuring focused learning.</li>
-<li><strong>Popular Courses:</strong> Sports Science, Hospitality, Business, and IT.</li>
-<li><strong>Why Choose?</strong> Strong industry connections and work-integrated learning opportunities.</li></ul>`,
-    url: "https://pickmyuni-bucket.s3.ap-southeast-2.amazonaws.com/static/victoria_university_vu.webp",
-  },
-];
+// const sec2CardData = [
+//   {
+//     title: "Federation University Australia",
+//     description: `<ul><li><strong>Location:</strong> Victoria</li>
+// <li><strong>Overview:</strong> Federation University offers a range of undergraduate and postgraduate programs with a focus on hands-on learning.</li>
+// <li><strong>Popular Courses:</strong> Business, Engineering, IT, Nursing, and Education.</li>
+// <li><strong>Why Choose?</strong> Affordable tuition fees, strong industry partnerships, and regional campus benefits.</li></ul>`,
+//     url: "https://pickmyuni-bucket.s3.ap-southeast-2.amazonaws.com/static/federation_university_australia_fua.webp",
+//   },
+//   {
+//     title: "Charles Darwin University (CDU)",
+//     description: `<ul><li><strong>Location:</strong> Northern Territory</li>
+// <li><strong>Overview:</strong> CDU is known for its research-based programs and innovative learning methodologies.</li>
+// <li><strong>Popular Courses:</strong> Environmental Science, Indigenous Knowledge, Business, and Nursing.</li>
+// <li><strong>Why Choose?</strong> Flexible learning options and a focus on regional and Indigenous education. Also best level 3 universities in Australia for international students.</li></ul>`,
+//     url: "https://pickmyuni-bucket.s3.ap-southeast-2.amazonaws.com/static/charles_darwin_university_cdu.webp",
+//   },
+//   {
+//     title: "University of Southern Queensland (USQ)",
+//     description: `<ul><li><strong>Location:</strong> Queensland</li>
+// <li><strong>Overview:</strong> USQ provides student-focused learning and career-ready programs.</li>
+// <li><strong>Popular Courses:</strong> Aviation, Psychology, Engineering, and Agriculture.</li>
+// <li><strong>Why Choose?</strong> Strong online education programs and industry-relevant curriculum.</li></ul>`,
+//     url: "https://pickmyuni-bucket.s3.ap-southeast-2.amazonaws.com/static/university_of_southern_queensland_usq.webp",
+//   },
+//   {
+//     title: "Central Queensland University (CQU)",
+//     description: `<ul><li><strong>Location:</strong> Queensland</li>
+// <li><strong>Overview:</strong> CQU has a reputation for providing industry-focused courses with practical training.</li>
+// <li><strong>Popular Courses:</strong> Allied Health, IT, Business, and Social Work.</li>
+// <li><strong>Why Choose?</strong> High graduate employability rates and affordable tuition.</li></ul>`,
+//     url: "https://pickmyuni-bucket.s3.ap-southeast-2.amazonaws.com/static/central_queensland_university_cqu.webp",
+//   },
+//   {
+//     title: "Southern Cross University (SCU)",
+//     description: `<ul><li><strong>Location:</strong> New South Wales & Queensland</li>
+// <li><strong>Overview:</strong> SCU offers flexible study options, including online and hybrid programs.</li>
+// <li><strong>Popular Courses:</strong> Marine Science, Arts, Business, and Tourism.</li>
+// <li><strong>Why Choose?</strong> Emphasis on research excellence and regional campus accessibility.</li></ul>`,
+//     url: "https://pickmyuni-bucket.s3.ap-southeast-2.amazonaws.com/static/southern_cross_university_scu.webp",
+//   },
+//   {
+//     title: "Victoria University (VU)",
+//     description: `<ul><li><strong>Location:</strong> Melbourne, Victoria</li>
+// <li><strong>Overview:</strong> VU follows a block model of education, ensuring focused learning.</li>
+// <li><strong>Popular Courses:</strong> Sports Science, Hospitality, Business, and IT.</li>
+// <li><strong>Why Choose?</strong> Strong industry connections and work-integrated learning opportunities.</li></ul>`,
+//     url: "https://pickmyuni-bucket.s3.ap-southeast-2.amazonaws.com/static/victoria_university_vu.webp",
+//   },
+// ];
 
 const sec3CardData = [
   {
@@ -170,27 +205,22 @@ const accordionData = [
 ];
 
 export const metadata: Metadata = {
-  title: "Australia Intake 2025 for International Students | PickMyUni",
+  title: "Level 3 Universities in Australia 2025",
   description:
-    "Explore Australia Intake 2025 for international students. Learn about February, July, November intakes, deadlines, eligibility criteria, and benefits of studying in Australia with PickMyUni.",
+    "Discover Level 3 Universities in Australia for international students. Affordable tuition, diverse courses, flexible admissions, and quality education. Find your ideal university with PickMyUni.",
   keywords: [
-    "Australia intake 2025",
-    "international students Australia",
-    "February intake Australia",
-    "July intake Australia",
-    "November intake Australia",
-    "Australia university intakes",
-    "study in Australia 2025",
-    "Australian universities",
-    "university comparison",
-    "courses in Australia",
+    "Level 3 Universities Australia",
+    "Affordable Universities Australia",
+    "International Students Australia",
+    "Study in Australia 2025",
+    "Australian Universities",
+    "University Rankings Australia",
     "PickMyUni",
-    "scholarships Australia",
-    "student resources",
-    "PR pathway universities",
-    "international student intake Australia",
-    "Australia admission deadlines",
-    "Australia visa requirements",
+    "Level 3 Colleges Australia",
+    "Budget Friendly Universities",
+    "Quality Education Australia",
+    "Multicultural Universities Australia",
+    "Industry Relevant Courses Australia",
   ],
 };
 
@@ -230,33 +260,33 @@ const sec1Cards = (data: any, fullHeight = false) => {
   );
 };
 
-const sec2Cards = (data: any, idx: number) => {
-  return (
-    <div className="space-y-2">
-      <div className="relative mb-2 h-48 w-full">
-        <Image
-          src={
-            data.url ||
-            "https://pickmyuni-bucket.s3.ap-southeast-2.amazonaws.com/static/pr_path1.webp"
-          }
-          alt={data.title}
-          fill
-          className="rounded object-cover"
-          sizes="(max-width: 768px) 100vw, 33vw"
-        />
-      </div>
-      <div className="">
-        <p className="text-brand-primary p-4 text-2xl font-semibold">
-          {idx + 1}. {data.title}
-        </p>
-        <div
-          className="p-4 text-base font-normal [&_li]:mb-1 [&_ul]:list-disc [&_ul]:pl-6"
-          dangerouslySetInnerHTML={{ __html: data.description }}
-        />
-      </div>
-    </div>
-  );
-};
+// const sec2Cards = (data: any, idx: number) => {
+//   return (
+//     <div className="space-y-2">
+//       <div className="relative mb-2 h-48 w-full">
+//         <Image
+//           src={
+//             data.url ||
+//             "https://pickmyuni-bucket.s3.ap-southeast-2.amazonaws.com/static/pr_path1.webp"
+//           }
+//           alt={data.title}
+//           fill
+//           className="rounded object-cover"
+//           sizes="(max-width: 768px) 100vw, 33vw"
+//         />
+//       </div>
+//       <div className="">
+//         <p className="text-brand-primary p-4 text-2xl font-semibold">
+//           {idx + 1}. {data.title}
+//         </p>
+//         <div
+//           className="p-4 text-base font-normal [&_li]:mb-1 [&_ul]:list-disc [&_ul]:pl-6"
+//           dangerouslySetInnerHTML={{ __html: data.description }}
+//         />
+//       </div>
+//     </div>
+//   );
+// };
 
 const sec3Cards = (data: any) => {
   return (
@@ -278,7 +308,8 @@ const sec3Cards = (data: any) => {
   );
 };
 
-export default function PrivacyPage() {
+export default async function Level3UniversitiesPage() {
+  const colleges = await fetchTopCollegesByLevel("level 3");
   return (
     <>
       <script
@@ -344,26 +375,14 @@ export default function PrivacyPage() {
             </div>
           </section>
 
-          <section className="flex flex-col justify-center">
-            <h2 className="text-brand-primary mb-4 text-center text-4xl font-semibold">
-              List of Level 3 Universities in{" "}
-              <span className="text-brand-secondary">Australia</span>
-            </h2>
-            <p className="mb-2 text-center">
-              Below is a list of some prominent Level 3 Universities in
-              Australia, along with their key features:
-            </p>
-            <div className="mt-8 grid gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-3">
-              {sec2CardData.map((data, idx) => (
-                <div
-                  key={idx}
-                  className="flex h-full flex-col items-center bg-[#F6F6F7] shadow hover:shadow-md"
-                >
-                  {sec2Cards(data, idx)}
-                </div>
-              ))}
-            </div>
-          </section>
+          <CollegeListSection
+            colleges={colleges}
+            loading={false}
+            error={null}
+            title="List of Level 3 Universities in Australia"
+            description="Below is a list of some prominent Level 3 Universities in Australia, along with their key features:"
+            level="level 3"
+          />
         </div>
         <section>
           <div className="bg-brand-secondary py-24">
@@ -403,7 +422,7 @@ export default function PrivacyPage() {
               system. That’s where FindMyUni comes in.
             </p>
           </section>
-          <section className="container flex flex-col items-center gap-8 lg:flex-row-reverse">
+          <section className="flex flex-col items-center gap-8 lg:flex-row-reverse">
             <div className="flex-1">
               <h2 className="text-brand-primary text-center text-h1 leading-tight md:text-start">
                 Why Choose{" "}

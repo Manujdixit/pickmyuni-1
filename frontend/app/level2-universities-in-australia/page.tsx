@@ -7,6 +7,41 @@ import {
 import { HelpCircle } from "lucide-react";
 import { Metadata } from "next";
 import Image from "next/image";
+import { CollegeListSection } from "@/components/CollegeListSection";
+
+async function fetchTopCollegesByLevel(
+  level: string,
+  limit: number = 10,
+): Promise<any> {
+  try {
+    const params = new URLSearchParams({
+      limit: limit.toString(),
+      sortBy: "score_desc",
+      level: level,
+    });
+
+    const url = `${process.env.NEXT_PUBLIC_API_URL}/api/v1/college/list?${params.toString()}`;
+
+    const response = await fetch(url, {
+      next: { revalidate: 60 * 60 * 24 * 7 },
+    });
+
+    if (!response.ok) {
+      throw new Error(`Failed to fetch colleges: ${response.status}`);
+    }
+
+    const data = await response.json();
+
+    if (data.success && data.data?.colleges) {
+      return data.data.colleges;
+    } else {
+      return [];
+    }
+  } catch (err) {
+    console.error("Error fetching colleges:", err);
+    return [];
+  }
+}
 
 const sec1CardData = [
   {
@@ -41,53 +76,53 @@ const sec1CardData = [
   },
 ];
 
-const sec2CardData = [
-  {
-    title: "Victoria University (VU)",
-    description: `Located in Melbourne, Victoria University is known for its strong industry connections and emphasis on practical learning. VU offers a unique block model of learning, where students study one subject at a time, ensuring better retention and understanding. The university is particularly renowned for its business, health sciences, and engineering programs and is also known as one of the best assessment level 2 universities in Australia.`,
-    icon: "https://pickmyuni-bucket.s3.ap-southeast-2.amazonaws.com/static/victoria_university_vu.webp",
-  },
-  {
-    title: "Western Sydney University (WSU)",
-    description: `WSU is one of the fastest-growing universities in Australia, offering a diverse range of courses across multiple campuses. The university is known for its strong focus on innovation, research, and industry partnerships. Programs in nursing, IT, and business are highly sought after at WSU.`,
-    icon: "https://pickmyuni-bucket.s3.ap-southeast-2.amazonaws.com/static/western_sydney_university_wsu.webp",
-  },
-  {
-    title: "Charles Sturt University (CSU)",
-    description: `Charles Sturt University is recognized for its excellent online learning programs and practical courses in agriculture, environmental science, and policing. It has strong links with industries and provides hands-on training to prepare students for real-world challenges.`,
-    icon: "https://pickmyuni-bucket.s3.ap-southeast-2.amazonaws.com/static/charles_sturt_university_csu.webp",
-  },
-  {
-    title: "Edith Cowan University (ECU)",
-    description: `Located in Western Australia, ECU is known for its student-centered approach, modern facilities, and research-driven programs. It excels in areas such as cybersecurity, nursing, and media studies.`,
-    icon: "https://pickmyuni-bucket.s3.ap-southeast-2.amazonaws.com/static/edith_cowan_university_ecu.webp",
-  },
-  {
-    title: "University of Southern Queensland (USQ)",
-    description: `USQ offers flexible study options, including online courses, making it an excellent choice for students who require a balance between studies and work. It is well-known for programs in aviation, engineering, and education.`,
-    icon: "https://pickmyuni-bucket.s3.ap-southeast-2.amazonaws.com/static/university_of_southern_queensland_usq.webp",
-  },
-  {
-    title: "Federation University Australia",
-    description: `Federation University provides a personalized learning experience with small class sizes and strong student support. It is highly recognized for its programs in information technology, nursing, and business.`,
-    icon: "https://pickmyuni-bucket.s3.ap-southeast-2.amazonaws.com/static/federation_university_australia_fua.webp",
-  },
-  {
-    title: "CQUniversity (CQU)",
-    description: `With multiple campuses across Australia, CQU offers programs that focus on hands-on training and industry placements. It is popular for engineering, health sciences, and hospitality management courses.`,
-    icon: "https://pickmyuni-bucket.s3.ap-southeast-2.amazonaws.com/static/cqUniversity_cqu.webp",
-  },
-  {
-    title: "Southern Cross University (SCU)",
-    description: `SCU provides excellent student support services and research-led teaching in fields such as marine science, environmental sustainability, and social work.`,
-    icon: "https://pickmyuni-bucket.s3.ap-southeast-2.amazonaws.com/static/southern_cross_university_scu.webp",
-  },
-  {
-    title: "Griffith University",
-    description: `Griffith University is one of the popular level 2 universities in Australia for international students. Located in Queensland (QLD), Griffith University is best known for its UG, PG, PhD courses.`,
-    icon: "https://pickmyuni-bucket.s3.ap-southeast-2.amazonaws.com/static/mask_group-6.webp",
-  },
-];
+// const sec2CardData = [
+//   {
+//     title: "Victoria University (VU)",
+//     description: `Located in Melbourne, Victoria University is known for its strong industry connections and emphasis on practical learning. VU offers a unique block model of learning, where students study one subject at a time, ensuring better retention and understanding. The university is particularly renowned for its business, health sciences, and engineering programs and is also known as one of the best assessment level 2 universities in Australia.`,
+//     icon: "https://pickmyuni-bucket.s3.ap-southeast-2.amazonaws.com/static/victoria_university_vu.webp",
+//   },
+//   {
+//     title: "Western Sydney University (WSU)",
+//     description: `WSU is one of the fastest-growing universities in Australia, offering a diverse range of courses across multiple campuses. The university is known for its strong focus on innovation, research, and industry partnerships. Programs in nursing, IT, and business are highly sought after at WSU.`,
+//     icon: "https://pickmyuni-bucket.s3.ap-southeast-2.amazonaws.com/static/western_sydney_university_wsu.webp",
+//   },
+//   {
+//     title: "Charles Sturt University (CSU)",
+//     description: `Charles Sturt University is recognized for its excellent online learning programs and practical courses in agriculture, environmental science, and policing. It has strong links with industries and provides hands-on training to prepare students for real-world challenges.`,
+//     icon: "https://pickmyuni-bucket.s3.ap-southeast-2.amazonaws.com/static/charles_sturt_university_csu.webp",
+//   },
+//   {
+//     title: "Edith Cowan University (ECU)",
+//     description: `Located in Western Australia, ECU is known for its student-centered approach, modern facilities, and research-driven programs. It excels in areas such as cybersecurity, nursing, and media studies.`,
+//     icon: "https://pickmyuni-bucket.s3.ap-southeast-2.amazonaws.com/static/edith_cowan_university_ecu.webp",
+//   },
+//   {
+//     title: "University of Southern Queensland (USQ)",
+//     description: `USQ offers flexible study options, including online courses, making it an excellent choice for students who require a balance between studies and work. It is well-known for programs in aviation, engineering, and education.`,
+//     icon: "https://pickmyuni-bucket.s3.ap-southeast-2.amazonaws.com/static/university_of_southern_queensland_usq.webp",
+//   },
+//   {
+//     title: "Federation University Australia",
+//     description: `Federation University provides a personalized learning experience with small class sizes and strong student support. It is highly recognized for its programs in information technology, nursing, and business.`,
+//     icon: "https://pickmyuni-bucket.s3.ap-southeast-2.amazonaws.com/static/federation_university_australia_fua.webp",
+//   },
+//   {
+//     title: "CQUniversity (CQU)",
+//     description: `With multiple campuses across Australia, CQU offers programs that focus on hands-on training and industry placements. It is popular for engineering, health sciences, and hospitality management courses.`,
+//     icon: "https://pickmyuni-bucket.s3.ap-southeast-2.amazonaws.com/static/cqUniversity_cqu.webp",
+//   },
+//   {
+//     title: "Southern Cross University (SCU)",
+//     description: `SCU provides excellent student support services and research-led teaching in fields such as marine science, environmental sustainability, and social work.`,
+//     icon: "https://pickmyuni-bucket.s3.ap-southeast-2.amazonaws.com/static/southern_cross_university_scu.webp",
+//   },
+//   {
+//     title: "Griffith University",
+//     description: `Griffith University is one of the popular level 2 universities in Australia for international students. Located in Queensland (QLD), Griffith University is best known for its UG, PG, PhD courses.`,
+//     icon: "https://pickmyuni-bucket.s3.ap-southeast-2.amazonaws.com/static/mask_group-6.webp",
+//   },
+// ];
 
 const sec3CardData = [
   {
@@ -297,7 +332,9 @@ const sec3Cards = (data: any) => {
   );
 };
 
-export default function PrivacyPage() {
+export default async function Level2UniversitiesPage() {
+  const colleges = await fetchTopCollegesByLevel("level 2");
+
   return (
     <>
       <script
@@ -366,27 +403,14 @@ export default function PrivacyPage() {
             </div>
           </section>
 
-          <section className="flex flex-col justify-center">
-            <h2 className="text-brand-primary mb-4 text-center text-4xl font-semibold">
-              List of Level 2 Universities in{" "}
-              <span className="text-brand-secondary">Australia</span>
-            </h2>
-            <p className="mb-2 text-center">
-              Here is a list of well-regarded Level 2 universities in Australia
-              that offer high-quality education and excellent career
-              opportunities:
-            </p>
-            <div className="mt-8 grid gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-3">
-              {sec2CardData.map((data, idx) => (
-                <div
-                  key={idx}
-                  className="flex h-full flex-col items-center bg-[#F6F6F7] shadow hover:shadow-md"
-                >
-                  {sec2Cards(data, idx)}
-                </div>
-              ))}
-            </div>
-          </section>
+          <CollegeListSection
+            colleges={colleges}
+            loading={false}
+            error={null}
+            title="List of Level 2 Universities in Australia"
+            description="Below is a list of some of the most prestigious Level 2 universities in Australia, known for their academic excellence and outstanding research contributions:"
+            level="level 2"
+          />
         </div>
         <section>
           <div className="bg-brand-secondary py-24">
@@ -426,7 +450,7 @@ export default function PrivacyPage() {
               institution based on their academic goals and budget.
             </p>
           </section>
-          <section className="container flex flex-col items-center gap-8 lg:flex-row-reverse">
+          <section className="flex flex-col items-center gap-8 lg:flex-row-reverse">
             <div className="flex-1">
               <h2 className="text-brand-primary text-center text-h1 leading-tight md:text-start">
                 Our Services{" "}

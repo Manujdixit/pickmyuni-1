@@ -56,8 +56,6 @@ export default function UniversitiesSection() {
   };
 
   const handleCategoryClick = (category: any) => {
-    console.log({ category });
-
     setActiveCategory(category.name);
     if (category.name === "All") {
       setStream(null);

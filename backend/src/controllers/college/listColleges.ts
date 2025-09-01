@@ -60,6 +60,11 @@ import NodeCache from "node-cache";
  *         schema:
  *           type: string
  *         description: Filter colleges by stream name
+ *       - in: query
+ *         name: city
+ *         schema:
+ *           type: integer
+ *         description: Filter colleges by city id
  *     responses:
  *       200:
  *         description: Successfully retrieved college list
@@ -91,6 +96,7 @@ export const getCollegeList = async (req: Request, res: Response) => {
       max_fees,
       streamname,
       sortBy = "score_desc",
+      city,
     } = req.query;
 
     // Calculate pagination
@@ -154,6 +160,10 @@ export const getCollegeList = async (req: Request, res: Response) => {
 
     if (level) {
       whereClause.level = level;
+    }
+
+    if (city) {
+      whereClause.cityId = Number(city);
     }
 
     whereClause.is_active = true;
@@ -223,6 +233,7 @@ export const getCollegeList = async (req: Request, res: Response) => {
           where: whereClause,
           select: {
             id: true,
+            meta_desc: true,
             slug: true,
             logo_url: true,
             college_name: true,
@@ -237,6 +248,7 @@ export const getCollegeList = async (req: Request, res: Response) => {
             city: { select: { name: true } },
             state: { select: { name: true } },
             rank: true,
+            bg_url: true,
             CollegesCourses: {
               where: { is_active: true },
               select: {
@@ -302,6 +314,8 @@ export const getCollegeList = async (req: Request, res: Response) => {
         min_tution_fee_domestic,
         min_tution_fee_int,
         rank: college.rank,
+        meta_desc: college.meta_desc,
+        bg_url: college.bg_url,
       };
     });
 
@@ -320,7 +334,7 @@ export const getCollegeList = async (req: Request, res: Response) => {
           state: states,
           courses: courses,
           type: ["government", "private", "other"],
-          level: ["level1", "level2", "level3", "other"],
+          level: ["level-1", "level-2", "level-3", "other"],
           content: content?.content,
         },
       },

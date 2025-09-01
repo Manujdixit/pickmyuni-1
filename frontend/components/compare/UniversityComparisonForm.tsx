@@ -91,7 +91,6 @@ export default function UniversityComparisonForm() {
       const url = `/compare-universities-in-australia${
         params ? `?${params}` : ""
       }`;
-      console.log("Updating URL", { url });
       router.push(url, { scroll: false });
     }, 500); // 500ms debounce
   }, [universities, router]);
@@ -237,10 +236,6 @@ export default function UniversityComparisonForm() {
       setUniversities((prev) => prev.filter((uni) => uni.id !== id));
     }
   };
-
-  useEffect(() => {
-    console.log("University comparison form rendered", { universities });
-  }, [universities]);
 
   const add = () => {
     addUniversity();
