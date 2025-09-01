@@ -6,12 +6,7 @@ import { google, GoogleGenerativeAIProviderMetadata } from "@ai-sdk/google";
 export const maxDuration = 30;
 
 export async function POST(req: Request) {
-  const {
-    messages,
-    model,
-    webSearch,
-  }: { messages: UIMessage[]; model: string; webSearch: boolean } =
-    await req.json();
+  const { messages }: { messages: UIMessage[] } = await req.json();
 
   // Previous Perplexity implementation (commented out)
   // const result = streamText({
@@ -23,7 +18,7 @@ export async function POST(req: Request) {
 
   // New AI Gateway implementation with Google Gemini
   const result = streamText({
-    model: gateway("google/gemini-2.5-flash"),
+    model: gateway("perplexity/sonar"),
     messages: convertToModelMessages(messages),
     tools: {
       google_search: google.tools.googleSearch({}),
@@ -48,7 +43,7 @@ export async function POST(req: Request) {
   // Re-enabling sources since Perplexity/Sonar provides them
   return result.toUIMessageStreamResponse({
     originalMessages: messages,
-    // sendSources: true,
+    sendSources: true,
     // sendReasoning: true,
     onError: (error) => {
       console.error("Chat API Error:", error);
