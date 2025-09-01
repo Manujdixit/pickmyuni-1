@@ -3,6 +3,7 @@ import { Roboto, Anton, Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/layout/navbar";
 import Footer from "@/components/layout/footer";
+import ChatbotWidget from "@/components/layout/ChatbotWidget";
 import { OrganizationSchema } from "@/components/seo";
 import BreadcrumbProvider from "@/components/seo/BreadcrumbProvider";
 import Script from "next/script";
@@ -127,6 +128,7 @@ export default function RootLayout({
         <main className="flex-grow">
           <BreadcrumbProvider>{children}</BreadcrumbProvider>
         </main>
+        <ChatbotWidget />
         <Toaster position="bottom-left" />
         <Footer />
         <Script

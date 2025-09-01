@@ -61,6 +61,7 @@ export async function generateMetadata({
       const baseUrl = process.env.NEXT_PUBLIC_API_URL;
       const response = await fetch(
         `${baseUrl}/api/v1/courses/single?id=${courseId}`,
+        { next: { revalidate: 60 * 60 * 24 * 7 } },
       );
 
       if (response.ok) {
@@ -164,7 +165,9 @@ export async function generateMetadata({
 async function getUniversityData(id: number) {
   try {
     const baseUrl = process.env.NEXT_PUBLIC_API_URL;
-    const response = await fetch(`${baseUrl}/api/v1/college/${id}`);
+    const response = await fetch(`${baseUrl}/api/v1/college/${id}`, {
+      next: { revalidate: 60 * 60 * 24 },
+    });
 
     if (!response.ok) {
       if (response.status === 404) {
