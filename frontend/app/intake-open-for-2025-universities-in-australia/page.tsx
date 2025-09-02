@@ -102,40 +102,38 @@ const sec2Cards = (data: any, idx: number) => {
 
 const accordionData = [
   {
-    trigger: "What does public university mean in Australia?",
+    trigger: "How many intakes does Australia have?",
     content:
-      "A public university in Australia is an institution primarily funded by the government, offering a wide range of undergraduate and postgraduate programs. These universities follow national education policies and focus on research, academic excellence, and accessibility.",
+      "Australia generally has three main intakes – February (Primary Intake), July (Secondary Intake), and November (Limited Intake). However, availability may vary depending on the university and course.",
   },
   {
-    trigger: "What is the best public university in Australia?",
+    trigger: "Which intake is best for Australia?",
     content:
-      "The top-ranked public university in Australia varies based on global rankings, but The University of Melbourne is often regarded as the best due to its strong research output, high employability rates, and global reputation.",
+      "The February intake is the most preferred as it offers the widest range of courses, scholarships, and accommodation options. However, if you miss this, the July intake is also a great option with ample opportunities.",
   },
   {
-    trigger: "Are there any public universities in Australia?",
-    content:
-      "Yes, Australia has 37 public universities, which dominate the higher education sector. These institutions are government-funded and provide quality education across various disciplines.",
+    trigger: "How much money is required to study in Australia?",
+    content: `The cost varies based on the university and course. On average:
+      <ul>
+      <li><strong>Bachelor’s Degree:</strong> AUD 20,000 – 45,000 per year</li>
+      <li><strong>Master’s Degree:</strong> AUD 22,000 – 50,000 per year</li>
+      <li><strong>Living Expenses:</strong> Around AUD 24,505 per year (as per visa requirements)</li>
+      </ul>`,
   },
   {
-    trigger: "Are public universities free in Australia?",
+    trigger: "Is a gap accepted in Australia?",
     content:
-      "Public universities are not entirely free, but Australian citizens and permanent residents can access HECS-HELP, a government loan scheme that allows students to defer tuition fees and repay them later through their income.",
+      "Yes! Australian universities accept study gaps, but you may need to provide valid reasons (work experience, medical, or personal reasons). Usually, a gap of up to 2–3 years for bachelor's and 5 years or more for master's is acceptable with proper justification.",
   },
   {
-    trigger: "Which is better, private or public university?",
+    trigger: "What is the intake for a master’s in Australia?",
     content:
-      "Public universities are generally preferred due to their strong reputation, research facilities, and lower tuition fees compared to private institutions. However, private universities may offer smaller class sizes and specialized programs that cater to specific needs.",
+      "Most universities offer master’s programs in February and July. Some may have a November intake, but course availability is limited.",
   },
   {
-    trigger:
-      "What is the difference between an open university and a public university?",
+    trigger: "What is the PhD intake in Australia?",
     content:
-      "An open university offers flexible, online, or distance learning without strict entry requirements, making education more accessible. A public university, on the other hand, operates traditionally with campus-based learning, competitive admissions, and a broader academic structure.",
-  },
-  {
-    trigger: "Is UNSW public or private?",
-    content:
-      "The University of New South Wales (UNSW) is a public university funded by the Australian government, recognized globally for its research, innovation, and high academic standards.",
+      "PhD programs in Australia usually have flexible intakes throughout the year. However, the primary intakes are February and July, depending on the availability of the university and research supervisor.",
   },
 ];
 
@@ -416,7 +414,7 @@ export default function PrivacyPage() {
         <section className="bg-brand-primary py-24">
           <div className="container">
             <h2 className="mb-4 text-center text-4xl font-semibold text-white">
-              How many Intakes are there in Australia​?
+              Other Australia Intake 2025 for International Students​
             </h2>
             <p className="mb-6 text-center text-white">
               Apart from these intakes, there are some other Intakes available
@@ -438,8 +436,8 @@ export default function PrivacyPage() {
 
         <section className="container mx-auto py-24">
           <h2 className="text-brand-primary mb-4 text-center text-4xl font-semibold">
-            How many Intakes are there{" "}
-            <span className="text-brand-secondary">in Australia​?</span>
+            Advantages of Intakes
+            <span className="text-brand-secondary">in Australia​</span>
           </h2>
           <p className="mb-6 text-center text-black">
             Australia's multiple intakes provide flexibility and numerous
@@ -498,8 +496,7 @@ export default function PrivacyPage() {
             <div className="container mx-auto gap-8 text-white">
               <div className="flex-1">
                 <h2 className="text-center text-h1 leading-tight text-white">
-                  How to Find Cheap Universities{" "}
-                  <span className="text-brand-primary">in Australia?</span>
+                  Application Process for Australia Intake 2025
                 </h2>
                 <IntakeApplicationSteps />
               </div>
@@ -562,14 +559,9 @@ export default function PrivacyPage() {
             <Accordion type="single" collapsible className="w-full">
               {accordionData.map((item, idx) => (
                 <AccordionItem key={idx} value={idx.toString()}>
-                  <AccordionTrigger className="text-brand-primary text-start text-xl font-semibold">
-                    {item.trigger}
-                  </AccordionTrigger>
+                  <AccordionTrigger>{item.trigger}</AccordionTrigger>
                   <AccordionContent>
-                    <div
-                      className="p-4 text-base font-normal [&_li]:mb-1 [&_ul]:list-disc [&_ul]:pl-6"
-                      dangerouslySetInnerHTML={{ __html: item.content }}
-                    />
+                    <div dangerouslySetInnerHTML={{ __html: item.content }} />
                   </AccordionContent>
                 </AccordionItem>
               ))}

@@ -20,6 +20,14 @@ const FAQsContent = ({ info, universityName }) => {
     const dom = new JSDOM(htmlContent);
     const doc = dom.window.document;
 
+    //extract heading
+    const headingElement = doc.querySelector('[class_name="sub-title"]');
+
+    const heading = headingElement?.textContent?.trim();
+    if (headingElement) {
+      headingElement.remove();
+    }
+
     // Find all faq-item divs
     const faqItems = doc.querySelectorAll(".faq-item");
     const faqs = [];
@@ -46,10 +54,11 @@ const FAQsContent = ({ info, universityName }) => {
     return {
       faqs,
       cleanedHTML,
+      heading,
     };
   };
 
-  const { faqs, cleanedHTML } = processContent(content);
+  const { faqs, cleanedHTML, heading } = processContent(content);
 
   // Generate FAQ Schema for SEO
   const generateFAQSchema = (faqs) => {
@@ -77,19 +86,21 @@ const FAQsContent = ({ info, universityName }) => {
   };
 
   return (
-    <div className="mx-auto max-w-4xl space-y-8">
-      {/* FAQ Schema for SEO */}
+    <div className="">
       {faqs && faqs.length > 0 && generateFAQSchema(faqs)}
-      {/* Full HTML Content Section */}
-      {cleanedHTML && (
-        <div
-          className="styledContent"
-          dangerouslySetInnerHTML={{ __html: cleanedHTML }}
-        />
-      )}
+      <div className="mx-auto max-w-4xl space-y-8">
+        {/* FAQ Schema for SEO */}
+        <h2 className="mb-4 text-[36px] font-semibold leading-tight text-[#2C5680]">
+          {heading}
+        </h2>
+        {/* Full HTML Content Section */}
+        {cleanedHTML && (
+          <div dangerouslySetInnerHTML={{ __html: cleanedHTML }} />
+        )}
 
-      {/* FAQ Accordion Section */}
-      <FAQAccordion faqs={faqs} />
+        {/* FAQ Accordion Section */}
+        <FAQAccordion faqs={faqs} />
+      </div>
     </div>
   );
 };

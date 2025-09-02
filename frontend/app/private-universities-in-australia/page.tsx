@@ -1,4 +1,3 @@
-"use client";
 import {
   Accordion,
   AccordionItem,
@@ -6,11 +5,41 @@ import {
   AccordionContent,
 } from "@/components/ui/radix-accordion";
 import Image from "next/image";
-import { useTopCollegesByType } from "@/hooks/useTopCollegesByType";
 import type { College } from "@/hooks/useTopCollegesByType";
 import Link from "next/link";
-import { Skeleton } from "@/components/ui/skeleton";
 import UniversityComparisonTable from "@/components/UniversityComparisonTable";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Private Universities in Australia",
+  description:
+    "Discover the best private universities in Australia for international students. Compare top private colleges, admission requirements, fees, and career opportunities. Find your ideal private university in Sydney, Melbourne, and more.",
+  keywords: [
+    "private universities Australia",
+    "private colleges Australia",
+    "best private universities Australia",
+    "private universities Sydney",
+    "private universities Melbourne",
+    "international students Australia",
+    "private university fees",
+    "private university admission",
+    "Bond University",
+    "Torrens University",
+    "private vs public universities Australia",
+  ],
+  authors: [{ name: "PickMyUni" }],
+  creator: "PickMyUni",
+  publisher: "PickMyUni",
+  formatDetection: {
+    email: false,
+    address: false,
+    telephone: false,
+  },
+  metadataBase: new URL("https://pickmyuni.com"),
+  alternates: {
+    canonical: "/private-universities-in-australia",
+  },
+};
 
 const sec1CardData = [
   {
@@ -42,51 +71,6 @@ const sec1CardData = [
     description:
       "Many private universities and colleges offer accelerated courses, allowing students to complete their degrees faster.",
     url: "https://pickmyuni-bucket.s3.ap-southeast-2.amazonaws.com/static/faster-graduation-options-icon.webp",
-  },
-];
-
-const sec3CardData = [
-  {
-    title: "1. Choose a University and Course",
-    description:
-      "Research and select a public university and program that aligns with your career goals.",
-    url: "https://pickmyuni-bucket.s3.ap-southeast-2.amazonaws.com/static/university_rankings_icon.webp",
-  },
-  {
-    title: "2. Check Entry Requirements",
-    description:
-      "Ensure you meet the academic and English proficiency requirements.",
-    url: "https://pickmyuni-bucket.s3.ap-southeast-2.amazonaws.com/static/accreditation-Reputation-icon.webp",
-  },
-  {
-    title: "3. Prepare Documents",
-    description:
-      "Gather necessary documents like academic transcripts, English test scores, SOP, and reference letters.",
-    url: "https://pickmyuni-bucket.s3.ap-southeast-2.amazonaws.com/static/course-offerings-icon.webp",
-  },
-  {
-    title: "4. Apply Online",
-    description:
-      "Submit applications through the university’s official portal or via a registered education agent.",
-    url: "https://pickmyuni-bucket.s3.ap-southeast-2.amazonaws.com/static/industry-partnerships-icon.webp",
-  },
-  {
-    title: "5. Await Offer Letter",
-    description:
-      " If accepted, you will receive a Confirmation of Enrolment (CoE), which is necessary for a student visa application.",
-    url: "https://pickmyuni-bucket.s3.ap-southeast-2.amazonaws.com/static/alumni-success-icon.webp",
-  },
-  {
-    title: "6. Apply for a Student Visa",
-    description:
-      "Lodge your visa application with the Department of Home Affairs.",
-    url: "https://pickmyuni-bucket.s3.ap-southeast-2.amazonaws.com/static/student-reviews-experience-icon.webp",
-  },
-  {
-    title: "7. Plan for Arrival",
-    description:
-      "Arrange accommodation, insurance, and financial support before moving to Australia.",
-    url: "https://pickmyuni-bucket.s3.ap-southeast-2.amazonaws.com/static/student-reviews-experience-icon.webp",
   },
 ];
 
@@ -184,24 +168,21 @@ const sec2Cards = (data: College, idx: number) => {
   );
 };
 
-const sec3Cards = (data: any) => {
-  return (
-    <div className="space-y-2">
-      <Image
-        src={data.url}
-        alt={data.title}
-        width={100}
-        height={100}
-        className="size-20"
-      />
-      <p className="text-brand-primary text-xl font-semibold">{data.title}</p>
-      <p className="text-base font-normal">{data.description}</p>
-    </div>
-  );
-};
+export default async function PrivacyPage() {
+  let colleges: College[] = [];
+  let error: string | null = null;
 
-export default function PrivacyPage() {
-  const { colleges, loading, error } = useTopCollegesByType("private");
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/v1/college/top-type?type=private`,
+      { next: { revalidate: 60 * 60 * 24 * 7 } },
+    );
+    if (!res.ok) throw new Error("Failed to fetch colleges");
+    const data = await res.json();
+    colleges = data?.data?.colleges || [];
+  } catch (err: any) {
+    error = err.message || "Unknown error";
+  }
 
   return (
     <>
@@ -276,7 +257,9 @@ export default function PrivacyPage() {
             </div>
           </section>
 
-          {!error && (
+          {error ? (
+            <></>
+          ) : (
             <section className="flex flex-col justify-center">
               <h2 className="text-brand-primary mb-4 text-center text-4xl font-semibold lg:text-start">
                 Top Private Universities in{" "}
@@ -288,18 +271,14 @@ export default function PrivacyPage() {
                 the top institutions include:
               </p>
               <div className="mt-8 grid gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-3">
-                {loading
-                  ? Array.from({ length: 10 }).map((_, idx) => (
-                      <Skeleton key={idx} className="h-72 w-full rounded-lg" />
-                    ))
-                  : colleges.map((data: College, idx: number) => (
-                      <div
-                        key={data.id}
-                        className="flex h-full flex-col items-center bg-[#F6F6F7] shadow hover:shadow-md"
-                      >
-                        {sec2Cards(data, idx)}
-                      </div>
-                    ))}
+                {colleges.map((data: College, idx: number) => (
+                  <div
+                    key={data.id}
+                    className="flex h-full flex-col items-center bg-[#F6F6F7] shadow hover:shadow-md"
+                  >
+                    {sec2Cards(data, idx)}
+                  </div>
+                ))}
               </div>
               <p className="mt-8 text-center md:text-start">
                 These institutions are known for their academic excellence,
@@ -392,14 +371,9 @@ export default function PrivacyPage() {
               <Accordion type="single" collapsible className="w-full">
                 {accordionData.map((item, idx) => (
                   <AccordionItem key={idx} value={idx.toString()}>
-                    <AccordionTrigger className="text-brand-primary text-xl font-semibold">
-                      {item.title}
-                    </AccordionTrigger>
+                    <AccordionTrigger>{item.title}</AccordionTrigger>
                     <AccordionContent>
-                      <div
-                        className="p-4 text-base font-normal [&_li]:mb-1 [&_ul]:list-disc [&_ul]:pl-6"
-                        dangerouslySetInnerHTML={{ __html: item.content }}
-                      />
+                      <div dangerouslySetInnerHTML={{ __html: item.content }} />
                     </AccordionContent>
                   </AccordionItem>
                 ))}

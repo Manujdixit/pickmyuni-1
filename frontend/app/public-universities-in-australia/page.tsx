@@ -1,4 +1,3 @@
-"use client";
 import {
   Accordion,
   AccordionItem,
@@ -6,11 +5,42 @@ import {
   AccordionContent,
 } from "@/components/ui/radix-accordion";
 import Image from "next/image";
-import { useTopCollegesByType } from "@/hooks/useTopCollegesByType";
 import type { College } from "@/hooks/useTopCollegesByType";
 import Link from "next/link";
-import { Skeleton } from "@/components/ui/skeleton";
 import UniversityComparisonTable from "@/components/UniversityComparisonTable";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Public Universities in Australia",
+  description:
+    "Explore the best public universities in Australia for international students. Discover top-ranked government-funded universities, affordable tuition fees, world-class education, and excellent research opportunities.",
+  keywords: [
+    "public universities Australia",
+    "government universities Australia",
+    "best public universities Australia",
+    "affordable universities Australia",
+    "University of Melbourne",
+    "University of Sydney",
+    "UNSW",
+    "ANU",
+    "international students Australia",
+    "public university fees",
+    "public university admission",
+    "Go8 universities",
+  ],
+  authors: [{ name: "PickMyUni" }],
+  creator: "PickMyUni",
+  publisher: "PickMyUni",
+  formatDetection: {
+    email: false,
+    address: false,
+    telephone: false,
+  },
+  metadataBase: new URL("https://pickmyuni.com"),
+  alternates: {
+    canonical: "/public-universities-in-australia",
+  },
+};
 
 const sec1CardData = [
   {
@@ -223,8 +253,21 @@ const faqSchema = {
   })),
 };
 
-export default function PrivacyPage() {
-  const { colleges, loading, error } = useTopCollegesByType("government");
+export default async function PrivacyPage() {
+  let colleges: College[] = [];
+  let error: string | null = null;
+
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/v1/college/top-type?type=government`,
+      { next: { revalidate: 60 * 60 * 24 * 7 } },
+    );
+    if (!res.ok) throw new Error("Failed to fetch colleges");
+    const data = await res.json();
+    colleges = data?.data?.colleges || [];
+  } catch (err: any) {
+    error = err.message || "Unknown error";
+  }
 
   return (
     <>
@@ -291,7 +334,9 @@ export default function PrivacyPage() {
             </div>
           </section>
 
-          {!error && (
+          {error ? (
+            <></>
+          ) : (
             <section className="flex flex-col justify-center">
               <h2 className="text-brand-primary mb-4 text-center text-4xl font-semibold lg:text-start">
                 Top Public Universities Australia for{" "}
@@ -305,18 +350,14 @@ export default function PrivacyPage() {
                 and outstanding research contributions:
               </p>
               <div className="mt-8 grid gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-3">
-                {loading
-                  ? Array.from({ length: 10 }).map((_, idx) => (
-                      <Skeleton key={idx} className="h-72 w-full rounded-lg" />
-                    ))
-                  : colleges.map((data: College, idx: number) => (
-                      <div
-                        key={data.id}
-                        className="flex h-full flex-col items-center bg-[#F6F6F7] shadow hover:shadow-md"
-                      >
-                        {sec2Cards(data, idx)}
-                      </div>
-                    ))}
+                {colleges.map((data: College, idx: number) => (
+                  <div
+                    key={data.id}
+                    className="flex h-full flex-col items-center bg-[#F6F6F7] shadow hover:shadow-md"
+                  >
+                    {sec2Cards(data, idx)}
+                  </div>
+                ))}
               </div>
               <p className="mt-8 text-center md:text-start">
                 These institutions are known for their academic excellence,
@@ -500,14 +541,9 @@ export default function PrivacyPage() {
               <Accordion type="single" collapsible className="w-full">
                 {accordionData.map((item, idx) => (
                   <AccordionItem key={idx} value={idx.toString()}>
-                    <AccordionTrigger className="text-brand-primary text-start text-xl font-semibold">
-                      {item.trigger}
-                    </AccordionTrigger>
+                    <AccordionTrigger>{item.trigger}</AccordionTrigger>
                     <AccordionContent>
-                      <div
-                        className="p-4 text-base font-normal [&_li]:mb-1 [&_ul]:list-disc [&_ul]:pl-6"
-                        dangerouslySetInnerHTML={{ __html: item.content }}
-                      />
+                      <div dangerouslySetInnerHTML={{ __html: item.content }} />
                     </AccordionContent>
                   </AccordionItem>
                 ))}

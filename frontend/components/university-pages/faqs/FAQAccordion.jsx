@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import {
   Accordion,
   AccordionItem,
@@ -9,30 +9,36 @@ import {
 } from "@/components/ui/radix-accordion";
 
 const FAQAccordion = ({ faqs }) => {
+  const [openItem, setOpenItem] = useState(null);
+
   if (!faqs || faqs.length === 0) {
     return null;
   }
 
   return (
     <div>
-      {faqs.map((faq, index) => (
-        <div key={index} className="faq-item">
-          <Accordion type="single" collapsible className="w-full">
-            <AccordionItem value={`item-${index}`}>
-              <AccordionTrigger className="text-left">
-                <h4 className="pr-4 text-lg font-semibold text-[#2C5680]">
-                  {faq.question}
-                </h4>
-              </AccordionTrigger>
-              <AccordionContent>
-                <div className="content-item leading-relaxed text-[#242628]">
-                  {faq.answer}
-                </div>
-              </AccordionContent>
-            </AccordionItem>
-          </Accordion>
-        </div>
-      ))}
+      <Accordion
+        type="single"
+        collapsible
+        className="w-full"
+        value={openItem}
+        onValueChange={setOpenItem}
+      >
+        {faqs.map((faq, index) => (
+          <AccordionItem
+            className="faq-item"
+            key={index}
+            value={`item-${index}`}
+          >
+            <AccordionTrigger>
+              <h4 className={`pr-4 font-semibold`}>{faq.question}</h4>
+            </AccordionTrigger>
+            <AccordionContent>
+              <div>{faq.answer}</div>
+            </AccordionContent>
+          </AccordionItem>
+        ))}
+      </Accordion>
     </div>
   );
 };

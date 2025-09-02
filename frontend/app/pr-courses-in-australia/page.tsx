@@ -403,9 +403,7 @@ export default function PrPath() {
               <Accordion type="single" collapsible className="w-full">
                 {faqData.map((faq) => (
                   <AccordionItem key={faq.value} value={faq.value}>
-                    <AccordionTrigger className="text-brand-primary text-xl font-semibold">
-                      {faq.question}
-                    </AccordionTrigger>
+                    <AccordionTrigger>{faq.question}</AccordionTrigger>
                     <AccordionContent>{faq.answer}</AccordionContent>
                   </AccordionItem>
                 ))}

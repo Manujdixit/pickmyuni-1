@@ -85,6 +85,30 @@ export default function Footer() {
             <ul className="space-y-2">
               <li>
                 <Link
+                  href="/intake-open-for-2025-universities-in-australia"
+                  className="text-sm text-gray-300 hover:text-white"
+                >
+                  Intake Open for 2025 Universities
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/top-affordable-universities-in-australia"
+                  className="text-sm text-gray-300 hover:text-white"
+                >
+                  Top Affordable Universities
+                </Link>
+              </li>{" "}
+              <li>
+                <Link
+                  href="/top-open-universities-in-australia"
+                  className="text-sm text-gray-300 hover:text-white"
+                >
+                  Top Open Universities
+                </Link>
+              </li>
+              <li>
+                <Link
                   href="/public-universities-in-australia"
                   className="text-sm text-gray-300 hover:text-white"
                 >
@@ -122,7 +146,7 @@ export default function Footer() {
                 >
                   Level 3 Universities
                 </Link>
-              </li>
+              </li>{" "}
             </ul>
           </div>
 

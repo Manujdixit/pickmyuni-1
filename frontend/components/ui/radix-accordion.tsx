@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import * as AccordionPrimitive from "@radix-ui/react-accordion";
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, Minus, Plus } from "lucide-react";
 import { motion, AnimatePresence, type Transition } from "motion/react";
 
 import { cn } from "@/lib/utils";
@@ -43,11 +43,7 @@ const AccordionItem = React.forwardRef<
   const [isOpen, setIsOpen] = React.useState(false);
 
   return (
-    <AccordionPrimitive.Item
-      ref={ref}
-      className={cn("border-b", className)}
-      {...props}
-    >
+    <AccordionPrimitive.Item ref={ref} className={cn(className)} {...props}>
       <AccordionItemContext.Provider value={{ isOpen, setIsOpen }}>
         {children}
       </AccordionItemContext.Provider>
@@ -73,7 +69,7 @@ const AccordionTrigger = React.forwardRef<
       transition = { type: "spring", stiffness: 150, damping: 17 },
       ...props
     },
-    ref
+    ref,
   ) => {
     const triggerRef = React.useRef<HTMLButtonElement | null>(null);
     const { isOpen, setIsOpen } = useAccordionItem();
@@ -113,22 +109,35 @@ const AccordionTrigger = React.forwardRef<
             }
           }}
           className={cn(
-            "flex flex-1 items-center justify-between py-4 font-medium hover:underline",
-            className
+            "flex flex-1 items-center justify-between py-5 text-2xl font-medium",
+            isOpen
+              ? "text-brand-secondary border-b-2"
+              : "text-brand-primary border-b-2 border-[#2C5680]",
+            className,
           )}
           {...props}
         >
           {children}
-          <motion.div
-            animate={{ rotate: isOpen ? 180 : 0 }}
-            transition={transition}
-          >
-            <ChevronDown className="size-5 shrink-0" />
+          <motion.div className="relative size-5 shrink-0">
+            <motion.span
+              className="absolute inset-0 flex items-center justify-center font-bold"
+              animate={{ opacity: isOpen ? 0 : 1 }}
+              transition={transition}
+            >
+              <Plus />
+            </motion.span>
+            <motion.span
+              className="absolute inset-0 flex items-center justify-center font-bold"
+              animate={{ opacity: isOpen ? 1 : 0 }}
+              transition={transition}
+            >
+              <Minus className="font-bold" />
+            </motion.span>
           </motion.div>
         </AccordionPrimitive.Trigger>
       </AccordionPrimitive.Header>
     );
-  }
+  },
 );
 AccordionTrigger.displayName = "AccordionTrigger";
 
@@ -149,7 +158,7 @@ const AccordionContent = React.forwardRef<
       transition = { type: "spring", stiffness: 150, damping: 17 },
       ...props
     },
-    ref
+    ref,
   ) => {
     const { isOpen } = useAccordionItem();
 
@@ -172,7 +181,14 @@ const AccordionContent = React.forwardRef<
               className="overflow-hidden"
               ref={ref}
             >
-              <div className={cn("pb-4 pt-0 text-sm", className)}>
+              <div
+                className={cn(
+                  "styledContent",
+                  "p-4 text-base font-normal [&_li]:mb-1 [&_ul]:list-disc [&_ul]:pl-6",
+                  "pb-4 pt-4 text-lg font-normal text-black",
+                  className,
+                )}
+              >
                 {children}
               </div>
             </motion.div>
@@ -180,7 +196,7 @@ const AccordionContent = React.forwardRef<
         )}
       </AnimatePresence>
     );
-  }
+  },
 );
 AccordionContent.displayName = "AccordionContent";
 

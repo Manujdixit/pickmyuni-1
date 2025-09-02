@@ -159,40 +159,40 @@ const sec3Cards = (data: any, idx: number) => {
 
 const accordionData = [
   {
-    trigger: "What does public university mean in Australia?",
+    trigger: "Is Open University recognised in Australia?",
     content:
-      "A public university in Australia is an institution primarily funded by the government, offering a wide range of undergraduate and postgraduate programs. These universities follow national education policies and focus on research, academic excellence, and accessibility.",
+      "Yes, Open University is recognised in Australia. Open Universities Australia (OUA) partners with leading Australian universities, and degrees earned through OUA are accredited by these institutions.",
   },
   {
-    trigger: "What is the best public university in Australia?",
+    trigger: "Is Open University a real degree?",
     content:
-      "The top-ranked public university in Australia varies based on global rankings, but The University of Melbourne is often regarded as the best due to its strong research output, high employability rates, and global reputation.",
+      "Absolutely! A degree from Open University is just as valid as one from a traditional university. The awarding institution is a recognised university, ensuring its credibility.",
   },
   {
-    trigger: "Are there any public universities in Australia?",
+    trigger: "Is Open University Australia free?",
     content:
-      "Yes, Australia has 37 public universities, which dominate the higher education sector. These institutions are government-funded and provide quality education across various disciplines.",
+      "No, Open Universities Australia is not free. However, eligible students can access government funding options such as HECS-HELP and FEE-HELP to support their studies.",
   },
   {
-    trigger: "Are public universities free in Australia?",
+    trigger: "How prestigious is the Open University?",
     content:
-      "Public universities are not entirely free, but Australian citizens and permanent residents can access HECS-HELP, a government loan scheme that allows students to defer tuition fees and repay them later through their income.",
+      "Open University is well-respected, particularly for its flexible learning model. While it may not carry the same prestige as top-tier traditional universities, its degrees are fully recognised and valued.",
   },
   {
-    trigger: "Which is better, private or public university?",
+    trigger: "Do employers accept Open University?",
     content:
-      "Public universities are generally preferred due to their strong reputation, research facilities, and lower tuition fees compared to private institutions. However, private universities may offer smaller class sizes and specialized programs that cater to specific needs.",
+      "Yes, most employers accept Open University degrees, as they are accredited by recognised institutions. Employers value the self-discipline and commitment required for distance learning.",
   },
   {
     trigger:
-      "What is the difference between an open university and a public university?",
+      "What is the difference between Open University and a regular university?",
     content:
-      "An open university offers flexible, online, or distance learning without strict entry requirements, making education more accessible. A public university, on the other hand, operates traditionally with campus-based learning, competitive admissions, and a broader academic structure.",
+      "The main difference is the mode of study. Open University offers flexible, online learning, while regular universities typically require in-person attendance. Both provide accredited degrees.",
   },
   {
-    trigger: "Is UNSW public or private?",
+    trigger: "Can I get a job with a degree from Open University?",
     content:
-      "The University of New South Wales (UNSW) is a public university funded by the Australian government, recognized globally for its research, innovation, and high academic standards.",
+      "Yes, a degree from Open University can help you secure a job. Employers recognise accredited qualifications, and distance learning demonstrates strong self-motivation and time management skills.",
   },
 ];
 
@@ -246,28 +246,30 @@ export default function PrivacyPage() {
         <div className="container mx-auto space-y-20 py-12 lg:py-16">
           {/* Header Section */}
           <p className="text-lg font-normal">
-            Australia is home to some of the best open universities that provide
-            flexible, high-quality education to students across the globe.
-            Whether you are an international student looking to pursue a degree
-            in Australia or a working professional seeking career advancement,
-            open universities in Australia offer the perfect opportunity to
-            achieve your academic goals without the constraints of traditional
-            classroom learning.
+            Australia is home to some of the best{" "}
+            <strong>open universities</strong> that provide flexible,
+            high-quality education to students across the globe. Whether you are
+            an international student looking to pursue a degree in Australia or
+            a working professional seeking career advancement,{" "}
+            <strong>open universities in Australia</strong> offer the perfect
+            opportunity to achieve your academic goals without the constraints
+            of traditional classroom learning.
           </p>
 
           <section className="mt-8 flex flex-col justify-center bg-[#FAF4F0] p-[20px] sm:p-[30px] lg:p-[50px]">
             <h2 className="text-brand-primary mb-4 text-center text-4xl font-semibold md:text-start">
               What Are Open Universities{" "}
-              <span className="text-brand-secondary">in Australia ?</span>
+              <span className="text-brand-secondary">in Australia?</span>
             </h2>
             <p className="mb-2 text-center md:text-start">
-              Open Universities Australia (OUA) is a network of leading
-              Australian universities that provide accessible and flexible
-              online education. These universities cater to students who need
-              the convenience of remote learning while maintaining high academic
-              standards. Whether you're interested in business, healthcare,
-              engineering, or arts, open university courses cover a vast range
-              of subjects to suit diverse career aspirations.
+              <strong>Open Universities Australia</strong> (OUA) is a network of
+              leading Australian universities that provide accessible and
+              flexible online education. These universities cater to students
+              who need the convenience of remote learning while maintaining high
+              academic standards. Whether you're interested in business,
+              healthcare, engineering, or arts,{" "}
+              <strong>open university courses</strong> cover a vast range of
+              subjects to suit diverse career aspirations.
             </p>
           </section>
 
@@ -301,8 +303,8 @@ export default function PrivacyPage() {
                 <span className="text-brand-secondary"> Courses</span>
               </h2>
               <p className="mb-4 text-body">
-                Australian open universities provide a variety of online courses
-                in disciplines such as:
+                <strong>Australian open universities</strong> provide a variety
+                of online courses in disciplines such as:
               </p>
 
               <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
@@ -321,13 +323,11 @@ export default function PrivacyPage() {
                 ))}
               </div>
 
-              <div className="mt-6 text-body">
-                <p>
-                  These open university subjects are designed to equip students
-                  with industry-relevant skills, making them highly employable
-                  upon graduation.
-                </p>
-              </div>
+              <p className="mt-6 text-body">
+                These <strong>open university subjects</strong> are designed to
+                equip students with industry-relevant skills, making them highly
+                employable upon graduation.
+              </p>
             </div>
 
             <div className="lg:w-1/3">
@@ -371,27 +371,25 @@ export default function PrivacyPage() {
           </section>
         )}
 
-        <section>
-          <div className="bg-brand-primary py-24">
-            <div className="container mx-auto flex flex-col justify-center">
-              <h2 className="mb-4 text-center text-4xl font-semibold text-white">
-                How to Enroll in an Open University{" "}
-                <span className="text-brand-secondary">AU Program</span>
-              </h2>
-              <p className="text-center text-white">
-                Enrolling in an open university in Australia is a
-                straightforward process. Follow these steps:
-              </p>
-              <div className="mt-8 grid gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-3">
-                {sec3CardData.map((data, idx) => (
-                  <div
-                    key={idx}
-                    className={`flex h-full flex-col items-center rounded-2xl bg-white p-4 shadow hover:shadow-md`}
-                  >
-                    {sec3Cards(data, idx)}
-                  </div>
-                ))}
-              </div>
+        <section className="bg-brand-primary py-24">
+          <div className="container mx-auto flex flex-col justify-center">
+            <h2 className="mb-4 text-center text-4xl font-semibold text-white">
+              How to Enroll in an Open University{" "}
+              <span className="text-brand-secondary">AU Program</span>
+            </h2>
+            <p className="text-center text-white">
+              Enrolling in an <strong>open university in Australia</strong> is a
+              straightforward process. Follow these steps:
+            </p>
+            <div className="mt-8 grid gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-3">
+              {sec3CardData.map((data, idx) => (
+                <div
+                  key={idx}
+                  className={`flex h-full flex-col items-center rounded-2xl bg-white p-4 shadow hover:shadow-md`}
+                >
+                  {sec3Cards(data, idx)}
+                </div>
+              ))}
             </div>
           </div>
         </section>
@@ -402,20 +400,21 @@ export default function PrivacyPage() {
               <div className="flex-1">
                 <h2 className="text-h1 leading-tight text-white">Conclusion</h2>
                 <p>
-                  Choosing an open university Australia program is an excellent
-                  way for international students to gain a globally recognized
-                  education with maximum flexibility. Whether you are looking to
-                  advance your career, change fields, or gain a higher
-                  qualification, open universities Australia offers a perfect
-                  learning solution. Explore your options today and take the
-                  first step towards a brighter future!
+                  Choosing an <strong>open university Australia</strong> program
+                  is an excellent way for international students to gain a
+                  globally recognized education with maximum flexibility.
+                  Whether you are looking to advance your career, change fields,
+                  or gain a higher qualification,{" "}
+                  <strong>open universities Australia</strong>
+                  offers a perfect learning solution. Explore your options today
+                  and take the first step towards a brighter future!
                 </p>
                 <br />
                 <p>
-                  By selecting an open university of Australia, you ensure
-                  quality education that fits your lifestyle. Start your journey
-                  now and unlock new career opportunities with open university
-                  programs!
+                  By selecting an <strong>open university of Australia</strong>,
+                  you ensure quality education that fits your lifestyle. Start
+                  your journey now and unlock new career opportunities with{" "}
+                  <strong>open university</strong> programs!
                 </p>
               </div>
 
@@ -443,14 +442,9 @@ export default function PrivacyPage() {
             <Accordion type="single" collapsible className="w-full">
               {accordionData.map((item, idx) => (
                 <AccordionItem key={idx} value={idx.toString()}>
-                  <AccordionTrigger className="text-brand-primary text-start text-xl font-semibold">
-                    {item.trigger}
-                  </AccordionTrigger>
+                  <AccordionTrigger>{item.trigger}</AccordionTrigger>
                   <AccordionContent>
-                    <div
-                      className="p-4 text-base font-normal [&_li]:mb-1 [&_ul]:list-disc [&_ul]:pl-6"
-                      dangerouslySetInnerHTML={{ __html: item.content }}
-                    />
+                    <div dangerouslySetInnerHTML={{ __html: item.content }} />
                   </AccordionContent>
                 </AccordionItem>
               ))}

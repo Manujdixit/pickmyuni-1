@@ -1,4 +1,3 @@
-"use client";
 import {
   Accordion,
   AccordionItem,
@@ -6,11 +5,39 @@ import {
   AccordionContent,
 } from "@/components/ui/radix-accordion";
 import Image from "next/image";
-import { useTopCollegesByType } from "@/hooks/useTopCollegesByType";
 import type { College } from "@/hooks/useTopCollegesByType";
 import Link from "next/link";
-import { Skeleton } from "@/components/ui/skeleton";
 import { CheckCircle2 } from "lucide-react";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Top Affordable Universities in Australia",
+  description:
+    "Discover the most affordable universities in Australia for international students. Compare tuition fees, find cheap universities in Sydney, Melbourne, and regional areas. Get admission guidance and scholarship information.",
+  keywords: [
+    "affordable universities Australia",
+    "cheap universities Australia",
+    "low cost universities Australia",
+    "budget universities Australia",
+    "affordable tuition Australia",
+    "cheap universities Sydney",
+    "cheap universities Melbourne",
+    "University of Sunshine Coast",
+    "Charles Darwin University",
+    "Federation University",
+    "international students Australia",
+    "university fees Australia",
+    "scholarships Australia",
+  ],
+  authors: [{ name: "PickMyUni" }],
+  creator: "PickMyUni",
+  publisher: "PickMyUni",
+  formatDetection: {
+    email: false,
+    address: false,
+    telephone: false,
+  },
+};
 
 const sec1CardData = [
   {
@@ -148,40 +175,29 @@ const sec3Cards = (data: any, idx: number) => {
 
 const accordionData = [
   {
-    trigger: "What does public university mean in Australia?",
+    trigger: "Which university has the lowest tuition fees in Australia?",
     content:
-      "A public university in Australia is an institution primarily funded by the government, offering a wide range of undergraduate and postgraduate programs. These universities follow national education policies and focus on research, academic excellence, and accessibility.",
+      "The University of the Sunshine Coast (USC) and Charles Darwin University (CDU) are among the most affordable universities in Australia, with tuition fees starting from around AUD 24,000 per year for international students.",
   },
   {
-    trigger: "What is the best public university in Australia?",
+    trigger: "Where is the cheapest place to study in Australia?",
     content:
-      "The top-ranked public university in Australia varies based on global rankings, but The University of Melbourne is often regarded as the best due to its strong research output, high employability rates, and global reputation.",
+      "Regional cities like Hobart, Darwin, and Rockhampton offer lower living costs and affordable universities compared to major cities like Sydney and Melbourne, making them the cheapest places to study in Australia.",
   },
   {
-    trigger: "Are there any public universities in Australia?",
+    trigger: "What is the cheapest degree to study in Australia?",
     content:
-      "Yes, Australia has 37 public universities, which dominate the higher education sector. These institutions are government-funded and provide quality education across various disciplines.",
+      "Degrees in education, nursing, and humanities generally have lower tuition fees compared to medicine, engineering, or business, with some starting at around AUD 20,000–25,000 per year.",
   },
   {
-    trigger: "Are public universities free in Australia?",
+    trigger: "Which course has the lowest fees in Australia?",
     content:
-      "Public universities are not entirely free, but Australian citizens and permanent residents can access HECS-HELP, a government loan scheme that allows students to defer tuition fees and repay them later through their income.",
+      "Vocational and diploma courses in fields like hospitality, aged care, and IT often have the lowest tuition fees, sometimes starting as low as AUD 6,000 per year.",
   },
   {
-    trigger: "Which is better, private or public university?",
+    trigger: "What is the cheapest uni in Australia?",
     content:
-      "Public universities are generally preferred due to their strong reputation, research facilities, and lower tuition fees compared to private institutions. However, private universities may offer smaller class sizes and specialized programs that cater to specific needs.",
-  },
-  {
-    trigger:
-      "What is the difference between an open university and a public university?",
-    content:
-      "An open university offers flexible, online, or distance learning without strict entry requirements, making education more accessible. A public university, on the other hand, operates traditionally with campus-based learning, competitive admissions, and a broader academic structure.",
-  },
-  {
-    trigger: "Is UNSW public or private?",
-    content:
-      "The University of New South Wales (UNSW) is a public university funded by the Australian government, recognized globally for its research, innovation, and high academic standards.",
+      "Charles Darwin University, Federation University, and the University of the Sunshine Coast are some of the most affordable universities in Australia, offering budget-friendly tuition fees for both domestic and international students.",
   },
 ];
 
@@ -189,7 +205,7 @@ const tips = [
   {
     title: "Compare Tuition Fees",
     description:
-      "Use platforms like FindMyUni to compare tuition fees of various Australian cheap universities.",
+      "Use platforms like pickmyuni.com to compare tuition fees of various Australian cheap universities.",
   },
   {
     title: "Check Accreditation and Reputation",
@@ -227,8 +243,20 @@ const faqSchema = {
   })),
 };
 
-export default function PrivacyPage() {
-  const { colleges, loading, error } = useTopCollegesByType("government");
+export default async function PrivacyPage() {
+  let colleges: College[] = [];
+  let error: string | null = null;
+
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/v1/college/top-type?type=government`,
+    );
+    if (!res.ok) throw new Error("Failed to fetch colleges");
+    const data = await res.json();
+    colleges = data?.data?.colleges || [];
+  } catch (err: any) {
+    error = err.message || "Unknown error";
+  }
 
   return (
     <>
@@ -266,13 +294,14 @@ export default function PrivacyPage() {
             offering world-class education, vibrant multicultural cities, and
             promising career opportunities. However, the cost of studying in
             Australia can be a significant concern for many students.
-            Fortunately, there are Australian cheap universities and colleges
-            that provide quality education at a lower cost. This page highlights
-            some of the cheapest universities in Australia and explains how
-            FindMyUni can help international students select the right course
-            and institution for their budget and academic goals. We also help
-            you transfer from your current university to an affordable
-            university in Australia. 
+            Fortunately, there are{" "}
+            <strong>Australian cheap universities</strong> and colleges that
+            provide quality education at a lower cost. This page highlights some
+            of the <strong>cheapest universities in Australia</strong> and
+            explains how FindMyUni can help international students select the
+            right course and institution for their budget and academic goals. We
+            also help you transfer from your current university to an affordable
+            university in Australia.
           </p>
 
           <section className="flex flex-col justify-center">
@@ -280,12 +309,6 @@ export default function PrivacyPage() {
               Why Study at Affordable Universities{" "}
               <span className="text-brand-secondary">in Australia?</span>
             </h2>
-            <p className="text-center">
-              Level 1 universities in Australia are the most reputable and
-              highly ranked institutions in the country. These universities
-              provide exceptional benefits to students, making them the
-              preferred choice for those seeking excellence in higher education.
-            </p>
             <div className="mt-8 grid gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-3">
               {sec1CardData.map((data, idx) => (
                 <div
@@ -346,7 +369,9 @@ export default function PrivacyPage() {
           </div>
         </section>
 
-        {!error && (
+        {error ? (
+          <></>
+        ) : (
           <section className="container mx-auto flex flex-col justify-center py-24">
             <h2 className="text-brand-primary mb-4 text-center text-4xl font-semibold">
               List of Affordable Universities{" "}
@@ -358,18 +383,14 @@ export default function PrivacyPage() {
               cost-effective education to international students.
             </p>
             <div className="mt-8 grid gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-3">
-              {loading
-                ? Array.from({ length: 10 }).map((_, idx) => (
-                    <Skeleton key={idx} className="h-72 w-full rounded-lg" />
-                  ))
-                : colleges.map((data: College, idx: number) => (
-                    <div
-                      key={data.id}
-                      className="flex h-full flex-col items-center bg-[#F6F6F7] shadow hover:shadow-md"
-                    >
-                      {sec2Cards(data, idx)}
-                    </div>
-                  ))}
+              {colleges.map((data: College, idx: number) => (
+                <div
+                  key={data.id}
+                  className="flex h-full flex-col items-center bg-[#F6F6F7] shadow hover:shadow-md"
+                >
+                  {sec2Cards(data, idx)}
+                </div>
+              ))}
             </div>
           </section>
         )}
@@ -378,14 +399,14 @@ export default function PrivacyPage() {
           <div className="bg-brand-primary py-24">
             <div className="container mx-auto flex flex-col justify-center">
               <h2 className="mb-4 text-center text-4xl font-semibold text-white">
-                How FindMyUni Can Help You Choose the{" "}
+                How PickMyUni Can Help You Choose the{" "}
                 <span className="text-brand-secondary">Right University</span>
               </h2>
               <p className="text-center text-white">
                 Selecting the right university can be overwhelming, but
-                FindMyUni is here to simplify the process. As an
+                PickMyUni is here to simplify the process. As an
                 Australian-based platform dedicated to assisting international
-                students, FindMyUni offers:
+                students, PickMyUni offers:
               </p>
               <div className="mt-8 grid gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-3">
                 {sec3CardData.map((data, idx) => (
@@ -416,11 +437,11 @@ export default function PrivacyPage() {
                 </p>
                 <br />
                 <p>
-                  FindMyUni is committed to helping international students make
+                  PickMyUni is committed to helping international students make
                   informed decisions about their education in Australia. Our
                   team is here to guide you in selecting the right course and
                   institution that fits your budget and career aspirations. Get
-                  in touch with FindMyUni today and take the first step toward
+                  in touch with PickMyUni today and take the first step toward
                   achieving your academic dreams in Australia!
                 </p>
               </div>
@@ -449,14 +470,9 @@ export default function PrivacyPage() {
             <Accordion type="single" collapsible className="w-full">
               {accordionData.map((item, idx) => (
                 <AccordionItem key={idx} value={idx.toString()}>
-                  <AccordionTrigger className="text-brand-primary text-start text-xl font-semibold">
-                    {item.trigger}
-                  </AccordionTrigger>
+                  <AccordionTrigger>{item.trigger}</AccordionTrigger>
                   <AccordionContent>
-                    <div
-                      className="p-4 text-base font-normal [&_li]:mb-1 [&_ul]:list-disc [&_ul]:pl-6"
-                      dangerouslySetInnerHTML={{ __html: item.content }}
-                    />
+                    <div dangerouslySetInnerHTML={{ __html: item.content }} />
                   </AccordionContent>
                 </AccordionItem>
               ))}

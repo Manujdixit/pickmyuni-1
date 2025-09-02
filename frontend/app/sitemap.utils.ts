@@ -153,6 +153,24 @@ export async function generateStaticUrls() {
       changeFrequency: "weekly" as const,
       priority: 0.8,
     },
+    {
+      url: `${baseUrl}/top-affordable-universities-in-australia`,
+      lastModified: new Date(),
+      changeFrequency: "monthly" as const,
+      priority: 0.8,
+    },
+    {
+      url: `${baseUrl}/top-open-universities-in-australia`,
+      lastModified: new Date(),
+      changeFrequency: "monthly" as const,
+      priority: 0.8,
+    },
+    {
+      url: `${baseUrl}/intake-open-for-2025-universities-in-australia`,
+      lastModified: new Date(),
+      changeFrequency: "monthly" as const,
+      priority: 0.8,
+    },
   ];
 
   return staticRoutes;

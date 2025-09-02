@@ -627,12 +627,10 @@ export default async function Level1UniversitiesPage() {
               <Accordion type="single" collapsible className="w-full">
                 {accordionData.map((item, idx) => (
                   <AccordionItem key={idx} value={idx.toString()}>
-                    <AccordionTrigger className="text-brand-primary text-xl font-semibold">
-                      {item.trigger}
-                    </AccordionTrigger>
+                    <AccordionTrigger>{item.trigger}</AccordionTrigger>
                     <AccordionContent>
                       <div
-                        className="p-4 text-base font-normal [&_li]:mb-1 [&_ul]:list-disc [&_ul]:pl-6"
+                        className=""
                         dangerouslySetInnerHTML={{ __html: item.content }}
                       />
                     </AccordionContent>
