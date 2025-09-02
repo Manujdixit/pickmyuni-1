@@ -24,6 +24,7 @@ export interface Article {
   img1?: string;
   createdAt: string;
   slug: string;
+  keywords?: string;
 }
 
 export interface SearchResults {

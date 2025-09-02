@@ -73,7 +73,7 @@ export async function generateMetadata({
     description:
       article.meta_desc ||
       `${article.title} - Expert advice and guidance for international students studying in Australia.`,
-    keywords: [
+    keywords: `${article.keywords}` || [
       "student resources Australia",
       "study abroad tips",
       "international student guide",
