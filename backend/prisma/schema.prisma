@@ -46,6 +46,8 @@ model Colleges {
   international_student_accepted Boolean     @default(false)
   is_parent Boolean?
   rank Int?
+  is_affordable Boolean? @default(false)
+  is_open Boolean? @default(false)
 
   parent_college_id Int?
   streamId          Int  @default(1)
@@ -203,6 +205,8 @@ model Articles {
   slug       String        @unique
   is_active  Boolean       @default(true)
 
+  keywords   String?
+  metatitle  String?
   meta_desc String?
   og_img    String?
 

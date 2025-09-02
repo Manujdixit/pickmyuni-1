@@ -148,9 +148,9 @@ export function UniversityCard({ university, feesPreference }: any) {
             )}
           </div>
           <div className="text-center sm:text-left">
-            <div className="mb-1 text-xs text-gray-500">Ranking</div>
+            <div className="mb-1 text-xs text-gray-500">QS Ranking</div>
             <div className="text-base font-bold text-gray-900 sm:text-lg">
-              {university?.rank || "-"}
+              {university?.rank || "N/A"}
             </div>
           </div>
         </div>
