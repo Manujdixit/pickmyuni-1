@@ -28,8 +28,12 @@ export function CollegeCard({ college, index }: CollegeCardProps) {
           <Image
             src={
               college?.bg_url
-                ? `https://pickmyuni-bucket.s3.ap-southeast-2.amazonaws.com/collegebanner/${college.bg_url}`
-                : "/transfer.svg"
+                ? college?.bg_url.includes(
+                    "https://pickmyuni-bucket.s3.ap-southeast-2.amazonaws.com/collegebanner/",
+                  )
+                  ? `${college?.bg_url}`
+                  : `https://pickmyuni-bucket.s3.ap-southeast-2.amazonaws.com/collegebanner/${college?.bg_url}`
+                : "/opengraph-image.png"
             }
             alt={college.college_name}
             fill

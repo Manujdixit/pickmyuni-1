@@ -8,6 +8,8 @@ import ArticleRouter from "./articles/articles";
 import CityRouter from "./city/city";
 import CoursesRouter from "./courses/courses";
 import NewsletterRouter from "./newsletter/newsletter";
+import UsersRouter from "./users/users";
+import ReviewsRouter from "./reviews/reviews";
 
 const router = express.Router();
 
@@ -43,5 +45,7 @@ router.use("/articles", ArticleRouter);
 router.use("/city", CityRouter);
 router.use("/courses", CoursesRouter);
 router.use("/newsletter", NewsletterRouter);
+router.use("/users", UsersRouter);
+router.use("/reviews", ReviewsRouter);
 
 export default router;

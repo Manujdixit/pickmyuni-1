@@ -28,8 +28,13 @@ const UniInfoCard: React.FC<any> = ({
             <div className="relative h-28 w-28 overflow-hidden rounded-full">
               <Image
                 src={
-                  "https://pickmyuni-bucket.s3.ap-southeast-2.amazonaws.com/collegelogo/" +
-                    university?.data?.college?.logo_url || "/vercel.svg"
+                  university?.data?.college?.logo_url
+                    ? university?.data?.college?.logo_url.includes(
+                        "/collegelogo/",
+                      )
+                      ? `${university?.data?.college?.logo_url}`
+                      : `https://pickmyuni-bucket.s3.ap-southeast-2.amazonaws.com/collegelogo/${university?.data?.college?.logo_url.trim()}`
+                    : "/opengraph-image.png"
                 }
                 alt={university?.data?.college?.college_name + " logo"}
                 fill

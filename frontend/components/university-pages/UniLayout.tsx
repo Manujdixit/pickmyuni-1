@@ -11,6 +11,8 @@ interface UniLayoutProps {
 }
 
 function UniLayout({ college, slugAndId }: UniLayoutProps) {
+  console.log("UniLayout", college, slugAndId);
+
   const handleEnquireClick = () => {
     // Trigger the SitePopup bot button click
     const botButton = document.querySelector(
@@ -40,7 +42,11 @@ function UniLayout({ college, slugAndId }: UniLayoutProps) {
         <Image
           src={
             college?.bg_url
-              ? `https://pickmyuni-bucket.s3.ap-southeast-2.amazonaws.com/collegebanner/${college?.bg_url}`
+              ? college?.bg_url.includes(
+                  "https://pickmyuni-bucket.s3.ap-southeast-2.amazonaws.com/collegebanner/",
+                )
+                ? `${college?.bg_url}`
+                : `https://pickmyuni-bucket.s3.ap-southeast-2.amazonaws.com/collegebanner/${college?.bg_url}`
               : "/transfer.svg"
           }
           alt={college?.college_name || "college campus"}
@@ -56,7 +62,11 @@ function UniLayout({ college, slugAndId }: UniLayoutProps) {
             <Image
               src={
                 college?.logo_url
-                  ? `https://pickmyuni-bucket.s3.ap-southeast-2.amazonaws.com/collegelogo/${college?.logo_url}`
+                  ? college?.logo_url.includes(
+                      "https://pickmyuni-bucket.s3.ap-southeast-2.amazonaws.com/collegelogo/",
+                    )
+                    ? `${college?.logo_url}`
+                    : `https://pickmyuni-bucket.s3.ap-southeast-2.amazonaws.com/collegelogo/${college?.logo_url}`
                   : "/benefit3.svg"
               }
               alt="University Logo"

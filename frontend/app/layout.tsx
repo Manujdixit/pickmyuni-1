@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
 import { Roboto, Anton, Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
-import Navbar from "@/components/layout/navbar";
-import Footer from "@/components/layout/footer";
 // import ChatbotWidget from "@/components/layout/ChatbotWidget";
 import { OrganizationSchema } from "@/components/seo";
 import BreadcrumbProvider from "@/components/seo/BreadcrumbProvider";
@@ -52,7 +50,7 @@ export const metadata: Metadata = {
     title: "PickMyUni",
     description:
       "Find and compare the best universities in Australia. Explore courses, rankings, scholarships, and more with PickMyUni.",
-    url: "https://pickmyuni.com",
+    url: "https://www.pickmyuni.com",
     siteName: "PickMyUni",
     images: [
       {
@@ -92,7 +90,6 @@ export default function RootLayout({
       <body
         className={`${roboto.variable} ${anton.variable} flex min-h-screen flex-col font-sans antialiased`}
       >
-        <Navbar />
         <div className="fixed bottom-4 right-4 z-[110] flex flex-col items-end gap-2">
           {/* <div className="bg-white text-xs text-black p-2 rounded-md">
             Get connected with us
@@ -130,7 +127,6 @@ export default function RootLayout({
         </main>
         {/* <ChatbotWidget /> */}
         <Toaster position="bottom-left" />
-        <Footer />
         <Script
           strategy="lazyOnload"
           src="https://www.googletagmanager.com/gtag/js?id=G-25ZL17BREH"

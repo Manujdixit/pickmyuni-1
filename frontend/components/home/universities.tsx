@@ -172,8 +172,13 @@ export default function UniversitiesSection() {
                     <div className="mb-4 flex items-center gap-4">
                       <Image
                         src={
-                          "https://pickmyuni-bucket.s3.ap-southeast-2.amazonaws.com/collegelogo/" +
-                            uni?.logo_url || "/vercel.svg"
+                          uni?.logo_url
+                            ? uni?.logo_url.includes(
+                                "https://pickmyuni-bucket.s3.ap-southeast-2.amazonaws.com/collegelogo/",
+                              )
+                              ? `${uni?.logo_url}`
+                              : `https://pickmyuni-bucket.s3.ap-southeast-2.amazonaws.com/collegelogo/${uni?.logo_url}`
+                            : "/benefit3.svg"
                         }
                         alt={uni?.college_name?.slice(0, 10)}
                         width={60}

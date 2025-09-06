@@ -27,7 +27,7 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "app/compare-universities-in-australia"
+    "app/(layout)/compare-universities-in-australia"
   ],
   "exclude": ["node_modules"]
 }

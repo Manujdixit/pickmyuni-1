@@ -20,6 +20,7 @@ interface Article {
   slug?: string;
   img1?: string;
   silos: string;
+  updatedAt?: string;
 }
 
 const arr = [
@@ -42,6 +43,8 @@ export default function ArticlesSection() {
   if (error) {
     return;
   }
+
+  console.log({ articles });
 
   return (
     <section className="bg-white py-16">
@@ -69,7 +72,7 @@ export default function ArticlesSection() {
                 <div className="mb-2 flex items-center text-xs text-gray-500">
                   <span>{silosMap[article.silos] || article.silos}</span>
                   <span className="mx-2">•</span>
-                  <span>{dayjs(article.createdAt).format("MMM D, YYYY")}</span>
+                  <span>{dayjs(article.updatedAt).format("MMM D, YYYY")}</span>
                 </div>
                 <Link
                   href={`/student-resources/${article.slug}-${article.id}`}

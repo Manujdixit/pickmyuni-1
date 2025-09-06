@@ -391,3 +391,91 @@ course Courses? @relation(fields: [course_id], references: [id])
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
+
+model User {
+  id                     Int      @id @default(autoincrement())
+  created_at             DateTime @default(now())
+  updated_at             DateTime @updatedAt
+  custom_code            String?  @unique
+  name                   String?
+  email                  String?  @unique
+  gender                 String?
+  contact_number         String?  @unique
+  country_of_origin      String?
+  college_roll_number    String?
+  user_location          String?
+  dob                    DateTime?
+  user_type              String?
+  user_img_url           String?
+  password               String?
+  referrer_id            Int?
+  referred_by            String?
+  referrer               User?    @relation("UserReferrer", fields: [referrer_id], references: [id])
+  referred_users         User[]   @relation("UserReferrer")
+  college                String?
+
+  reviews                Review[]
+
+  @@index([email])
+  @@index([contact_number])
+  @@index([custom_code])
+}
+
+model Review {
+  id                               Int      @id @default(autoincrement())
+  created_at                       DateTime @default(now())
+  updated_at                       DateTime @updatedAt
+  college_id                       Int?
+  course_id                        Int?
+  college_location                 String?
+  pass_year                        Int?
+
+  // Student Review Files
+  linkedin_profile                 String?
+  student_id_url                   String?
+  mark_sheet_url                   String?
+  degree_certificate_url           String?
+
+  review_title                     String?
+
+  // College Images
+  college_images_urls              String[]
+
+  // Financial Information
+  annual_tuition_fees              Decimal? @db.Decimal(10, 2)
+  hostel_fees                      Decimal? @db.Decimal(10, 2)
+  other_charges                    Decimal? @db.Decimal(10, 2)
+  scholarship_availed              Boolean?
+  scholarship_name                 String?
+  scholarship_amount               Decimal? @db.Decimal(10, 2)
+
+  // Detailed Feedback Fields
+  overall_satisfaction_rating      Int?
+  overall_experience_feedback      String?
+  teaching_quality_rating          Int?
+  teaching_quality_feedback        String?
+  infrastructure_rating            Int?
+  infrastructure_feedback          String?
+  library_rating                   Int?
+  library_feedback                 String?
+  placement_support_rating         Int?
+  placement_support_feedback       String?
+  administrative_support_rating    Int?
+  administrative_support_feedback  String?
+  hostel_rating                    Int?
+  hostel_feedback                  String?
+  extracurricular_rating           Int?
+  extracurricular_feedback         String?
+  improvement_suggestions          String?
+
+  // Status tracking
+  status                           String   @default("pending")
+  reward_status                    String   @default("pending")
+
+  // Relations
+  user_id                          Int?
+  user                             User?    @relation(fields: [user_id], references: [id], onDelete: SetNull)
+
+  @@index([user_id])
+  @@index([status])
+}

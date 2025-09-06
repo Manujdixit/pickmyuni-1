@@ -65,10 +65,11 @@ export function UniversityCard({ university, feesPreference }: any) {
             <div className="flex h-16 w-16 items-center justify-center overflow-hidden rounded-full bg-white sm:h-20 sm:w-20">
               <Image
                 src={
-                  university.logo_url
-                    ? "https://pickmyuni-bucket.s3.ap-southeast-2.amazonaws.com/collegelogo/" +
-                      university.logo_url.trim()
-                    : "/vercel.svg"
+                  university?.logo_url
+                    ? university?.logo_url.includes("/collegelogo/")
+                      ? `${university?.logo_url}`
+                      : `https://pickmyuni-bucket.s3.ap-southeast-2.amazonaws.com/collegelogo/${university.logo_url.trim()}`
+                    : "/opengraph-image.png"
                 }
                 alt={university.college_name}
                 width={80}

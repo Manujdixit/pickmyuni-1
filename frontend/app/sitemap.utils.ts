@@ -240,7 +240,7 @@ export async function generateArticleUrls() {
   }
 }
 
-export async function generateCollegeUrls() {
+export async function generateCollegeUrls(isParent?: boolean) {
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://pickmyuni.com";
   const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
@@ -250,7 +250,11 @@ export async function generateCollegeUrls() {
   }
 
   try {
-    const collegeData = await fetchWithRetry(`${apiUrl}/api/v1/college/`);
+    const url =
+      isParent !== undefined
+        ? `${apiUrl}/api/v1/college/?is_parent=${isParent}`
+        : `${apiUrl}/api/v1/college/`;
+    const collegeData = await fetchWithRetry(url);
 
     if (!collegeData) {
       return [];

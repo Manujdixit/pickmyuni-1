@@ -8,19 +8,33 @@ import { prisma } from "../../lib/prisma";
  *     tags:
  *       - Colleges
  *     summary: Get all colleges
- *     description: Retrieve all colleges
+ *     description: Retrieve all colleges, optionally filtered by is_parent status
+ *     parameters:
+ *       - in: query
+ *         name: is_parent
+ *         schema:
+ *           type: string
+ *           enum: [true, false]
+ *         description: Filter colleges by parent status. 'true' for universities, 'false' for campuses. If not provided, returns all colleges.
  *     responses:
  *       200:
  *         description: Successfully retrieved all colleges
  *       500:
  *         description: Internal server error
- *       400:
- *         description: Invalid college ID
- *       404:
- *         description: College not found or no universities found in this college
  */
 export const getAllColleges = async (req: Request, res: Response) => {
   try {
+    const { is_parent } = req.query;
+
+    let isParentFilter = {};
+    if (is_parent === "true") {
+      isParentFilter = { is_parent: true };
+    } else if (is_parent === "false") {
+      isParentFilter = {
+        OR: [{ is_parent: false }, { is_parent: null }],
+      };
+    }
+
     const colleges = await prisma.colleges.findMany({
       select: {
         id: true,
@@ -40,6 +54,8 @@ export const getAllColleges = async (req: Request, res: Response) => {
         },
       },
       where: {
+        is_active: true,
+        ...isParentFilter,
         CollegewiseContent: {
           some: {
             is_active: true,
